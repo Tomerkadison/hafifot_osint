@@ -670,7 +670,7 @@
           <a id="nb-download-btn" class="nb-btn" href="#" download>
             <span class="nb-btn-icon">⬇️</span>
             <span class="nb-btn-text">
-              <span class="main">הורד את חומרי הפרק</span>
+              <span class="main">הורד את חומרי התרגיל</span>
               <span class="sub">Exercises + Solutions + data/</span>
             </span>
           </a>
@@ -727,7 +727,9 @@
       document.getElementById('exercise-frame').src = exerciseSrc;
 
       // update download button
-      document.getElementById('nb-download-btn').href = `${BASE}/${ch.dir}/download.zip`;
+      const btn = document.getElementById('nb-download-btn');
+      btn.href = `${BASE}/${ch.dir}/download.zip`;
+      btn.download = `chapter${num}.zip`;
 
       document.getElementById('home-view').classList.remove('active');
       document.getElementById('chapter-view').classList.add('active');
