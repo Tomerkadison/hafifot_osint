@@ -678,18 +678,18 @@
 
       <div id="tab-exercise" class="tab-content">
         <div class="notebook-buttons">
-          <a id="nb-exercise-btn" class="nb-btn nb-btn-exercise" href="#" target="_blank" rel="noopener">
-            <span class="nb-btn-icon">📓</span>
+          <a id="nb-exercise-btn" class="nb-btn nb-btn-exercise" href="#" download>
+            <span class="nb-btn-icon">⬇️</span>
             <span class="nb-btn-text">
-              <span class="main">Notebook התרגיל</span>
-              <span class="sub">Exercises.ipynb · פתח ב-nbviewer ↗</span>
+              <span class="main">הורד Notebook תרגיל</span>
+              <span class="sub">Exercises.ipynb</span>
             </span>
           </a>
-          <a id="nb-solution-btn" class="nb-btn nb-btn-solution" href="#" target="_blank" rel="noopener">
-            <span class="nb-btn-icon">✅</span>
+          <a id="nb-solution-btn" class="nb-btn nb-btn-solution" href="#" download>
+            <span class="nb-btn-icon">⬇️</span>
             <span class="nb-btn-text">
-              <span class="main">Notebook הפתרונות</span>
-              <span class="sub">Solutions.ipynb · פתח ב-nbviewer ↗</span>
+              <span class="main">הורד Notebook פתרונות</span>
+              <span class="sub">Solutions.ipynb</span>
             </span>
           </a>
         </div>
@@ -701,9 +701,7 @@
 </div>
 
 <script>
-  const REPO = 'Tomerkadison/hafifot_osint';
-  const BASE  = 'polars_exercises';
-  const NB    = `https://nbviewer.org/github/${REPO}/blob/main/${BASE}`;
+  const BASE = 'polars_exercises';
 
   const chapters = {
     ch01: { dir: '01_Getting_and_Knowing_Your_Data',    he: 'היכרות עם המידע',          en: 'Getting & Knowing Your Data' },
@@ -746,9 +744,9 @@
       document.getElementById('subject-frame').src  = subjectSrc;
       document.getElementById('exercise-frame').src = exerciseSrc;
 
-      // update notebook buttons
-      document.getElementById('nb-exercise-btn').href = `${NB}/${ch.dir}/Exercises.ipynb`;
-      document.getElementById('nb-solution-btn').href = `${NB}/${ch.dir}/Solutions.ipynb`;
+      // update notebook download links
+      document.getElementById('nb-exercise-btn').href = `${BASE}/${ch.dir}/Exercises.ipynb`;
+      document.getElementById('nb-solution-btn').href = `${BASE}/${ch.dir}/Solutions.ipynb`;
 
       document.getElementById('home-view').classList.remove('active');
       document.getElementById('chapter-view').classList.add('active');
