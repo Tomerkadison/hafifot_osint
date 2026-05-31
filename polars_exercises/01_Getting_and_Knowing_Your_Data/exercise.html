@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 01 — התרגיל והמידע | Polars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1020; --card:#141a2e; --ink:#eef2ff; --muted:#a9b4d0;
+    --brand:#5b8def; --brand2:#22d3ee; --accent:#f7b955; --line:#26304d;
+    --code-bg:#0a0f1f; --green:#34d399;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:radial-gradient(1200px 600px at 80% -10%,#1b2545 0,var(--bg) 55%);
+    color:var(--ink); font-family:"Heebo",-apple-system,"Segoe UI",Arial,sans-serif;
+    line-height:1.75; padding:0 0 80px}
+  .wrap{max-width:900px; margin:0 auto; padding:0 22px}
+  header.hero{padding:56px 22px 40px; text-align:center;
+    background:linear-gradient(135deg,rgba(52,211,153,.16),rgba(34,211,238,.08));
+    border-bottom:1px solid var(--line)}
+  .kicker{color:var(--green); font-weight:600; letter-spacing:.06em}
+  h1{font-size:2.3rem; font-weight:800; margin:.2em 0}
+  .hero p{color:var(--muted); font-size:1.12rem; max-width:640px; margin:.4em auto 0}
+  .slide{background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:28px 32px; margin:24px 0; box-shadow:0 20px 50px -30px #000}
+  .slide h2{font-size:1.5rem; margin:0 0 .5em}
+  p,li{color:#dde3f6}
+  .muted{color:var(--muted)}
+  ul,ol{margin:.4em 0; padding-inline-start:1.3em}
+  li{margin:.35em 0}
+  code{background:var(--code-bg); border:1px solid var(--line); padding:.12em .45em;
+    border-radius:7px; font-family:Consolas,monospace; color:#aee3ff; direction:ltr;
+    display:inline-block; font-size:.9em}
+  table{width:100%; border-collapse:collapse; margin-top:10px; font-size:.95rem}
+  th,td{border:1px solid var(--line); padding:10px 12px; text-align:right; vertical-align:top}
+  th{background:#1a2240; color:var(--brand2); font-weight:600}
+  td code{font-size:.85em}
+  a{color:var(--brand); text-decoration:none; font-weight:600}
+  a:hover{text-decoration:underline}
+  .tag{display:inline-block; font-size:.78rem; padding:.1em .6em; border-radius:999px;
+    border:1px solid var(--line); background:#1a2240; color:var(--muted); direction:ltr}
+  .tip{border-right:4px solid var(--green); background:rgba(52,211,153,.07);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .warn{border-right:4px solid var(--accent); background:rgba(247,185,85,.08);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .files code{color:#ffd9a0}
+  .steps{counter-reset:s; list-style:none; padding:0}
+  .steps li{counter-increment:s; position:relative; padding-right:2.4em; margin:.5em 0}
+  .steps li::before{content:counter(s); position:absolute; right:0; top:.05em;
+    width:1.6em; height:1.6em; border-radius:8px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#06122b;
+    font-weight:800; font-size:.85rem}
+  @media(max-width:640px){h1{font-size:1.8rem}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">פרק 01 · התרגיל והמידע</div>
+  <h1>היכרות עם נתוני ההזמנות</h1>
+  <p>קיבלתם export גולמי של הזמנות מהמערכת. המשימה: להכיר אותו לעומק לפני שבונים עליו טרנספורמציה.</p>
+</header>
+
+<div class="wrap">
+
+  <section class="slide">
+    <h2>📦 על מה התרגיל?</h2>
+    <p>זהו התרגיל הראשון בקורס. הוא <strong>קל בכוונה</strong> — המטרה היא להרגיש בנוח
+       עם Polars ועם ה-Notebook, וללמוד את הצעדים שאנחנו עושים בכל פעם שמגיע
+       <em>dataset</em> חדש: לפתוח אותו, להסתכל עליו, ולהבין מה יש בו.</p>
+    <p>בתרגיל יש 22 שאלות קצרות. כל שאלה כתובה באנגלית (כמו שאתם מכירים מהקורס של pandas)
+       ומתחתיה <strong>תרגום קצר לעברית</strong>. ענו בתא הקוד הריק שמתחת לכל שאלה.</p>
+    <div class="tip">💡 נסו קודם לבד ב-<code>Exercises.ipynb</code>. רק אחרי שניסיתם —
+       פתחו את <code>Solutions.ipynb</code> כדי לבדוק את עצמכם ולראות את הפלט הצפוי.</div>
+  </section>
+
+  <section class="slide">
+    <h2>🗂️ המידע: <span class="files"><code>data/orders.csv</code></span></h2>
+    <p>טבלה אחת של <strong>1,000 הזמנות</strong>. כל שורה היא הזמנה בודדת של מוצר על ידי לקוח.
+       זהו ה-fact table הקלאסי שאנחנו רואים בכל pipeline.</p>
+    <table>
+      <thead><tr><th>עמודה</th><th>טיפוס</th><th>תיאור</th></tr></thead>
+      <tbody>
+        <tr><td><code>order_id</code></td><td><span class="tag">str</span></td><td>מזהה ייחודי של ההזמנה (למשל <code>ORD-000123</code>)</td></tr>
+        <tr><td><code>customer_id</code></td><td><span class="tag">str</span></td><td>מזהה הלקוח (<code>CUST-0042</code>) — נשתמש בו לחיבורים (joins) בהמשך</td></tr>
+        <tr><td><code>order_date</code></td><td><span class="tag">str</span></td><td>תאריך ההזמנה. ⚠️ נשמר כ<strong>מחרוזת</strong>, לא כתאריך אמיתי!</td></tr>
+        <tr><td><code>region</code></td><td><span class="tag">str</span></td><td>אזור גאוגרפי (Europe, North America…)</td></tr>
+        <tr><td><code>product_sku</code></td><td><span class="tag">str</span></td><td>קוד המוצר</td></tr>
+        <tr><td><code>category</code></td><td><span class="tag">str</span></td><td>קטגוריית המוצר (pens, books, shirts…)</td></tr>
+        <tr><td><code>product_name</code></td><td><span class="tag">str</span></td><td>שם המוצר המלא</td></tr>
+        <tr><td><code>quantity</code></td><td><span class="tag">i64</span></td><td>כמות. ⚠️ ערך <strong>שלילי</strong> = החזרה (return)</td></tr>
+        <tr><td><code>unit_price</code></td><td><span class="tag">f64</span></td><td>מחיר ליחידה</td></tr>
+        <tr><td><code>channel</code></td><td><span class="tag">str</span></td><td>ערוץ המכירה (online / store / partner)</td></tr>
+        <tr><td><code>status</code></td><td><span class="tag">str</span></td><td>סטטוס (completed / pending / cancelled / returned)</td></tr>
+        <tr><td><code>discount_code</code></td><td><span class="tag">str</span></td><td>קוד הנחה. ⚠️ ברוב השורות <strong>חסר</strong> (null)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="slide">
+    <h2>🔎 שימו לב — המידע "מלוכלך" בכוונה</h2>
+    <p>בדיוק כמו בעבודה האמיתית, ה-dataset לא מושלם. חלק מהשאלות נועדו <em>לגלות</em> את הבעיות האלה:</p>
+    <ul>
+      <li><strong>order_date היא מחרוזת</strong> ולא תאריך — נתקן את זה בפרק על casting.</li>
+      <li><strong>quantity שלילית</strong> מסמנת החזרות — חשוב לזהות לפני שמסכמים מכירות.</li>
+      <li><strong>discount_code חסר</strong> ברוב השורות — נלמד לטפל ב-null בהמשך.</li>
+    </ul>
+    <div class="warn">⚠️ זיהוי הבעיות האלה <strong>עכשיו</strong>, בשלב ההיכרות, הוא בדיוק
+       מה שמונע באגים בטרנספורמציות בהמשך. זו הסיבה שאף פעם לא מדלגים על השלב הזה.</div>
+  </section>
+
+  <section class="slide">
+    <h2>✅ מה תתרגלו</h2>
+    <ol class="steps">
+      <li>לטעון קובץ CSV ל-DataFrame עם <code>pl.read_csv()</code></li>
+      <li>להסתכל על המבנה: <code>shape</code>, <code>columns</code>, <code>schema</code></li>
+      <li>להציג שורות: <code>head</code>, <code>tail</code>, <code>sample</code>, <code>slice</code></li>
+      <li>לקבל סיכום מהיר: <code>describe</code>, <code>glimpse</code></li>
+      <li>לבחור עמודות עם <code>select</code></li>
+      <li>לחקור ערכים: <code>n_unique</code>, <code>unique</code>, <code>value_counts</code></li>
+      <li>למצוא בעיות: <code>null_count</code>, מינימום/מקסימום, מיון</li>
+    </ol>
+  </section>
+
+  <section class="slide">
+    <h2>🚀 איך מתחילים</h2>
+    <ol>
+      <li>ודאו ש-Polars מותקן: <code>pip install polars</code> (גרסה 1.24.0).</li>
+      <li>פתחו את <code>Exercises.ipynb</code> בתיקייה הזו.</li>
+      <li>ענו על השאלות אחת-אחת. אל תפחדו לטעות — זו הדרך ללמוד.</li>
+      <li>תקועים? פתחו את <code>subject.html</code> וקראו את התיעוד הרשמי של הפונקציה.</li>
+    </ol>
+    <p class="muted">בהצלחה! 💪 כשתסיימו את הפרק הזה — תהיו מוכנים לבחור, לסנן ולעבד עמודות בפרקים הבאים.</p>
+  </section>
+
+</div>
+</body>
+</html>

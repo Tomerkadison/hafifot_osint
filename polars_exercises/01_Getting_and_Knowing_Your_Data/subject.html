@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 01 — היכרות עם המידע | Polars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1020; --card:#141a2e; --ink:#eef2ff; --muted:#a9b4d0;
+    --brand:#5b8def; --brand2:#22d3ee; --accent:#f7b955; --line:#26304d;
+    --code-bg:#0a0f1f;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:radial-gradient(1200px 600px at 80% -10%,#1b2545 0,var(--bg) 55%);
+    color:var(--ink); font-family:"Heebo",-apple-system,"Segoe UI",Arial,sans-serif;
+    line-height:1.75; padding:0 0 80px;
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:0 22px}
+  header.hero{
+    padding:64px 22px 48px; text-align:center;
+    background:linear-gradient(135deg,rgba(91,141,239,.18),rgba(34,211,238,.10));
+    border-bottom:1px solid var(--line);
+  }
+  .kicker{color:var(--brand2); font-weight:600; letter-spacing:.06em; font-size:.95rem}
+  h1{font-size:2.5rem; font-weight:800; margin:.2em 0 .15em; line-height:1.2}
+  .hero p{color:var(--muted); font-size:1.15rem; max-width:640px; margin:.4em auto 0}
+  .slide{
+    background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:30px 32px; margin:26px 0; box-shadow:0 20px 50px -30px #000;
+  }
+  .slide h2{font-size:1.6rem; margin:0 0 .5em; display:flex; align-items:center; gap:.5em}
+  .slide h2 .num{
+    background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#06122b;
+    width:1.7em; height:1.7em; border-radius:12px; display:grid; place-items:center;
+    font-size:.95rem; font-weight:800; flex:0 0 auto;
+  }
+  .slide h3{color:var(--brand2); font-size:1.1rem; margin:1.3em 0 .3em}
+  p,li{color:#dde3f6}
+  .muted{color:var(--muted)}
+  ul{margin:.4em 0; padding-inline-start:1.2em}
+  li{margin:.35em 0}
+  code{background:var(--code-bg); border:1px solid var(--line); padding:.12em .45em;
+    border-radius:7px; font-family:"SFMono-Regular",Consolas,monospace; color:#aee3ff;
+    direction:ltr; display:inline-block; font-size:.92em}
+  .cmp{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px}
+  .cmp>div{border:1px solid var(--line); border-radius:12px; padding:14px 16px}
+  .cmp .bad{background:rgba(247,107,107,.06)}
+  .cmp .good{background:rgba(91,141,239,.08)}
+  .cmp h4{margin:0 0 .4em; font-size:1rem}
+  table{width:100%; border-collapse:collapse; margin-top:10px; font-size:.97rem}
+  th,td{border:1px solid var(--line); padding:10px 12px; text-align:right; vertical-align:top}
+  th{background:#1a2240; color:var(--brand2); font-weight:600}
+  td code{font-size:.85em}
+  a{color:var(--brand); text-decoration:none; font-weight:600}
+  a:hover{text-decoration:underline}
+  .doc-link{display:inline-block; direction:ltr}
+  .cta{
+    background:linear-gradient(135deg,rgba(247,185,85,.14),rgba(34,211,238,.10));
+    border:1px solid var(--accent); border-radius:18px; padding:26px 30px; margin-top:30px;
+  }
+  .cta h2{color:var(--accent)}
+  .pill{display:inline-block; background:#1a2240; border:1px solid var(--line);
+    border-radius:999px; padding:.25em .9em; margin:.2em; font-size:.9rem; direction:ltr}
+  .tip{border-right:4px solid var(--brand2); background:rgba(34,211,238,.06);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  @media(max-width:640px){.cmp{grid-template-columns:1fr} h1{font-size:1.9rem}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">Polars for Power Users · פרק 01</div>
+  <h1>היכרות עם המידע</h1>
+  <p>לפני שכותבים טרנספורמציה אחת — קודם <strong>מכירים את ה-DataFrame</strong>:
+     כמה שורות, אילו עמודות, אילו טיפוסים, ואיפה המידע מלוכלך.</p>
+</header>
+
+<div class="wrap">
+
+  <section class="slide">
+    <h2><span class="num">1</span> על מה הפרק הזה?</h2>
+    <p>בעבודה היומיומית שלנו ב-<strong>Palantir Foundry</strong> כל טרנספורמציה
+       מתחילה מאותו צעד: הגיע <em>dataset</em> חדש, ואנחנו צריכים להבין מה יש בו
+       <u>לפני</u> שנוגעים בו. בדיוק כמו שפותחים קובץ Excel חדש ומסתכלים על השורות
+       הראשונות — אבל בצורה מסודרת, מהירה, ושעובדת גם על מיליוני שורות.</p>
+    <p>בפרק הזה נלמד את הפעולות שעונות על השאלות:</p>
+    <ul>
+      <li>כמה <strong>שורות ועמודות</strong> יש לי?</li>
+      <li>אילו <strong>עמודות</strong> קיימות ומה <strong>הטיפוס</strong> של כל אחת?</li>
+      <li>איך נראה ה<strong>מידע</strong> בפועל (שורות ראשונות / אחרונות / מדגם)?</li>
+      <li>איפה יש <strong>ערכים חסרים</strong> (null) או נתונים חריגים?</li>
+      <li>מה הם <strong>הערכים הייחודיים</strong> בעמודה, וכמה פעמים כל אחד מופיע?</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">2</span> Polars מול מה שאתם מכירים</h2>
+    <p class="muted">למדתם pandas ו-Excel — הנה אותם רעיונות בשפה של Polars:</p>
+    <div class="cmp">
+      <div class="bad">
+        <h4>🐼 pandas / Excel</h4>
+        <ul>
+          <li><code>df.head()</code></li>
+          <li><code>df.shape</code></li>
+          <li><code>df.dtypes</code></li>
+          <li><code>df.describe()</code></li>
+          <li><code>df['col'].nunique()</code></li>
+          <li><code>df.isna().sum()</code></li>
+        </ul>
+      </div>
+      <div class="good">
+        <h4>⚡ Polars</h4>
+        <ul>
+          <li><code>df.head()</code></li>
+          <li><code>df.shape</code></li>
+          <li><code>df.schema</code></li>
+          <li><code>df.describe()</code></li>
+          <li><code>df['col'].n_unique()</code></li>
+          <li><code>df.null_count()</code></li>
+        </ul>
+      </div>
+    </div>
+    <div class="tip">💡 רוב הפעולות נראות כמעט זהות ל-pandas — אבל פועלות הרבה
+      יותר מהר, כי Polars בנוי ב-Rust ומאחסן את המידע לפי <strong>עמודות</strong>.</div>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">3</span> הפונקציות של הפרק + קישור לתיעוד</h2>
+    <p class="muted">לכל פונקציה — לחצו על הקישור וקראו את התיעוד הרשמי. זו המטרה:
+       בסוף הקורס שתכירו את <em>כל</em> הפונקציות שיש ב-Polars.</p>
+    <table>
+      <thead><tr><th>מה זה עושה</th><th>פונקציה</th><th>תיעוד רשמי</th></tr></thead>
+      <tbody>
+        <tr><td>קריאת קובץ CSV ל-DataFrame</td><td><code>pl.read_csv()</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/api/polars.read_csv.html" target="_blank">read_csv ↗</a></td></tr>
+        <tr><td>שורות ראשונות / אחרונות</td><td><code>.head()</code> / <code>.tail()</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.head.html" target="_blank">head ↗</a></td></tr>
+        <tr><td>מספר שורות ועמודות</td><td><code>.shape</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.shape.html" target="_blank">shape ↗</a></td></tr>
+        <tr><td>שמות העמודות</td><td><code>.columns</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.columns.html" target="_blank">columns ↗</a></td></tr>
+        <tr><td>הטיפוסים של העמודות</td><td><code>.schema</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.schema.html" target="_blank">schema ↗</a></td></tr>
+        <tr><td>סטטיסטיקה מסכמת</td><td><code>.describe()</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.describe.html" target="_blank">describe ↗</a></td></tr>
+        <tr><td>תצוגה הפוכה (שורה לכל עמודה)</td><td><code>.glimpse()</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.glimpse.html" target="_blank">glimpse ↗</a></td></tr>
+        <tr><td>בחירת עמודות</td><td><code>.select()</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.select.html" target="_blank">select ↗</a></td></tr>
+        <tr><td>מספר ערכים ייחודיים</td><td><code>.n_unique()</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/series/api/polars.Series.n_unique.html" target="_blank">n_unique ↗</a></td></tr>
+        <tr><td>ערכים ייחודיים</td><td><code>.unique()</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/series/api/polars.Series.unique.html" target="_blank">unique ↗</a></td></tr>
+        <tr><td>ספירת הופעות לכל ערך</td><td><code>.value_counts()</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/series/api/polars.Series.value_counts.html" target="_blank">value_counts ↗</a></td></tr>
+        <tr><td>ספירת ערכים חסרים</td><td><code>.null_count()</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.null_count.html" target="_blank">null_count ↗</a></td></tr>
+        <tr><td>מדגם אקראי</td><td><code>.sample()</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.sample.html" target="_blank">sample ↗</a></td></tr>
+        <tr><td>מיון</td><td><code>.sort()</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.sort.html" target="_blank">sort ↗</a></td></tr>
+        <tr><td>חיתוך שורות</td><td><code>.slice()</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.slice.html" target="_blank">slice ↗</a></td></tr>
+        <tr><td>גודל משוער בזיכרון</td><td><code>.estimated_size()</code></td>
+          <td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.estimated_size.html" target="_blank">estimated_size ↗</a></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">4</span> מושג חשוב: DataFrame לעומת Series</h2>
+    <p>ב-Polars יש שני טיפוסים מרכזיים:</p>
+    <ul>
+      <li><strong>DataFrame</strong> — טבלה שלמה (שורות + עמודות). זה מה שמקבלים מ-<code>read_csv</code>.</li>
+      <li><strong>Series</strong> — עמודה בודדת. מקבלים אותה כשניגשים לעמודה אחת: <code>df["quantity"]</code>.</li>
+    </ul>
+    <p class="muted">חלק מהפונקציות שייכות ל-DataFrame (כמו <code>null_count</code>),
+       וחלק ל-Series (כמו <code>n_unique</code> ו-<code>value_counts</code>).
+       שימו לב לכך כשאתם קוראים בתיעוד — יש דף נפרד לכל אחד.</p>
+  </section>
+
+  <div class="cta">
+    <h2>🎯 המשימה הגדולה של הקורס</h2>
+    <p>בכל פרק יש קישורים לתיעוד הרשמי של Polars. <strong>אל תדלגו עליהם.</strong>
+       המטרה היא שעד סוף הקורס תכירו (בראש) את כל המשפחות של הפונקציות —
+       גם אם לא תזכרו כל אחת בעל-פה, שתדעו ש<em>היא קיימת</em> ואיפה לחפש אותה.</p>
+    <p>התחילו מדפי האינדקס הראשיים של התיעוד:</p>
+    <div>
+      <span class="pill"><a href="https://docs.pola.rs/api/python/stable/reference/dataframe/index.html" target="_blank">DataFrame API ↗</a></span>
+      <span class="pill"><a href="https://docs.pola.rs/api/python/stable/reference/series/index.html" target="_blank">Series API ↗</a></span>
+      <span class="pill"><a href="https://docs.pola.rs/api/python/stable/reference/index.html" target="_blank">Full API Reference ↗</a></span>
+      <span class="pill"><a href="https://docs.pola.rs/user-guide/getting-started/" target="_blank">User Guide ↗</a></span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

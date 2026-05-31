@@ -1,0 +1,418 @@
+[slides]
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apache Iceberg: The Deep Dive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&family=Heebo:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* הגדרות יסוד */
+        * { box-sizing: border-box; }
+        body { background-color: #0F172A; margin: 0; padding: 20px; display: grid; place-items: center; min-height: 100vh; }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #0B0E14;
+            color: #FFFFFF;
+            font-family: 'Assistant', sans-serif;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* עיצוב רקע אבסטרקטי */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -20%; right: -10%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(230, 97, 1, 0.08) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: -10%; left: -5%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(0, 162, 232, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        /* טיפוגרפיה */
+        h1 { font-family: 'Heebo', sans-serif; font-size: 75px; margin: 0; line-height: 1.1; z-index: 1; }
+        .slide-title { font-family: 'Heebo', sans-serif; font-size: 48px; margin-bottom: 40px; border-right: 10px solid #E66101; padding-right: 25px; z-index: 1; text-align: right; width: 100%; }
+        p, li { font-size: 24px; line-height: 1.5; color: #CBD5E1; z-index: 1; }
+        
+        .content-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; z-index: 1; }
+        
+        /* פריסות */
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; width: 100%; align-items: center; }
+        .tiled-content { display: flex; gap: 30px; width: 100%; height: 100%; align-items: stretch; }
+        .tile { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 35px; border-radius: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .tile .icon { font-size: 50px; color: #F9AB00; margin-bottom: 20px; }
+        .tile h3 { font-size: 32px; margin-bottom: 15px; color: #FFFFFF; font-family: 'Heebo', sans-serif; }
+
+        /* טבלאות */
+        table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.02); border-radius: 15px; overflow: hidden; }
+        th { background-color: #1E293B; color: #F9AB00; padding: 20px; text-align: right; font-size: 24px; border-bottom: 3px solid #E66101; }
+        td { padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 22px; color: #E2E8F0; }
+        tr:nth-child(even) { background: rgba(255,255,255,0.04); }
+
+        /* אלמנט מחליף תמונה - תיאור ויזואלי */
+        .image-replacement-box {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+            border: 2px dashed #E66101;
+            border-radius: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+        }
+        .image-replacement-box i { font-size: 60px; color: #F9AB00; margin-bottom: 25px; }
+        .image-replacement-box h4 { font-family: 'Heebo', sans-serif; font-size: 28px; color: #FFFFFF; margin: 0 0 15px 0; }
+        .image-replacement-box p { font-size: 20px; color: #94A3B8; margin: 0; }
+
+        .styled-list { list-style: none; padding: 0; width: 100%; }
+        .styled-list li { position: relative; padding-right: 50px; margin-bottom: 25px; }
+        .styled-list li i { position: absolute; right: 0; top: 5px; color: #E66101; font-size: 28px; }
+
+        .tag { display: inline-block; padding: 5px 15px; background: #E66101; border-radius: 20px; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: white; }
+        
+        .code-box { 
+            background: #1E293B; 
+            color: #E2E8F0; 
+            padding: 25px; 
+            border-radius: 15px; 
+            font-family: 'Courier New', monospace; 
+            font-size: 22px; 
+            direction: ltr; 
+            text-align: left; 
+            border-left: 10px solid #E66101;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        .code-box strong { color: #F9AB00; text-shadow: 0 0 5px rgba(249, 171, 0, 0.3); }
+
+        .image-wrapper { border-radius: 15px; overflow: hidden; height: 400px; border: 1px solid rgba(255,255,255,0.1); }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: contain; background: #000; }
+
+        .tag { display: inline-block; padding: 5px 15px; background: #E66101; border-radius: 20px; font-size: 18px; font-weight: bold; margin-bottom: 15px; }
+        .styled-list { list-style: none; padding: 0; }
+        .styled-list li { position: relative; padding-right: 40px; margin-bottom: 15px; }
+        .styled-list li i { position: absolute; right: 0; top: 5px; color: #E66101; font-size: 24px; }
+    </style>
+</head>
+<body>
+
+<div class="slide-container" id="slide1">
+    <div class="content-area" style="text-align: center;">
+        <h1>Apache Iceberg:<br><span style="color: #E66101;">הבוס החדש של הדאטה</span></h1>
+        <p style="font-size: 32px; color: #94A3B8; margin-top: 30px;">המדריך המלא למעבר מניהול קבצים לניהול טבלאות</p>
+    </div>
+</div>
+
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">מה זה בכלל Iceberg?</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-file-code"></i></div>
+                <h3>זה לא פורמט קובץ</h3>
+                <p>הוא לא מחליף את Parquet. הקבצים שלכם נשארים Parquet, יעילים ודחוסים כמו תמיד.</p>
+            </div>
+            <div class="tile" style="border-color: #E66101;">
+                <div class="icon" style="color: #E66101;"><i class="fa-solid fa-table-list"></i></div>
+                <h3>זה פורמט טבלה</h3>
+                <p>הוא ה"קלסר" שמנהל את הקבצים. הוא מגדיר מה נחשב טבלה, עוקב אחרי גרסאות ומאפשר טרנזקציות.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">למה היינו צריכים את זה?</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <div class="tag">סיפור המקור: Netflix</div>
+                <p>נטפליקס ניהלו כמויות עצומות של דאטה על S3 והרגישו את הכאב של Hive:</p>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-circle-xmark"></i> <strong>חוסר אמינות:</strong> שאילתות נכשלו בזמן כתיבה.</li>
+                    <li><i class="fa-solid fa-circle-xmark"></i> <strong>ביצועים:</strong> סריקת אלפי קבצים לקחה נצח.</li>
+                    <li><i class="fa-solid fa-circle-xmark"></i> <strong>עדכונים:</strong> לשנות שורה אחת דרש שכתוב של הכל.</li>
+                </ul>
+            </div>
+            <div class="image-replacement-box">
+                <i class="fa-solid fa-database"></i>
+                <h4>המעבר מניהול קבצים למסד נתונים</h4>
+                <p>דמיינו אלפי קבצי Parquet מפוזרים ללא סדר. Iceberg הוא השכבה החכמה שמאחדת אותם לישות אחת אמינה, המאפשרת ביצוע טרנזקציות ACID מלאות ב-Data Lake.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">הארכיטקטורה: ה"עוגה" של אייסברג</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="image-replacement-box" style="border-color: #F9AB00;">
+                <i class="fa-solid fa-sitemap"></i>
+                <h4>מטא-דאטה מול מניפסט</h4>
+                <p><strong>רמת הטבלה (Metadata):</strong> קובץ ה-JSON המרכזי שמנהל את ה-Schema וה-Snapshots של כל הטבלה.<br><br><strong>רמת הקבצים (Manifest):</strong> רשימות המנהלות קבוצות קבצים, ושומרות סטטיסטיקות כמו טווחי ערכים (Min/Max) לכל קובץ כדי לייעל את השאילתות.</p>
+            </div>
+            <div>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-layer-group"></i><strong>Metadata Layer:</strong> מנהלת את הטבלה ברמת המקרו (Schema וגרסאות).</li>
+                    <li><i class="fa-solid fa-list-check"></i><strong>Manifest Lists:</strong> מנהלת קבוצות קבצים ושומרת טווחי ערכים לסינון מהיר.</li>
+                    <li><i class="fa-solid fa-file-arrow-down"></i><strong>Data Files:</strong> קבצי ה-Parquet הפיזיים המאחסנים את הנתונים עצמם.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">Snapshots: המפתח ל-ACID</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <div class="tag">גרסאות במקום דריסות</div>
+                <p>בכל פעם שכותבים מידע, נוצר Snapshot חדש. הישן לא נמחק מיידית.</p>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-clock-rotate-left"></i> <strong>Time Travel:</strong> שאילתה על גרסאות עבר בקלות.</li>
+                    <li><i class="fa-solid fa-undo"></i> <strong>Rollback:</strong> חזרה לגרסה קודמת בשנייה.</li>
+                    <li><i class="fa-solid fa-shield-halved"></i> <strong>בידוד (Isolation):</strong> כתיבה לא מפריעה לקוראים.</li>
+                </ul>
+            </div>
+            <div class="image-replacement-box">
+                <i class="fa-solid fa-link"></i>
+                <h4>זה לא עותק - זה מצביע (Pointer)</h4>
+                <p>חשוב להבין: Snapshot הוא לא העתקה של המידע! זהו רק קובץ Metadata חדש וקטן שנוצר ברגע השינוי ומצביע על סט הקבצים העדכני. אין כאן שום העתקת בייטים פיזית של דאטה.</p>
+            </div>
+        </div>	
+    </div>
+</div>
+
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">אסטרטגיה 1: Copy-on-Write (CoW)</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="tile">
+                <i class="fa-solid fa-file-signature" style="font-size: 50px; color: #F9AB00; margin-bottom: 20px;"></i>
+                <h3>הקונספט</h3>
+                <p>צריכים לעדכן שורה? אייסברג קורא את כל קובץ ה-Parquet המקורי, משנה בזיכרון, וכותבת קובץ Parquet חדש ונקי.</p>
+            </div>
+            <div>
+                <h3 style="color: #F9AB00;">למה שמישהו ירצה את זה?</h3>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-circle-check"></i> <strong>קריאה במהירות מקסימלית:</strong> אין לקורא "עבודה" לעשות. הוא פשוט קורא קובץ Parquet מוכן.</li>
+                    <li><i class="fa-solid fa-circle-check"></i> <strong>פשטות:</strong> אין קבצי מחיקה מסובכים ברקע.</li>
+                </ul>
+                <p style="color: #EF4444; font-weight: bold;">החיסרון: Write Amplification.</p>
+                <p>עדכון של 1KB בתוך קובץ של 100MB דורש כתיבה מחדש של כל ה-100MB.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">אסטרטגיה 2: Merge-on-Read (MoR)</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>זו האסטרטגיה שתפתור לכם את כאב העדכונים התכופים.</p>
+                <div class="tag">מנגנון ה-Delete Files</div>
+                <p>במקום לשכתב קבצים, אייסברג כותב **"דף הערות" (Delete File)**:</p>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-marker"></i> <strong>הסתרת שורות:</strong> ה-Delete File אומר למנוע: "כשתקרא את קובץ A, תתעלם משורה 45".</li>
+                    <li><i class="fa-solid fa-plus-circle"></i> <strong>כתיבה מהירה:</strong> מוסיפים רק את השינוי הקטן, לא נוגעים ב-200GB הקיימים.</li>
+                </ul>
+            </div>
+            <div class="image-replacement-box">
+                <i class="fa-solid fa-object-merge"></i>
+                <h4>מיזוג בזמן אמת</h4>
+                <p>התהליך מפריד בין הכתיבה לקריאה. הכתיבה מהירה (רק דלתא), והקריאה מבצעת 'Merge' בין הנתונים למחיקות. זהו פתרון מושלם למערכות שמתעדכנות בקצב גבוה.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">מנגנון ה-Update: מחק + הוסף</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="image-replacement-box">
+                <i class="fa-solid fa-arrows-spin"></i>
+                <h4>מחזור החיים של שורה מעודכנת</h4>
+                <p>במקום לשנות שורה במקומה, Iceberg מבצע פעולה כפולה: רישום השורה הישנה בקובץ מחיקות (Delete) וכתיבת השורה החדשה בקובץ נתונים טרי. השילוב ביניהם מציג למשתמש את המידע העדכני.</p>
+            </div>
+            <div>
+                <p>פעולת ה-Update ב-Iceberg (במצב MoR) היא שילוב של שני קבצים חדשים:</p>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-eraser"></i> <strong>Delete File:</strong> מסמן את השורה הישנה כ"מחוקה".</li>
+                    <li><i class="fa-solid fa-plus-square"></i> <strong>New Data File:</strong> מכיל את השורה החדשה (המעודכנת).</li>
+                </ul>
+                <div class="tag" style="background: #10B981;">הקסם קורה בקריאה</div>
+                <p>מנוע השאילתות קורא את שניהם ומבצע Merge בזמן אמת. המשתמש רואה רק שורה אחת מעודכנת.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">המלכוד: מוות ב-1000 חתכים</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="tile" style="border-color: #EF4444;">
+                <h3 style="color: #EF4444;">Small Files Problem</h3>
+                <p>בכל דקה שאתם מעדכנים שורה ב-MoR, נוצר קובץ Delete חדש וקטן.</p>
+            </div>
+            <div>
+                <h3>למה זה מאט אתכם?</h3>
+                <p>כשיש 10,000 קבצי "הערות" (Delete Files), המנוע חייב לקרוא את כולם בזמן הקריאה כדי לדעת מה לסנן.</p>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-clock"></i> <strong>זמן שאילתה עולה:</strong> המנוע עושה Merge בין אלפי קבצים קטנים בזמן אמת.</li>
+                    <li><i class="fa-solid fa-microchip"></i> <strong>ניצול CPU גבוה:</strong> ה-Overhead של ניהול המטא-דאטה הופך לצוואר בקבוק.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">התחזוקה: Compaction</h2>
+    <div class="content-area">
+        <div class="two-column" style="grid-template-columns: 40% 60%;">
+            <div style="text-align: center;">
+                <i class="fa-solid fa-broom" style="font-size: 120px; color: #E66101;"></i>
+                <h3 style="margin-top: 20px;">ה"מנקה" של אייסברג</h3>
+            </div>
+            <div>
+                <p>Compaction הוא תהליך שרץ ברקע (או מתוזמן ב-Foundry) ותפקידו:</p>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-compress"></i> <strong>איחוד קבצים:</strong> לוקח המון קבצים קטנים והופך אותם לקובץ Parquet אחד גדול ואופטימלי.</li>
+                    <li><i class="fa-solid fa-eraser"></i> <strong>מימוש מחיקות:</strong> הוא "שורף" את ה-Delete Files לתוך קובץ הנתונים החדש. עכשיו כבר לא צריך את ה-Delete files בזיכרון.</li>
+                </ul>
+                <div class="tag" style="background: #F9AB00; color: black;">בפלנטיר: Maintenance Jobs</div>
+                <p>אל תשכחו להפעיל את ה-Dataset Optimization ב-Settings!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">סיכום אסטרטגיות עדכון</h2>
+    <div class="content-area">
+        <table>
+            <thead>
+                <tr>
+                    <th>מאפיין</th>
+                    <th>Copy-on-Write (CoW)</th>
+                    <th>Merge-on-Read (MoR)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>מהירות כתיבה</strong></td>
+                    <td>איטית (שכתוב הכל)</td>
+                    <td>מהירה (כתיבת דלתא בלבד)</td>
+                </tr>
+                <tr>
+                    <td><strong>מהירות קריאה</strong></td>
+                    <td>מקסימלית (קבצים נקיים)</td>
+                    <td>איטית יותר (Merge בזמן אמת)</td>
+                </tr>
+                <tr>
+                    <td><strong>שימוש אופטימלי</strong></td>
+                    <td>טבלאות ענק שמתעדכנות פעם ביום</td>
+                    <td>עדכונים תכופים (כמו המקרה שלכם)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="slide-container" id="slide12">
+    <h2 class="slide-title">השוואה: Hive מול Iceberg</h2>
+    <div class="content-area">
+        <table>
+            <thead>
+                <tr>
+                    <th>יכולת</th>
+                    <th>Hive (השיטה הישנה)</th>
+                    <th>Iceberg (השיטה החדשה)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>טרנזקציות ACID</strong></td>
+                    <td>אין</td>
+                    <td>מלא וברמת השורה</td>
+                </tr>
+                <tr>
+                    <td><strong>עדכון שורה בודדת</strong></td>
+                    <td>שכתוב מחיצה שלמה</td>
+                    <td>יעיל ומהיר (MoR)</td>
+                </tr>
+                <tr>
+                    <td><strong>Time Travel</strong></td>
+                    <td>לא קיים</td>
+                    <td>מובנה באמצעות Snapshots</td>
+                </tr>
+                <tr>
+                    <td><strong>Schema Evolution</strong></td>
+                    <td>שובר טבלאות לעיתים קרובות</td>
+                    <td>בטוח וגמיש (Add/Drop/Rename)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="slide-container" id="slide13">
+    <h2 class="slide-title">איך כותבים את זה ב-Foundry?</h2>
+    <div class="content-area">
+        <div class="code-box">
+@incremental()<br>
+@transform_df(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;output=Output("..."),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_df=Input("...")<br>
+)<br>
+def compute(ctx, input_df, output):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if ctx.is_incremental:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# הקסם שמאפשר עדכון שורות ללא דריסה:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output.<strong>set_mode("modify")</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output.write_dataframe(input_df)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output.write_dataframe(input_df)
+        </div>
+        <p style="margin-top: 25px;"><strong>שימו לב:</strong> ללא ה-<strong>set_mode("modify")</strong>, המנוע ינסה לבצע Append או Overwrite רגיל, ולא ינצל את יכולות ה-MoR של Iceberg לעדכונים כירורגיים.</p>
+    </div>
+</div>
+
+<div class="slide-container" id="slide14">
+    <div class="content-area" style="text-align: center;">
+        <h1 style="font-size: 100px;">שאלות?</h1>
+        <p style="font-size: 30px; margin-top: 20px; color: #F9AB00;">זה הזמן לצלוח את הקרח!</p>
+        <div style="margin-top: 80px;">
+            <p><i class="fa-solid fa-link" style="color: #E66101;"></i> חפשו "Foundry Tables" בתיעוד הפנימי</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+

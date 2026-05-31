@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 06 — התרגיל והמידע | Polars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1020; --card:#141a2e; --ink:#eef2ff; --muted:#a9b4d0;
+    --brand:#5b8def; --brand2:#22d3ee; --accent:#f7b955; --line:#26304d;
+    --code-bg:#0a0f1f; --green:#34d399; --red:#f76b6b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:radial-gradient(1200px 600px at 80% -10%,#1b2545 0,var(--bg) 55%);
+    color:var(--ink); font-family:"Heebo",-apple-system,"Segoe UI",Arial,sans-serif;
+    line-height:1.75; padding:0 0 80px}
+  .wrap{max-width:900px; margin:0 auto; padding:0 22px}
+  header.hero{padding:60px 22px 44px; text-align:center; border-bottom:1px solid var(--line)}
+  .kicker{font-weight:600; letter-spacing:.06em; font-size:.95rem}
+  h1{font-size:2.4rem; font-weight:800; margin:.2em 0 .15em; line-height:1.2}
+  .hero p{color:var(--muted); font-size:1.13rem; max-width:660px; margin:.4em auto 0}
+  .slide{background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:28px 32px; margin:24px 0; box-shadow:0 20px 50px -30px #000}
+  .slide h2{font-size:1.55rem; margin:0 0 .5em; display:flex; align-items:center; gap:.5em}
+  .slide h2 .num{background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#06122b;
+    width:1.7em; height:1.7em; border-radius:12px; display:grid; place-items:center;
+    font-size:.95rem; font-weight:800; flex:0 0 auto}
+  .slide h3{color:var(--brand2); font-size:1.1rem; margin:1.3em 0 .3em}
+  p,li{color:#dde3f6}
+  .muted{color:var(--muted)}
+  ul,ol{margin:.4em 0; padding-inline-start:1.3em}
+  li{margin:.35em 0}
+  code{background:var(--code-bg); border:1px solid var(--line); padding:.12em .45em;
+    border-radius:7px; font-family:"SFMono-Regular",Consolas,monospace; color:#aee3ff;
+    direction:ltr; display:inline-block; font-size:.9em}
+  .cmp{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px}
+  .cmp>div{border:1px solid var(--line); border-radius:12px; padding:14px 16px}
+  .cmp .bad{background:rgba(247,107,107,.06)}
+  .cmp .good{background:rgba(91,141,239,.08)}
+  .cmp h4{margin:0 0 .4em; font-size:1rem}
+  table{width:100%; border-collapse:collapse; margin-top:10px; font-size:.95rem}
+  th,td{border:1px solid var(--line); padding:10px 12px; text-align:right; vertical-align:top}
+  th{background:#1a2240; color:var(--brand2); font-weight:600}
+  td code{font-size:.85em}
+  a{color:var(--brand); text-decoration:none; font-weight:600}
+  a:hover{text-decoration:underline}
+  .doc-link{display:inline-block; direction:ltr}
+  .tag{display:inline-block; font-size:.78rem; padding:.1em .6em; border-radius:999px;
+    border:1px solid var(--line); background:#1a2240; color:var(--muted); direction:ltr}
+  .tip{border-right:4px solid var(--green); background:rgba(52,211,153,.07);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .warn{border-right:4px solid var(--accent); background:rgba(247,185,85,.08);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .steps{counter-reset:s; list-style:none; padding:0}
+  .steps li{counter-increment:s; position:relative; padding-right:2.4em; margin:.5em 0}
+  .steps li::before{content:counter(s); position:absolute; right:0; top:.05em;
+    width:1.6em; height:1.6em; border-radius:8px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#06122b;
+    font-weight:800; font-size:.85rem}
+  .cta{background:linear-gradient(135deg,rgba(247,185,85,.14),rgba(34,211,238,.10));
+    border:1px solid var(--accent); border-radius:18px; padding:26px 30px; margin-top:30px}
+  .cta h2{color:var(--accent)}
+  .pill{display:inline-block; background:#1a2240; border:1px solid var(--line);
+    border-radius:999px; padding:.25em .9em; margin:.2em; font-size:.9rem; direction:ltr}
+  @media(max-width:640px){.cmp{grid-template-columns:1fr} h1{font-size:1.85rem}}
+
+  .kicker{color:#34d399}
+  header.hero{background:linear-gradient(135deg,rgba(52,211,153,.16),rgba(34,211,238,.08))}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">פרק 06 · התרגיל והמידע</div>
+  <h1>בניית טבלת אנליטיקה מ-4 טבלאות</h1>
+  <p>המשימה המרכזית: לשרשר joins לטבלה מועשרת אחת — כמו ב-Foundry.</p>
+</header>
+
+<div class="wrap">
+
+  <section class="slide">
+    <h2><span class="num">1</span>על מה התרגיל?</h2>
+    <p>זה התרגיל המרכזי בקורס (18 שאלות, ארוך יותר). תעבדו עם <strong>ארבע טבלאות</strong> ותתרגלו את כל סוגי ה-join. השיא הוא <strong>המשימה</strong>: לשרשר את כל החיבורים לטבלת אנליטיקה מועשרת אחת, בדיוק כמו טרנספורמציה אמיתית ב-Foundry.</p>
+  </section>
+
+  <div class="slide" style="border-right:4px solid var(--accent)"><p style="margin:0">⚠️ אחרי כל join — בדקו את מספר השורות! join לא תקין יכול לשכפל שורות בשקט ולקלקל את כל החישובים.</p></div>
+
+  <section class="slide">
+    <h2><span class="num">3</span>מודל הנתונים (הקשרים בין הטבלאות)</h2>
+    <p>ארבע הטבלאות מקושרות כך:</p><ul><li><code>orders.customer_id</code> → <code>customers.customer_id</code></li><li><code>orders.product_sku</code> → <code>products.product_sku</code></li><li><code>orders.region</code> (שם) → <code>regions.region_name</code></li><li><code>customers.region_id</code> → <code>regions.region_id</code></li></ul>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">4</span>טבלה: <code>customers.csv</code></h2>
+    <p class="muted">200 לקוחות.</p>
+    <table>
+      <thead><tr><th>עמודה</th><th>טיפוס</th><th>תיאור</th></tr></thead>
+      <tbody>
+        <tr><td><code>customer_id</code></td><td><span class="tag">str</span></td><td>🔑 מפתח — מקשר ל-<code>orders.customer_id</code></td></tr>
+        <tr><td><code>customer_name</code></td><td><span class="tag">str</span></td><td>שם הלקוח</td></tr>
+        <tr><td><code>region_id</code></td><td><span class="tag">str</span></td><td>מקשר ל-<code>regions.region_id</code></td></tr>
+        <tr><td><code>segment</code></td><td><span class="tag">str</span></td><td>סגמנט (SMB / Mid-Market / Enterprise)</td></tr>
+        <tr><td><code>signup_date</code></td><td><span class="tag">str</span></td><td>תאריך הצטרפות</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">5</span>טבלה: <code>products.csv</code></h2>
+    <p class="muted">12 מוצרים.</p>
+    <table>
+      <thead><tr><th>עמודה</th><th>טיפוס</th><th>תיאור</th></tr></thead>
+      <tbody>
+        <tr><td><code>product_sku</code></td><td><span class="tag">str</span></td><td>🔑 מפתח — מקשר ל-<code>orders.product_sku</code></td></tr>
+        <tr><td><code>product_name</code></td><td><span class="tag">str</span></td><td>שם המוצר</td></tr>
+        <tr><td><code>category</code></td><td><span class="tag">str</span></td><td>קטגוריה</td></tr>
+        <tr><td><code>unit_cost</code></td><td><span class="tag">f64</span></td><td>עלות ליחידה (לחישוב margin)</td></tr>
+        <tr><td><code>list_price</code></td><td><span class="tag">f64</span></td><td>מחיר מחירון</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">6</span>טבלה: <code>regions.csv</code></h2>
+    <p class="muted">5 אזורים.</p>
+    <table>
+      <thead><tr><th>עמודה</th><th>טיפוס</th><th>תיאור</th></tr></thead>
+      <tbody>
+        <tr><td><code>region_id</code></td><td><span class="tag">str</span></td><td>🔑 מפתח — מקשר ל-<code>customers.region_id</code></td></tr>
+        <tr><td><code>region_name</code></td><td><span class="tag">str</span></td><td>שם האזור — תואם ל-<code>orders.region</code></td></tr>
+        <tr><td><code>currency</code></td><td><span class="tag">str</span></td><td>מטבע</td></tr>
+        <tr><td><code>tax_rate</code></td><td><span class="tag">f64</span></td><td>שיעור מס (לחישוב מחיר כולל מע"מ)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">7</span>מה תתרגלו</h2>
+    <ul>
+      <li><code>inner</code>, <code>left</code>, <code>full</code> joins</li>
+      <li><code>semi</code> ו-<code>anti</code> לבדיקות איכות נתונים</li>
+      <li><code>left_on</code> / <code>right_on</code> למפתחות בשם שונה</li>
+      <li>join על כמה מפתחות (<code>on=["a", "b"]</code>)</li>
+      <li><code>cross</code> join</li>
+      <li>שרשור כמה joins לטבלת אנליטיקה אחת</li>
+      <li>בדיקת מספר שורות וטיפול ב-null אחרי join</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">8</span>איך מתחילים</h2>
+    <ol class="steps">
+      <li>ודאו ש-Polars מותקן: <code>pip install polars</code> (גרסה 1.24.0).</li>
+      <li>ודאו שכל ארבעת קובצי ה-CSV נמצאים בתיקיית <code>data/</code>.</li>
+      <li>פתחו את <code>Exercises.ipynb</code> וענו שאלה-שאלה.</li>
+      <li>אחרי כל join — בדקו <code>.shape</code> כדי לוודא שלא נוספו שורות.</li>
+      <li>סיימתם? השוו מול <code>Solutions.ipynb</code>.</li>
+    </ol>
+  </section>
+
+</div>
+</body>
+</html>

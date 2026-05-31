@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 09 — חישוב עצל וביצועים | Polars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1020; --card:#141a2e; --ink:#eef2ff; --muted:#a9b4d0;
+    --brand:#5b8def; --brand2:#22d3ee; --accent:#f7b955; --line:#26304d;
+    --code-bg:#0a0f1f; --green:#34d399; --red:#f76b6b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:radial-gradient(1200px 600px at 80% -10%,#1b2545 0,var(--bg) 55%);
+    color:var(--ink); font-family:"Heebo",-apple-system,"Segoe UI",Arial,sans-serif;
+    line-height:1.75; padding:0 0 80px}
+  .wrap{max-width:900px; margin:0 auto; padding:0 22px}
+  header.hero{padding:60px 22px 44px; text-align:center; border-bottom:1px solid var(--line)}
+  .kicker{font-weight:600; letter-spacing:.06em; font-size:.95rem}
+  h1{font-size:2.4rem; font-weight:800; margin:.2em 0 .15em; line-height:1.2}
+  .hero p{color:var(--muted); font-size:1.13rem; max-width:660px; margin:.4em auto 0}
+  .slide{background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:28px 32px; margin:24px 0; box-shadow:0 20px 50px -30px #000}
+  .slide h2{font-size:1.55rem; margin:0 0 .5em; display:flex; align-items:center; gap:.5em}
+  .slide h2 .num{background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#06122b;
+    width:1.7em; height:1.7em; border-radius:12px; display:grid; place-items:center;
+    font-size:.95rem; font-weight:800; flex:0 0 auto}
+  .slide h3{color:var(--brand2); font-size:1.1rem; margin:1.3em 0 .3em}
+  p,li{color:#dde3f6}
+  .muted{color:var(--muted)}
+  ul,ol{margin:.4em 0; padding-inline-start:1.3em}
+  li{margin:.35em 0}
+  code{background:var(--code-bg); border:1px solid var(--line); padding:.12em .45em;
+    border-radius:7px; font-family:"SFMono-Regular",Consolas,monospace; color:#aee3ff;
+    direction:ltr; display:inline-block; font-size:.9em}
+  .cmp{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px}
+  .cmp>div{border:1px solid var(--line); border-radius:12px; padding:14px 16px}
+  .cmp .bad{background:rgba(247,107,107,.06)}
+  .cmp .good{background:rgba(91,141,239,.08)}
+  .cmp h4{margin:0 0 .4em; font-size:1rem}
+  table{width:100%; border-collapse:collapse; margin-top:10px; font-size:.95rem}
+  th,td{border:1px solid var(--line); padding:10px 12px; text-align:right; vertical-align:top}
+  th{background:#1a2240; color:var(--brand2); font-weight:600}
+  td code{font-size:.85em}
+  a{color:var(--brand); text-decoration:none; font-weight:600}
+  a:hover{text-decoration:underline}
+  .doc-link{display:inline-block; direction:ltr}
+  .tag{display:inline-block; font-size:.78rem; padding:.1em .6em; border-radius:999px;
+    border:1px solid var(--line); background:#1a2240; color:var(--muted); direction:ltr}
+  .tip{border-right:4px solid var(--green); background:rgba(52,211,153,.07);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .warn{border-right:4px solid var(--accent); background:rgba(247,185,85,.08);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .steps{counter-reset:s; list-style:none; padding:0}
+  .steps li{counter-increment:s; position:relative; padding-right:2.4em; margin:.5em 0}
+  .steps li::before{content:counter(s); position:absolute; right:0; top:.05em;
+    width:1.6em; height:1.6em; border-radius:8px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#06122b;
+    font-weight:800; font-size:.85rem}
+  .cta{background:linear-gradient(135deg,rgba(247,185,85,.14),rgba(34,211,238,.10));
+    border:1px solid var(--accent); border-radius:18px; padding:26px 30px; margin-top:30px}
+  .cta h2{color:var(--accent)}
+  .pill{display:inline-block; background:#1a2240; border:1px solid var(--line);
+    border-radius:999px; padding:.25em .9em; margin:.2em; font-size:.9rem; direction:ltr}
+  @media(max-width:640px){.cmp{grid-template-columns:1fr} h1{font-size:1.85rem}}
+
+  .kicker{color:#22d3ee}
+  header.hero{background:linear-gradient(135deg,rgba(91,141,239,.18),rgba(34,211,238,.10))}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">Polars for Power Users · פרק 09</div>
+  <h1>חישוב עצל וביצועים (Lazy)</h1>
+  <p>scan_csv, collect ו-explain — הכוח-על של Polars למיליוני שורות.</p>
+</header>
+
+<div class="wrap">
+
+  <section class="slide">
+    <h2><span class="num">1</span>על מה הפרק הזה?</h2>
+    <p>עד עכשיו עבדנו ב-<strong>eager</strong>: כל פעולה רצה מיד וטוענת את כל המידע לזיכרון. ל-Polars יש מצב שני, חזק בהרבה לנתונים גדולים: <strong>lazy</strong> (עצל).</p><p>במצב lazy מתארים את <em>כל</em> השאילתה מראש (עם <code>scan_csv</code> במקום <code>read_csv</code>), Polars בונה תוכנית, <strong>ממטב</strong> אותה (קורא רק עמודות ושורות שצריך), ורק כש-קוראים ל-<code>collect()</code> הוא מריץ הכל ביעילות.</p>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">2</span>הקסם: Predicate &amp; Projection Pushdown</h2>
+    <p>ה-optimizer של Polars "דוחף" את הסינון ואת בחירת העמודות עד לתוך קריאת הקובץ עצמה:</p><ul><li><strong>Projection pushdown:</strong> קורא רק את העמודות שצריך (<code>PROJECT 3/10 COLUMNS</code>)</li><li><strong>Predicate pushdown:</strong> מסנן שורות כבר בקריאה (<code>SELECTION</code>)</li></ul><p>זה אומר פחות קריאה מהדיסק, פחות זיכרון, והרבה יותר מהירות. רואים את זה עם <code>.explain()</code>.</p>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">3</span>Eager מול Lazy</h2>
+    <p class="muted">אותו חישוב, שתי גישות:</p>
+    <div class="cmp">
+      <div class="bad"><h4>🐌 Eager</h4>
+        <ul>
+          <li><code>pl.read_csv(path)</code></li>
+          <li>טוען את כל הקובץ לזיכרון</li>
+          <li>כל פעולה רצה מיד</li>
+          <li>פשוט — מעולה לנתונים קטנים</li>
+        </ul>
+      </div>
+      <div class="good"><h4>⚡ Lazy</h4>
+        <ul>
+          <li><code>pl.scan_csv(path)</code></li>
+          <li>בונה תוכנית, לא טוען כלום</li>
+          <li><code>.collect()</code> מריץ הכל ביחד</li>
+          <li>ממטב אוטומטית — מעולה לנתונים גדולים</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tip">💡 כלל אצבע: לנתונים גדולים, התחילו תמיד מ-<code>scan_csv</code> וסיימו ב-<code>collect</code>.</div>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">4</span>הפונקציות של הפרק + תיעוד</h2>
+    <p class="muted">לחצו על כל קישור וקראו את התיעוד הרשמי.</p>
+    <table>
+      <thead><tr><th>מה זה עושה</th><th>פונקציה</th><th>תיעוד רשמי</th></tr></thead>
+      <tbody>
+        <tr><td>קריאה עצלה של CSV</td><td><code>polars.scan_csv()</code></td><td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/api/polars.scan_csv.html" target="_blank">scan_csv ↗</a></td></tr>
+        <tr><td>הרצת השאילתה העצלה</td><td><code>LazyFrame.collect()</code></td><td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/lazyframe/api/polars.LazyFrame.collect.html" target="_blank">collect ↗</a></td></tr>
+        <tr><td>הצגת תוכנית השאילתה</td><td><code>LazyFrame.explain()</code></td><td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/lazyframe/api/polars.LazyFrame.explain.html" target="_blank">explain ↗</a></td></tr>
+        <tr><td>מדידת זמני שלבים</td><td><code>LazyFrame.profile()</code></td><td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/lazyframe/api/polars.LazyFrame.profile.html" target="_blank">profile ↗</a></td></tr>
+        <tr><td>מעבר ל-lazy מ-DataFrame</td><td><code>DataFrame.lazy()</code></td><td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/dataframe/api/polars.DataFrame.lazy.html" target="_blank">lazy ↗</a></td></tr>
+        <tr><td>כתיבה עצלה (streaming) לדיסק</td><td><code>LazyFrame.sink_csv()</code></td><td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/lazyframe/api/polars.LazyFrame.sink_csv.html" target="_blank">sink_csv ↗</a></td></tr>
+        <tr><td>ה-API המלא של LazyFrame</td><td><code>LazyFrame</code></td><td><a class="doc-link" href="https://docs.pola.rs/api/python/stable/reference/lazyframe/index.html" target="_blank">LazyFrame ↗</a></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="cta">
+    <h2>🎯 לקריאה נוספת</h2>
+    <p>עברו על כל ה-API של <code>LazyFrame</code> — רובו זהה ל-DataFrame, אבל עצל. קראו גם על המנוע ה-streaming החדש (<code>sink_*</code>) שמאפשר לעבד קבצים גדולים מהזיכרון בלי לטעון הכל.</p>
+    <div>
+      <span class="pill"><a href="https://docs.pola.rs/api/python/stable/reference/dataframe/index.html" target="_blank">DataFrame API ↗</a></span>
+      <span class="pill"><a href="https://docs.pola.rs/api/python/stable/reference/expressions/index.html" target="_blank">Expressions API ↗</a></span>
+      <span class="pill"><a href="https://docs.pola.rs/api/python/stable/reference/index.html" target="_blank">Full API Reference ↗</a></span>
+      <span class="pill"><a href="https://docs.pola.rs/user-guide/" target="_blank">User Guide ↗</a></span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

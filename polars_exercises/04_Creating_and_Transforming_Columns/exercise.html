@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 04 — התרגיל והמידע | Polars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1020; --card:#141a2e; --ink:#eef2ff; --muted:#a9b4d0;
+    --brand:#5b8def; --brand2:#22d3ee; --accent:#f7b955; --line:#26304d;
+    --code-bg:#0a0f1f; --green:#34d399; --red:#f76b6b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:radial-gradient(1200px 600px at 80% -10%,#1b2545 0,var(--bg) 55%);
+    color:var(--ink); font-family:"Heebo",-apple-system,"Segoe UI",Arial,sans-serif;
+    line-height:1.75; padding:0 0 80px}
+  .wrap{max-width:900px; margin:0 auto; padding:0 22px}
+  header.hero{padding:60px 22px 44px; text-align:center; border-bottom:1px solid var(--line)}
+  .kicker{font-weight:600; letter-spacing:.06em; font-size:.95rem}
+  h1{font-size:2.4rem; font-weight:800; margin:.2em 0 .15em; line-height:1.2}
+  .hero p{color:var(--muted); font-size:1.13rem; max-width:660px; margin:.4em auto 0}
+  .slide{background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:28px 32px; margin:24px 0; box-shadow:0 20px 50px -30px #000}
+  .slide h2{font-size:1.55rem; margin:0 0 .5em; display:flex; align-items:center; gap:.5em}
+  .slide h2 .num{background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#06122b;
+    width:1.7em; height:1.7em; border-radius:12px; display:grid; place-items:center;
+    font-size:.95rem; font-weight:800; flex:0 0 auto}
+  .slide h3{color:var(--brand2); font-size:1.1rem; margin:1.3em 0 .3em}
+  p,li{color:#dde3f6}
+  .muted{color:var(--muted)}
+  ul,ol{margin:.4em 0; padding-inline-start:1.3em}
+  li{margin:.35em 0}
+  code{background:var(--code-bg); border:1px solid var(--line); padding:.12em .45em;
+    border-radius:7px; font-family:"SFMono-Regular",Consolas,monospace; color:#aee3ff;
+    direction:ltr; display:inline-block; font-size:.9em}
+  .cmp{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px}
+  .cmp>div{border:1px solid var(--line); border-radius:12px; padding:14px 16px}
+  .cmp .bad{background:rgba(247,107,107,.06)}
+  .cmp .good{background:rgba(91,141,239,.08)}
+  .cmp h4{margin:0 0 .4em; font-size:1rem}
+  table{width:100%; border-collapse:collapse; margin-top:10px; font-size:.95rem}
+  th,td{border:1px solid var(--line); padding:10px 12px; text-align:right; vertical-align:top}
+  th{background:#1a2240; color:var(--brand2); font-weight:600}
+  td code{font-size:.85em}
+  a{color:var(--brand); text-decoration:none; font-weight:600}
+  a:hover{text-decoration:underline}
+  .doc-link{display:inline-block; direction:ltr}
+  .tag{display:inline-block; font-size:.78rem; padding:.1em .6em; border-radius:999px;
+    border:1px solid var(--line); background:#1a2240; color:var(--muted); direction:ltr}
+  .tip{border-right:4px solid var(--green); background:rgba(52,211,153,.07);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .warn{border-right:4px solid var(--accent); background:rgba(247,185,85,.08);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .steps{counter-reset:s; list-style:none; padding:0}
+  .steps li{counter-increment:s; position:relative; padding-right:2.4em; margin:.5em 0}
+  .steps li::before{content:counter(s); position:absolute; right:0; top:.05em;
+    width:1.6em; height:1.6em; border-radius:8px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#06122b;
+    font-weight:800; font-size:.85rem}
+  .cta{background:linear-gradient(135deg,rgba(247,185,85,.14),rgba(34,211,238,.10));
+    border:1px solid var(--accent); border-radius:18px; padding:26px 30px; margin-top:30px}
+  .cta h2{color:var(--accent)}
+  .pill{display:inline-block; background:#1a2240; border:1px solid var(--line);
+    border-radius:999px; padding:.25em .9em; margin:.2em; font-size:.9rem; direction:ltr}
+  @media(max-width:640px){.cmp{grid-template-columns:1fr} h1{font-size:1.85rem}}
+
+  .kicker{color:#34d399}
+  header.hero{background:linear-gradient(135deg,rgba(52,211,153,.16),rgba(34,211,238,.08))}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">פרק 04 · התרגיל והמידע</div>
+  <h1>בניית עמודות מתוך ההזמנות</h1>
+  <p>מחשבים, מתקנים טיפוסים, ומוסיפים לוגיקה — כמו בטרנספורמציה אמיתית.</p>
+</header>
+
+<div class="wrap">
+
+  <section class="slide">
+    <h2><span class="num">1</span>על מה התרגיל?</h2>
+    <p>תרגיל בינוני (18 שאלות) שמתחיל להרגיש כמו טרנספורמציה אמיתית: מחשבים <code>revenue</code>, מתקנים את עמודת התאריך, מפיקים חודש ורבעון, מסמנים החזרות, ומסווגים הזמנות לפי גודל. כל אלה צעדים שאנחנו עושים בעבודה היומיומית.</p>
+  </section>
+
+  <div class="slide" style="border-right:4px solid var(--accent)"><p style="margin:0">⚠️ שימו לב: <code>order_date</code> מגיעה כ<strong>מחרוזת</strong>. לפני שמפיקים ממנה חודש/שנה — חייבים להמיר אותה לתאריך עם <code>str.to_date</code>.</p></div>
+
+  <section class="slide">
+    <h2><span class="num">3</span>המידע: <code>data/orders.csv</code></h2>
+    <p class="muted">אותה טבלת הזמנות — 1,000 שורות. הפעם ניצור ממנה עמודות חדשות.</p>
+    <table>
+      <thead><tr><th>עמודה</th><th>טיפוס</th><th>תיאור</th></tr></thead>
+      <tbody>
+        <tr><td><code>order_id</code></td><td><span class="tag">str</span></td><td>מזהה ייחודי של ההזמנה (למשל <code>ORD-000123</code>)</td></tr>
+        <tr><td><code>customer_id</code></td><td><span class="tag">str</span></td><td>מזהה הלקוח (<code>CUST-0042</code>) — משמש ל-joins</td></tr>
+        <tr><td><code>order_date</code></td><td><span class="tag">str</span></td><td>תאריך ההזמנה. ⚠️ נשמר כמחרוזת, לא כתאריך אמיתי</td></tr>
+        <tr><td><code>region</code></td><td><span class="tag">str</span></td><td>אזור גאוגרפי (Europe, North America…)</td></tr>
+        <tr><td><code>product_sku</code></td><td><span class="tag">str</span></td><td>קוד המוצר</td></tr>
+        <tr><td><code>category</code></td><td><span class="tag">str</span></td><td>קטגוריית המוצר (pens, books, shirts…)</td></tr>
+        <tr><td><code>product_name</code></td><td><span class="tag">str</span></td><td>שם המוצר המלא</td></tr>
+        <tr><td><code>quantity</code></td><td><span class="tag">i64</span></td><td>כמות. ⚠️ ערך שלילי = החזרה (return)</td></tr>
+        <tr><td><code>unit_price</code></td><td><span class="tag">f64</span></td><td>מחיר ליחידה</td></tr>
+        <tr><td><code>channel</code></td><td><span class="tag">str</span></td><td>ערוץ המכירה (online / store / partner)</td></tr>
+        <tr><td><code>status</code></td><td><span class="tag">str</span></td><td>סטטוס (completed / pending / cancelled / returned)</td></tr>
+        <tr><td><code>discount_code</code></td><td><span class="tag">str</span></td><td>קוד הנחה. ⚠️ ברוב השורות חסר (null)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">4</span>מה תתרגלו</h2>
+    <ul>
+      <li><code>with_columns</code> להוספת עמודה אחת או כמה בבת אחת</li>
+      <li>חישובים אריתמטיים ו-<code>round</code></li>
+      <li>המרת טיפוסים: <code>str.to_date</code>, ורכיבי תאריך <code>dt.*</code></li>
+      <li>פעולות מחרוזת: <code>str.to_uppercase</code>, <code>str.slice</code>, <code>str.replace</code>, <code>str.len_chars</code></li>
+      <li><code>when/then/otherwise</code> ללוגיקה מותנית</li>
+      <li><code>fill_null</code>, <code>abs</code>, <code>concat_str</code></li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">5</span>איך מתחילים</h2>
+    <ol class="steps">
+      <li>ודאו ש-Polars מותקן: <code>pip install polars</code> (גרסה 1.24.0).</li>
+      <li>פתחו את <code>Exercises.ipynb</code> בתיקייה של הפרק.</li>
+      <li>ענו על השאלות אחת-אחת. אל תפחדו לטעות — זו הדרך ללמוד.</li>
+      <li>תקועים? פתחו את <code>subject.html</code> וקראו את התיעוד הרשמי של הפונקציה.</li>
+      <li>סיימתם? פתחו את <code>Solutions.ipynb</code> כדי לבדוק את עצמכם מול הפלט האמיתי.</li>
+    </ol>
+  </section>
+
+</div>
+</body>
+</html>

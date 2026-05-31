@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pandas, Polars, and Spark: The 2026 Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&family=Heebo:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* הגדרות יסוד למצגת מקצועית */
+        * { box-sizing: border-box; }
+        body { background-color: #0F172A; margin: 0; padding: 20px; display: grid; place-items: center; min-height: 100vh; }
+
+         .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #0B0E14;
+            color: #FFFFFF;
+            font-family: 'Assistant', sans-serif;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* רקע אבסטרקטי נקי */
+        .bg-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        /* טיפוגרפיה */
+        h1 { font-family: 'Heebo', sans-serif; font-size: 85px; margin: 0; line-height: 1.1; z-index: 1; }
+        .slide-title { font-family: 'Heebo', sans-serif; font-size: 48px; margin-bottom: 40px; border-right: 10px solid #E66101; padding-right: 25px; z-index: 1; text-align: right; }
+        p, li { font-size: 24px; line-height: 1.4; color: #CBD5E1; z-index: 1; }
+        
+        .content-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; z-index: 1; }
+        
+        /* פריסות */
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; width: 100%; align-items: center; }
+        .tile { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 35px; border-radius: 20px; text-align: center; }
+        .tile i { font-size: 60px; color: #F9AB00; margin-bottom: 20px; }
+
+        /* טבלה מעוצבת */
+        table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.02); border-radius: 15px; overflow: hidden; }
+        th { background-color: #E66101; color: white; padding: 20px; text-align: right; font-size: 22px; }
+        td { padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 20px; color: #E2E8F0; }
+        tr:hover { background: rgba(255,255,255,0.05); }
+
+        /* גרף ביצועים */
+        .bar-container { margin-bottom: 25px; }
+        .bar-label { font-weight: bold; margin-bottom: 8px; display: block; }
+        .bar-track { width: 100%; height: 40px; background: #1E293B; border-radius: 10px; position: relative; }
+        .bar-fill { height: 100%; border-radius: 10px; display: flex; align-items: center; padding-right: 15px; font-weight: bold; color: #000; }
+
+        /* מטאפורת השף - אלמנט גרפי */
+        .chef-box {
+            background: #1E293B;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            border: 2px dashed #475569;
+        }
+        .chef-icon { font-size: 80px; margin-bottom: 20px; display: block; }
+
+        .tag { display: inline-block; padding: 5px 15px; background: #E66101; border-radius: 20px; font-size: 16px; font-weight: bold; margin-bottom: 10px; }
+    
+
+        /* עיצוב רקע אבסטרקטי */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -20%; right: -10%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(230, 97, 1, 0.08) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: -10%; left: -5%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(0, 162, 232, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        /* טיפוגרפיה */
+        h1 { font-family: 'Heebo', sans-serif; font-size: 85px; margin: 0; line-height: 1.1; z-index: 1; }
+        .slide-title { font-family: 'Heebo', sans-serif; font-size: 48px; margin-bottom: 40px; border-right: 10px solid #E66101; padding-right: 25px; z-index: 1; width: 100%; text-align: right; }
+        p, li { font-size: 22px; line-height: 1.4; color: #CBD5E1; z-index: 1; }
+        
+        .content-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; z-index: 1; }
+        
+        /* פריסות שונות */
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; width: 100%; align-items: center; }
+        .tiled-content { display: flex; gap: 30px; width: 100%; }
+        .tile { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 35px; border-radius: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; transition: transform 0.3s; }
+        .tile .icon { font-size: 50px; color: #F9AB00; margin-bottom: 20px; }
+        .tile h3 { font-size: 28px; margin-bottom: 15px; color: #FFFFFF; }
+
+        /* טבלאות - תוקן הצבע של הטקסט */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background-color: rgba(255,255,255,0.01); border-radius: 8px; overflow: hidden; }
+        th { background-color: #1E293B; color: #F9AB00; padding: 20px; text-align: right; font-size: 24px; border-bottom: 3px solid #E66101; }
+        td { padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 22px; color: #F8FAFC; } /* הוספתי צבע לבן-אפרפר מפורש לטקסט */
+        tr:nth-child(even) { background-color: rgba(255,255,255,0.04); }
+
+        /* צ'ארטים */
+        .chart-container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
+        .bar { display: flex; align-items: center; gap: 20px; }
+        .bar-label { width: 180px; font-weight: bold; font-size: 22px; color: #F1F5F9; }
+        .bar-inner { flex-grow: 1; height: 45px; background: #1E293B; border-radius: 8px; overflow: hidden; }
+        .bar-fill { height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 15px; color: #000; font-weight: 800; border-radius: 8px; }
+
+        /* תמונות */
+        .image-wrapper { border-radius: 20px; overflow: hidden; height: 400px; border: 1px solid rgba(255,255,255,0.1); background: #FFFFFF; }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: contain; }
+
+        /* טיימליין */
+        .timeline-layout { display: flex; justify-content: space-between; position: relative; width: 100%; padding: 40px 0; }
+        .timeline-line { position: absolute; top: 50%; left: 0; width: 100%; height: 4px; background: #334155; transform: translateY(-2px); }
+        .timeline-item { width: 30%; text-align: center; position: relative; z-index: 2; }
+        .timeline-item::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 24px; height: 24px; background: #E66101; border-radius: 50%; border: 4px solid #0B0E14; }
+        .timeline-content { margin-top: 50px; }
+        .timeline-item:nth-child(even) .timeline-content { margin-top: 0; margin-bottom: 50px; position: absolute; bottom: 50%; left: 0; width: 100%; }
+
+        /* רשימות מעוצבות */
+        .styled-list { list-style: none; padding: 0; }
+        .styled-list li { position: relative; padding-right: 40px; margin-bottom: 20px; }
+        .styled-list li i { position: absolute; right: 0; top: 5px; color: #E66101; font-size: 24px; }
+    </style>
+</head>
+<body>
+<div class="slide-container" id="slide1">
+    <div class="content-area" style="text-align: center;">
+        <h1 style="color: #FFFFFF;">קרב הענקים:<br><span style="color: #E66101;">Pandas</span> vs <span style="color: #F9AB00;">Polars</span> vs <span style="color: #00A2E8;">Spark</span></h1>
+        <p style="font-size: 32px; color: #94A3B8; margin-top: 30px;">המדריך המקיף לבחירת כלי עיבוד הנתונים הנכון</p>
+    </div>
+</div>
+
+<div class="slide-container">
+    <h2 class="slide-title">איפה העיבוד קורה?</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="tile">
+                <i class="fa-solid fa-desktop"></i>
+                <h3>עיבוד מקומי (Local)</h3>
+                <p>Pandas / Polars</p>
+                <p style="font-size: 18px; color: #94A3B8;">המחשב האישי שלך הוא המלך. מתאים למידע שנכנס בזיכרון ה-RAM.</p>
+            </div>
+            <div class="tile" style="border-color: #00A2E8;">
+                <i class="fa-solid fa-cloud-sun" style="color: #00A2E8;"></i>
+                <h3>עיבוד מבוזר (Distributed)</h3>
+                <p>Apache Spark</p>
+                <p style="font-size: 18px; color: #94A3B8;">צבא של שרתים בענן. כשהמידע כל כך גדול ששום מחשב בודד לא יכול להכיל אותו.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container">
+    <h2 class="slide-title">Eager vs Lazy: שיטת העבודה</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="chef-box">
+                <span class="chef-icon">👨‍🍳</span>
+                <div class="tag">Eager (Pandas)</div>
+                <h3>הטבח הלחוץ</h3>
+                <p>מבשל כל מנה ברגע שהזמנת אותה. רואים תוצאה מיד, אבל אין זמן לתכנן יעילות.</p>
+            </div>
+            <div class="chef-box" style="border-color: #10B981;">
+                <span class="chef-icon">📋</span>
+                <div class="tag" style="background: #10B981;">Lazy (Polars / Spark)</div>
+                <h3>המלצר המתוחכם</h3>
+                <p>רושם את כל ההזמנה, בונה "תוכנית עבודה" ורק אז מוציא הכל בדרך הכי מהירה שיש.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">אבולוציית כלי הדאטה</h2>
+    <div class="content-area">
+        <div class="timeline-layout">
+            <div class="timeline-line"></div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3 style="color: #E66101;">2008: Pandas</h3>
+                    <p>המהפכה של פייתון. הפך את עיבוד הנתונים לנגיש לכל מדען נתונים.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3 style="color: #00A2E8;">2014: Spark</h3>
+                    <p>המענה ל-Big Data. היכולת לעבד כמויות עצומות על פני שרתים רבים.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3 style="color: #F9AB00;">2020: Polars</h3>
+                    <p>הדור החדש. שילוב של ביצועי Rust עם נוחות של פייתון על מחשב בודד.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">Pandas: מלך האקו-סיסטם</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-check-circle"></i><strong>פשטות מקסימלית:</strong> קל ללמידה ואינטואיטיבי מאוד.</li>
+                    <li><i class="fa-solid fa-check-circle"></i><strong>שילוב מושלם:</strong> עובד עם כל ספריית ML (Sklearn, PyTorch).</li>
+                    <li><i class="fa-solid fa-check-circle"></i><strong>קהילה עצומה:</strong> לכל שאלה יש תשובה ב-StackOverflow.</li>
+                </ul>
+                <p style="margin-top: 30px; font-style: italic; color: #F9AB00;">"הבחירה המושלמת למחקר ראשוני ודאטה שנכנס לזיכרון."</p>
+            </div>
+            <div class="image-wrapper">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Pandas_logo.svg" alt="Pandas logo and ecosystem visual">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">Polars: מנוע המירוצים</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-bolt"></i><strong>ביצועים ב-Rust:</strong> מהירות של שפת תכנות נמוכה בתוך פייתון.</li>
+                    <li><i class="fa-solid fa-bolt"></i><strong>ניצול חומרה:</strong> משתמש בכל הליבות של המעבד במקביל.</li>
+                    <li><i class="fa-solid fa-bolt"></i><strong>זיכרון יעיל:</strong> חוסך עד 80% מהזיכרון לעומת Pandas.</li>
+                </ul>
+                <p style="margin-top: 30px; font-style: italic; color: #E66101;">"כשצריך לעבד 50GB על הלפטופ בלי שהמחשב יקרוס."</p>
+            </div>
+            <div class="image-wrapper">
+                <img src="https://cdn.brandfetch.io/iduJnU-fSn/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B" alt="Polars performance visual lightning bolt">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">Spark: כוח המחשוב המבוזר</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-network-wired"></i><strong>סקיילביליות אינסופית:</strong> פותר בעיות שגדולות על מחשב אחד.</li>
+                    <li><i class="fa-solid fa-network-wired"></i><strong>חסינות לתקלות:</strong> אם שרת אחד נופל, האחרים ממשיכים.</li>
+                    <li><i class="fa-solid fa-network-wired"></i><strong>Spark SQL:</strong> כתיבת שאילתות דאטה-בייס על קבצים פשוטים.</li>
+                </ul>
+                <p style="margin-top: 30px; font-style: italic; color: #00A2E8;">"סטנדרט התעשייה לעיבוד Terabytes בענן."</p>
+            </div>
+            <div class="image-wrapper">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Apache_Spark_logo.svg" alt="Spark cluster infrastructure visual">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">טבלת השוואה: מתי להשתמש במה?</h2>
+    <div class="content-area">
+        <table>
+            <thead>
+                <tr> 
+                    <th>מדד</th>
+                    <th>Pandas</th>
+                    <th>Polars</th>
+                    <th>Spark</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>נפח מומלץ</strong></td>
+                    <td>עד 2GB</td>
+                    <td>2GB - 100GB</td>
+                    <td>100GB ומעלה</td>
+                </tr>
+                <tr>
+                    <td><strong>סוג עיבוד</strong></td>
+                    <td>מקומי בלבד</td>
+                    <td>מקומי (מנצל חומרה)</td>
+                    <td>מבוזר (שרתים רבים)</td>
+                </tr>
+                <tr>
+                    <td><strong>שיטת הרצה</strong></td>
+                    <td>Eager (מיידי)</td>
+                    <td>Eager & Lazy</td>
+                    <td>Lazy (מתוכנן)</td>
+                </tr>
+                <tr>
+                    <td><strong>ניצול ליבות</strong></td>
+                    <td>ליבה אחת (לרוב)</td>
+                    <td>כל הליבות במחשב</td>
+                    <td>כל הליבות בקלאסטר</td>
+                </tr>
+                <tr>
+                    <td><strong>ותק בשוק</strong></td>
+                    <td>ותיק מאוד (18 שנה)</td>
+                    <td>חדש יחסית (6 שנים)</td>
+                    <td>ותיק ומוכח (12 שנה)</td>
+                </tr>
+                <tr>
+                    <td><strong>פשטות ואפשרויות</strong></td>
+                    <td>פשוט וגמיש מאוד</td>
+                    <td>בינוני, תחביר קשיח</td>
+                    <td>מורכב, הגדרות רבות</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">ביצועים: סריקת קובץ 10GB</h2>
+    <div class="content-area">
+        <div class="chart-container">
+            <div class="bar">
+                <div class="bar-label">Pandas</div>
+                <div class="bar-inner"><div class="bar-fill" style="width: 95%; background: #EF4444;">365 שניות</div></div>
+            </div>
+            <div class="bar">
+                <div class="bar-label">Spark (Local)</div>
+                <div class="bar-inner"><div class="bar-fill" style="width: 40%; background: #F9AB00;">120 שניות</div></div>
+            </div>
+            <div class="bar">
+                <div class="bar-label">Polars</div>
+                <div class="bar-inner"><div class="bar-fill" style="width: 8%; background: #10B981;">10 שניות</div></div>
+            </div>
+        </div>
+        <p style="margin-top: 40px; text-align: center; color: #94A3B8;">* הערה: הביצועים משתנים לפי סוג הפעולה, אך המגמה ברורה: Polars שולטת במחשב הבודד.</p>
+    </div>
+</div>
+
+<div class="slide-container" id="slide12">
+    <h2 class="slide-title">בשורה התחתונה</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile" style="border-top: 5px solid #E66101;">
+                <h1 style="font-size: 60px; color: #E66101;">01</h1>
+                <p>אם הדאטה קטן וצריך לפתח מהר? <strong>Pandas</strong></p>
+            </div>
+            <div class="tile" style="border-top: 5px solid #F9AB00;">
+                <h1 style="font-size: 60px; color: #F9AB00;">02</h1>
+                <p>אם הדאטה בינוני ורוצים ביצועים מקומיים? <strong>Polars</strong></p>
+            </div>
+            <div class="tile" style="border-top: 5px solid #00A2E8;">
+                <h1 style="font-size: 60px; color: #00A2E8;">03</h1>
+                <p>אם הדאטה ענק ויושב על שרתים בענן? <strong>Spark</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide13">
+    <div class="content-area" style="text-align: center;">
+        <h1 style="font-size: 100px;">שאלות?</h1>
+        <p style="font-size: 30px; margin-top: 20px;">תודה רבה על ההקשבה!</p>
+        <div style="margin-top: 50px; color: #E66101;">
+            <i class="fa-solid fa-envelope"></i> contact@data-guide-2026.com
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

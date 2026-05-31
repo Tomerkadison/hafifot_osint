@@ -1,0 +1,514 @@
+order_id,customer_id,order_date,region,product_sku,category,product_name,quantity,unit_price,channel,status,discount_code
+ORD-000003,CUST-0060,2023-02-27,Europe,BK300,books,Paperback Book,16,7.89,online,completed,BULK
+ORD-000005,CUST-0036,2023-05-24,Asia Pacific,PT010,posters,Motivational Poster,11,7.26,online,completed,
+ORD-000006,CUST-0032,2023-05-09,Europe,BK301,books,Cookbook,35,19.72,online,completed,SPRING10
+ORD-000007,CUST-0070,2023-05-10,North America,PT010,posters,Motivational Poster,11,6.28,online,completed,
+ORD-000010,CUST-0057,2023-06-22,Asia Pacific,PB200,pens,Gel Pen 12-pack,13,2.7,online,completed,
+ORD-000011,CUST-0013,2023-01-26,North America,SH900,shirts,Cotton T-Shirt,5,17.42,online,completed,
+ORD-000013,CUST-0051,2023-03-23,Asia Pacific,ST500,stickers,Sticker Sheet,14,1.44,partner,completed,
+ORD-000014,CUST-0159,2023-02-04,Europe,SH901,shirts,Polo Shirt,29,21.08,partner,completed,
+ORD-000016,CUST-0157,2023-05-31,Asia Pacific,PT044,posters,World Map Poster,18,8.52,online,completed,SPRING10
+ORD-000019,CUST-0173,2023-02-05,North America,NB120,notebooks,Hardcover Journal,-5,12.03,online,returned,BULK
+ORD-000020,CUST-0096,2023-04-14,Latin America,PT044,posters,World Map Poster,5,9.7,online,completed,
+ORD-000024,CUST-0135,2023-05-20,North America,BK301,books,Cookbook,18,16.88,online,completed,
+ORD-000027,CUST-0135,2023-06-25,North America,PB24,pens,Ballpoint Pen,11,1.2,online,completed,
+ORD-000030,CUST-0158,2023-04-20,Asia Pacific,NB120,notebooks,Hardcover Journal,36,10.05,online,completed,
+ORD-000031,CUST-0095,2023-04-02,Asia Pacific,PB24,pens,Ballpoint Pen,-5,1.31,store,returned,
+ORD-000033,CUST-0035,2023-03-17,Latin America,PB24,pens,Ballpoint Pen,36,1.24,online,completed,
+ORD-000034,CUST-0113,2023-05-03,North America,NB120,notebooks,Hardcover Journal,5,11.48,online,completed,
+ORD-000035,CUST-0064,2023-03-27,North America,PT044,posters,World Map Poster,23,8.23,store,completed,
+ORD-000037,CUST-0086,2023-04-18,Europe,SH901,shirts,Polo Shirt,26,22.71,online,completed,
+ORD-000042,CUST-0103,2023-01-09,Europe,PB200,pens,Gel Pen 12-pack,14,3.17,online,completed,VIP
+ORD-000043,CUST-0187,2023-06-16,Asia Pacific,PB200,pens,Gel Pen 12-pack,27,2.91,online,completed,
+ORD-000044,CUST-0087,2023-03-22,North America,NB050,notebooks,Spiral Notebook,18,4.4,online,completed,VIP
+ORD-000047,CUST-0188,2023-04-27,Middle East & Africa,BK301,books,Cookbook,13,20.21,online,pending,
+ORD-000050,CUST-0021,2023-06-30,North America,NB050,notebooks,Spiral Notebook,-5,4.73,store,returned,
+ORD-000051,CUST-0059,2023-06-23,North America,MG010,mugs,Ceramic Mug,34,6.08,online,completed,
+ORD-000052,CUST-0009,2023-01-21,North America,MG010,mugs,Ceramic Mug,10,5.77,online,completed,SPRING10
+ORD-000053,CUST-0011,2023-06-15,Asia Pacific,PB24,pens,Ballpoint Pen,19,1.08,online,completed,
+ORD-000054,CUST-0050,2023-05-08,Europe,PT044,posters,World Map Poster,28,9.34,store,completed,SPRING10
+ORD-000058,CUST-0092,2023-01-12,North America,ST500,stickers,Sticker Sheet,2,1.45,online,completed,VIP
+ORD-000060,CUST-0104,2023-05-25,Europe,PB200,pens,Gel Pen 12-pack,26,2.76,online,completed,
+ORD-000061,CUST-0159,2023-06-01,Europe,PT010,posters,Motivational Poster,4,7.63,store,pending,
+ORD-000064,CUST-0011,2023-01-19,Asia Pacific,SH901,shirts,Polo Shirt,26,25.3,store,completed,VIP
+ORD-000065,CUST-0171,2023-05-12,Asia Pacific,PT044,posters,World Map Poster,18,9.7,online,completed,
+ORD-000068,CUST-0077,2023-04-05,North America,BK300,books,Paperback Book,38,9.48,store,completed,BULK
+ORD-000071,CUST-0180,2023-03-23,Asia Pacific,MG010,mugs,Ceramic Mug,16,7.15,partner,completed,
+ORD-000075,CUST-0196,2023-04-19,Europe,PB24,pens,Ballpoint Pen,34,1.08,online,completed,
+ORD-000076,CUST-0061,2023-03-20,North America,PT044,posters,World Map Poster,13,8.17,store,completed,
+ORD-000079,CUST-0047,2023-05-30,Europe,PB200,pens,Gel Pen 12-pack,34,2.77,online,completed,BULK
+ORD-000082,CUST-0001,2023-03-31,Asia Pacific,MG010,mugs,Ceramic Mug,12,6.1,online,completed,
+ORD-000084,CUST-0023,2023-03-26,Asia Pacific,NB120,notebooks,Hardcover Journal,3,9.71,online,completed,BULK
+ORD-000085,CUST-0083,2023-05-29,North America,PT010,posters,Motivational Poster,19,7.52,online,completed,
+ORD-000086,CUST-0173,2023-01-10,North America,PT010,posters,Motivational Poster,15,6.22,online,completed,
+ORD-000087,CUST-0033,2023-05-05,Middle East & Africa,NB050,notebooks,Spiral Notebook,22,4.85,store,completed,
+ORD-000089,CUST-0023,2023-06-11,Asia Pacific,SH900,shirts,Cotton T-Shirt,26,18.68,online,completed,SPRING10
+ORD-000091,CUST-0055,2023-02-09,North America,PT010,posters,Motivational Poster,8,6.1,online,completed,
+ORD-000093,CUST-0006,2023-05-16,North America,ST500,stickers,Sticker Sheet,28,1.3,store,pending,SPRING10
+ORD-000097,CUST-0111,2023-02-07,Europe,BK301,books,Cookbook,13,18.26,partner,completed,
+ORD-000098,CUST-0157,2023-06-23,Asia Pacific,MG010,mugs,Ceramic Mug,16,6.48,online,completed,
+ORD-000099,CUST-0094,2023-02-14,North America,PB200,pens,Gel Pen 12-pack,10,2.95,online,completed,
+ORD-000100,CUST-0169,2023-06-14,North America,ST500,stickers,Sticker Sheet,14,1.53,online,cancelled,
+ORD-000101,CUST-0106,2023-01-23,Europe,BK300,books,Paperback Book,28,8.71,online,completed,
+ORD-000103,CUST-0046,2023-04-24,Latin America,BK301,books,Cookbook,39,20.89,store,completed,
+ORD-000104,CUST-0065,2023-03-15,Latin America,PB24,pens,Ballpoint Pen,31,1.13,online,completed,
+ORD-000105,CUST-0120,2023-01-07,Latin America,PB200,pens,Gel Pen 12-pack,1,2.56,online,completed,BULK
+ORD-000109,CUST-0173,2023-01-22,North America,PT010,posters,Motivational Poster,11,7.59,online,completed,
+ORD-000110,CUST-0137,2023-05-08,North America,PB24,pens,Ballpoint Pen,38,1.21,online,completed,
+ORD-000113,CUST-0149,2023-02-16,Europe,ST500,stickers,Sticker Sheet,5,1.37,online,cancelled,BULK
+ORD-000114,CUST-0067,2023-02-21,North America,BK301,books,Cookbook,-2,20.04,store,returned,
+ORD-000115,CUST-0050,2023-04-07,Europe,PB24,pens,Ballpoint Pen,-2,1.02,online,returned,BULK
+ORD-000117,CUST-0097,2023-03-03,Middle East & Africa,BK300,books,Paperback Book,14,9.75,online,completed,
+ORD-000122,CUST-0143,2023-05-02,Asia Pacific,PB200,pens,Gel Pen 12-pack,28,2.96,store,completed,
+ORD-000124,CUST-0031,2023-03-03,North America,PT010,posters,Motivational Poster,39,6.05,online,completed,
+ORD-000125,CUST-0121,2023-04-17,Latin America,PB200,pens,Gel Pen 12-pack,32,2.7,online,completed,
+ORD-000126,CUST-0010,2023-03-19,Europe,NB120,notebooks,Hardcover Journal,18,10.87,online,completed,
+ORD-000127,CUST-0064,2023-02-18,North America,PT044,posters,World Map Poster,1,8.21,store,completed,VIP
+ORD-000128,CUST-0028,2023-02-02,Europe,ST500,stickers,Sticker Sheet,4,1.55,partner,completed,SPRING10
+ORD-000129,CUST-0005,2023-03-10,North America,PB24,pens,Ballpoint Pen,18,1.27,online,completed,
+ORD-000130,CUST-0184,2023-02-13,Europe,SH900,shirts,Cotton T-Shirt,22,18.36,online,completed,
+ORD-000131,CUST-0018,2023-05-19,North America,MG010,mugs,Ceramic Mug,2,5.69,store,completed,VIP
+ORD-000132,CUST-0002,2023-01-27,Middle East & Africa,BK301,books,Cookbook,5,20.61,store,cancelled,SPRING10
+ORD-000133,CUST-0187,2023-01-23,Asia Pacific,ST500,stickers,Sticker Sheet,28,1.3,online,completed,
+ORD-000135,CUST-0164,2023-02-02,North America,BK301,books,Cookbook,2,20.14,online,completed,BULK
+ORD-000136,CUST-0007,2023-01-28,North America,ST500,stickers,Sticker Sheet,20,1.3,store,completed,
+ORD-000137,CUST-0031,2023-01-11,North America,NB120,notebooks,Hardcover Journal,4,9.4,store,completed,BULK
+ORD-000138,CUST-0023,2023-02-18,Asia Pacific,PT044,posters,World Map Poster,29,8.13,store,completed,
+ORD-000143,CUST-0018,2023-02-01,North America,ST500,stickers,Sticker Sheet,37,1.49,store,pending,
+ORD-000145,CUST-0047,2023-01-14,Europe,BK301,books,Cookbook,18,19.62,online,completed,BULK
+ORD-000147,CUST-0138,2023-05-30,Asia Pacific,BK301,books,Cookbook,24,19.79,store,cancelled,
+ORD-000149,CUST-0099,2023-04-23,Asia Pacific,PT044,posters,World Map Poster,21,9.31,store,completed,
+ORD-000151,CUST-0057,2023-06-10,Asia Pacific,SH901,shirts,Polo Shirt,2,21.5,partner,completed,VIP
+ORD-000155,CUST-0092,2023-06-01,North America,ST500,stickers,Sticker Sheet,28,1.61,partner,completed,BULK
+ORD-000156,CUST-0033,2023-06-13,Middle East & Africa,PB24,pens,Ballpoint Pen,9,1.23,partner,completed,
+ORD-000158,CUST-0155,2023-05-07,Europe,MG010,mugs,Ceramic Mug,34,6.04,online,pending,
+ORD-000159,CUST-0200,2023-03-03,Europe,PB200,pens,Gel Pen 12-pack,30,2.91,online,completed,
+ORD-000160,CUST-0172,2023-06-20,North America,SH901,shirts,Polo Shirt,26,24.85,store,completed,
+ORD-000161,CUST-0059,2023-01-25,North America,SH900,shirts,Cotton T-Shirt,20,15.48,store,completed,VIP
+ORD-000162,CUST-0051,2023-03-03,Asia Pacific,PT010,posters,Motivational Poster,17,6.9,online,completed,
+ORD-000163,CUST-0050,2023-06-03,Europe,BK300,books,Paperback Book,1,9.13,online,completed,SPRING10
+ORD-000166,CUST-0091,2023-04-06,Asia Pacific,PT044,posters,World Map Poster,14,8.36,partner,completed,VIP
+ORD-000167,CUST-0194,2023-06-04,Asia Pacific,BK301,books,Cookbook,28,18.41,online,completed,
+ORD-000168,CUST-0121,2023-02-26,Latin America,SH901,shirts,Polo Shirt,28,23.93,store,completed,SPRING10
+ORD-000170,CUST-0197,2023-03-31,Asia Pacific,ST500,stickers,Sticker Sheet,-3,1.44,online,returned,
+ORD-000174,CUST-0163,2023-05-01,North America,PT010,posters,Motivational Poster,35,6.24,online,completed,
+ORD-000180,CUST-0121,2023-01-29,Latin America,SH900,shirts,Cotton T-Shirt,-4,14.56,store,returned,VIP
+ORD-000183,CUST-0104,2023-03-17,Europe,NB120,notebooks,Hardcover Journal,7,9.97,store,completed,VIP
+ORD-000184,CUST-0083,2023-04-23,North America,SH901,shirts,Polo Shirt,28,23.23,online,completed,VIP
+ORD-000186,CUST-0064,2023-03-21,North America,SH900,shirts,Cotton T-Shirt,24,18.34,store,pending,
+ORD-000187,CUST-0165,2023-06-15,Asia Pacific,PT010,posters,Motivational Poster,-5,6.48,online,returned,
+ORD-000191,CUST-0148,2023-02-10,North America,PB200,pens,Gel Pen 12-pack,28,2.7,online,completed,
+ORD-000192,CUST-0070,2023-04-18,North America,PT010,posters,Motivational Poster,2,7.28,online,completed,
+ORD-000195,CUST-0141,2023-04-01,North America,NB120,notebooks,Hardcover Journal,25,10.34,online,completed,SPRING10
+ORD-000196,CUST-0034,2023-04-16,Europe,PB24,pens,Ballpoint Pen,2,1.15,online,completed,SPRING10
+ORD-000197,CUST-0132,2023-05-04,North America,SH900,shirts,Cotton T-Shirt,36,15.22,online,completed,
+ORD-000199,CUST-0170,2023-04-14,Latin America,ST500,stickers,Sticker Sheet,38,1.33,store,completed,BULK
+ORD-000201,CUST-0061,2023-06-12,North America,MG010,mugs,Ceramic Mug,39,6.82,store,completed,VIP
+ORD-000203,CUST-0166,2023-02-26,Europe,BK301,books,Cookbook,13,16.24,online,completed,
+ORD-000206,CUST-0179,2023-02-19,North America,BK301,books,Cookbook,19,18.98,store,completed,
+ORD-000207,CUST-0030,2023-04-30,North America,SH900,shirts,Cotton T-Shirt,10,18.36,online,cancelled,
+ORD-000214,CUST-0139,2023-01-28,North America,SH901,shirts,Polo Shirt,21,21.3,online,pending,SPRING10
+ORD-000216,CUST-0035,2023-06-13,Latin America,BK300,books,Paperback Book,17,9.39,online,completed,
+ORD-000217,CUST-0159,2023-01-19,Europe,ST500,stickers,Sticker Sheet,12,1.48,online,completed,
+ORD-000218,CUST-0102,2023-05-30,North America,PB200,pens,Gel Pen 12-pack,24,2.56,partner,completed,SPRING10
+ORD-000219,CUST-0025,2023-06-08,North America,SH901,shirts,Polo Shirt,-2,20.41,online,returned,VIP
+ORD-000220,CUST-0199,2023-02-01,Europe,ST500,stickers,Sticker Sheet,36,1.47,online,completed,BULK
+ORD-000222,CUST-0001,2023-03-23,Asia Pacific,PT010,posters,Motivational Poster,-3,6.27,online,returned,BULK
+ORD-000223,CUST-0185,2023-05-01,North America,PB24,pens,Ballpoint Pen,33,1.2,store,completed,
+ORD-000224,CUST-0004,2023-06-10,North America,ST500,stickers,Sticker Sheet,4,1.36,online,completed,VIP
+ORD-000228,CUST-0117,2023-03-28,North America,PB200,pens,Gel Pen 12-pack,8,2.65,store,completed,
+ORD-000231,CUST-0115,2023-06-19,North America,ST500,stickers,Sticker Sheet,6,1.39,online,completed,
+ORD-000233,CUST-0019,2023-01-14,Latin America,MG010,mugs,Ceramic Mug,11,6.88,store,completed,
+ORD-000236,CUST-0108,2023-06-22,Europe,PB200,pens,Gel Pen 12-pack,30,2.98,online,completed,
+ORD-000239,CUST-0037,2023-01-31,Europe,PB24,pens,Ballpoint Pen,25,1.11,partner,pending,
+ORD-000244,CUST-0119,2023-06-29,North America,PT044,posters,World Map Poster,3,10.24,store,completed,SPRING10
+ORD-000251,CUST-0038,2023-02-13,Asia Pacific,MG010,mugs,Ceramic Mug,16,6.89,online,completed,
+ORD-000252,CUST-0004,2023-01-27,North America,MG010,mugs,Ceramic Mug,39,7.11,online,completed,BULK
+ORD-000253,CUST-0011,2023-05-30,Asia Pacific,ST500,stickers,Sticker Sheet,13,1.52,store,completed,VIP
+ORD-000256,CUST-0047,2023-06-25,Europe,SH900,shirts,Cotton T-Shirt,8,15.87,online,completed,
+ORD-000259,CUST-0168,2023-05-03,Asia Pacific,BK300,books,Paperback Book,17,7.75,online,completed,
+ORD-000260,CUST-0051,2023-06-30,Asia Pacific,PB24,pens,Ballpoint Pen,20,1.27,online,completed,BULK
+ORD-000262,CUST-0123,2023-06-20,North America,BK301,books,Cookbook,23,18.12,online,completed,VIP
+ORD-000266,CUST-0080,2023-06-14,Latin America,SH900,shirts,Cotton T-Shirt,33,15.09,store,pending,BULK
+ORD-000268,CUST-0136,2023-03-08,Europe,ST500,stickers,Sticker Sheet,6,1.52,online,completed,
+ORD-000269,CUST-0107,2023-06-05,North America,PB200,pens,Gel Pen 12-pack,29,3.29,online,cancelled,
+ORD-000270,CUST-0146,2023-03-21,Asia Pacific,ST500,stickers,Sticker Sheet,17,1.36,online,pending,BULK
+ORD-000271,CUST-0153,2023-02-22,Europe,BK301,books,Cookbook,4,20.45,store,completed,
+ORD-000272,CUST-0114,2023-02-04,North America,MG010,mugs,Ceramic Mug,27,5.98,online,completed,
+ORD-000274,CUST-0152,2023-01-01,North America,NB050,notebooks,Spiral Notebook,34,3.87,online,completed,
+ORD-000276,CUST-0197,2023-06-07,Asia Pacific,SH901,shirts,Polo Shirt,15,24.33,online,completed,
+ORD-000277,CUST-0030,2023-05-14,North America,ST500,stickers,Sticker Sheet,22,1.48,online,completed,SPRING10
+ORD-000282,CUST-0003,2023-01-12,Europe,PB24,pens,Ballpoint Pen,7,1.21,online,completed,
+ORD-000283,CUST-0008,2023-03-20,Asia Pacific,PT010,posters,Motivational Poster,28,7.33,online,pending,
+ORD-000286,CUST-0105,2023-02-26,Latin America,PT044,posters,World Map Poster,29,8.74,partner,pending,
+ORD-000287,CUST-0086,2023-02-08,Europe,NB050,notebooks,Spiral Notebook,37,4.7,store,completed,VIP
+ORD-000290,CUST-0019,2023-03-03,Latin America,ST500,stickers,Sticker Sheet,29,1.48,store,cancelled,BULK
+ORD-000291,CUST-0155,2023-05-27,Europe,BK300,books,Paperback Book,1,8.83,online,completed,
+ORD-000293,CUST-0132,2023-03-13,North America,MG010,mugs,Ceramic Mug,39,7.14,online,completed,SPRING10
+ORD-000294,CUST-0080,2023-04-30,Latin America,PT044,posters,World Map Poster,34,8.33,online,completed,BULK
+ORD-000295,CUST-0033,2023-05-25,Middle East & Africa,ST500,stickers,Sticker Sheet,28,1.38,store,completed,
+ORD-000297,CUST-0094,2023-04-23,North America,PB24,pens,Ballpoint Pen,3,1.16,partner,completed,
+ORD-000298,CUST-0030,2023-05-31,North America,PT044,posters,World Map Poster,4,9.25,online,completed,VIP
+ORD-000299,CUST-0072,2023-04-16,North America,PB24,pens,Ballpoint Pen,12,1.28,online,completed,BULK
+ORD-000301,CUST-0054,2023-02-25,North America,MG010,mugs,Ceramic Mug,35,5.56,online,pending,SPRING10
+ORD-000302,CUST-0036,2023-03-26,Asia Pacific,BK301,books,Cookbook,3,18.31,online,completed,SPRING10
+ORD-000303,CUST-0137,2023-04-02,North America,NB050,notebooks,Spiral Notebook,22,4.52,online,completed,
+ORD-000307,CUST-0197,2023-02-27,Asia Pacific,BK300,books,Paperback Book,19,8.58,online,pending,
+ORD-000309,CUST-0049,2023-06-29,North America,BK300,books,Paperback Book,30,9.35,store,completed,SPRING10
+ORD-000311,CUST-0069,2023-05-12,North America,PB200,pens,Gel Pen 12-pack,12,2.99,online,completed,
+ORD-000314,CUST-0147,2023-03-23,Latin America,SH900,shirts,Cotton T-Shirt,20,14.97,online,completed,
+ORD-000316,CUST-0176,2023-04-15,North America,PT044,posters,World Map Poster,20,8.79,partner,completed,SPRING10
+ORD-000317,CUST-0130,2023-05-08,North America,PT044,posters,World Map Poster,35,9.1,online,completed,SPRING10
+ORD-000318,CUST-0076,2023-04-02,North America,BK300,books,Paperback Book,39,8.32,online,completed,VIP
+ORD-000320,CUST-0104,2023-04-06,Europe,PB24,pens,Ballpoint Pen,6,1.09,online,completed,
+ORD-000325,CUST-0107,2023-01-04,North America,BK301,books,Cookbook,12,19.63,online,completed,
+ORD-000327,CUST-0190,2023-02-09,Latin America,PB24,pens,Ballpoint Pen,4,1.24,online,completed,BULK
+ORD-000329,CUST-0089,2023-05-05,Europe,SH900,shirts,Cotton T-Shirt,5,15.45,partner,completed,BULK
+ORD-000333,CUST-0140,2023-05-27,Latin America,ST500,stickers,Sticker Sheet,30,1.52,online,completed,
+ORD-000335,CUST-0173,2023-04-28,North America,PT044,posters,World Map Poster,33,9.27,store,completed,
+ORD-000336,CUST-0160,2023-03-16,Europe,PB24,pens,Ballpoint Pen,17,1.05,store,completed,
+ORD-000337,CUST-0101,2023-05-19,Asia Pacific,SH900,shirts,Cotton T-Shirt,3,17.28,online,completed,
+ORD-000341,CUST-0087,2023-03-24,North America,NB050,notebooks,Spiral Notebook,11,3.88,partner,pending,
+ORD-000342,CUST-0149,2023-04-21,Europe,PB24,pens,Ballpoint Pen,19,1.03,online,completed,BULK
+ORD-000344,CUST-0005,2023-06-10,North America,ST500,stickers,Sticker Sheet,13,1.46,online,completed,
+ORD-000345,CUST-0043,2023-03-30,North America,NB050,notebooks,Spiral Notebook,28,4.22,online,completed,
+ORD-000347,CUST-0198,2023-06-13,North America,NB050,notebooks,Spiral Notebook,30,4.93,partner,completed,SPRING10
+ORD-000354,CUST-0079,2023-04-09,Latin America,SH901,shirts,Polo Shirt,35,24.45,online,completed,SPRING10
+ORD-000355,CUST-0126,2023-01-14,Asia Pacific,ST500,stickers,Sticker Sheet,9,1.37,store,completed,
+ORD-000356,CUST-0064,2023-04-28,North America,MG010,mugs,Ceramic Mug,24,6.74,store,completed,
+ORD-000359,CUST-0115,2023-01-30,North America,PT010,posters,Motivational Poster,18,5.99,store,pending,BULK
+ORD-000361,CUST-0077,2023-03-05,North America,PB24,pens,Ballpoint Pen,38,1.32,partner,completed,
+ORD-000365,CUST-0116,2023-05-31,North America,NB050,notebooks,Spiral Notebook,18,4.01,partner,completed,
+ORD-000366,CUST-0188,2023-05-30,Middle East & Africa,SH900,shirts,Cotton T-Shirt,6,17.26,online,completed,
+ORD-000370,CUST-0040,2023-05-02,North America,ST500,stickers,Sticker Sheet,2,1.49,store,pending,SPRING10
+ORD-000371,CUST-0068,2023-06-04,North America,SH901,shirts,Polo Shirt,-2,22.22,online,returned,VIP
+ORD-000372,CUST-0076,2023-05-01,North America,PB200,pens,Gel Pen 12-pack,30,3.21,online,completed,
+ORD-000374,CUST-0079,2023-02-16,Latin America,BK300,books,Paperback Book,39,8.47,store,completed,
+ORD-000375,CUST-0154,2023-06-06,Europe,SH900,shirts,Cotton T-Shirt,11,18.06,online,completed,
+ORD-000376,CUST-0027,2023-03-10,North America,NB120,notebooks,Hardcover Journal,2,9.87,online,completed,SPRING10
+ORD-000380,CUST-0137,2023-06-12,North America,PB200,pens,Gel Pen 12-pack,3,2.61,store,cancelled,VIP
+ORD-000381,CUST-0010,2023-01-21,Europe,NB120,notebooks,Hardcover Journal,34,11.21,store,completed,
+ORD-000382,CUST-0068,2023-03-25,North America,ST500,stickers,Sticker Sheet,24,1.57,online,completed,VIP
+ORD-000383,CUST-0005,2023-02-08,North America,BK301,books,Cookbook,14,20.19,online,completed,VIP
+ORD-000387,CUST-0040,2023-03-06,North America,NB120,notebooks,Hardcover Journal,22,10.74,online,completed,VIP
+ORD-000388,CUST-0020,2023-01-08,North America,PB200,pens,Gel Pen 12-pack,1,3.23,online,cancelled,
+ORD-000390,CUST-0151,2023-04-26,Europe,MG010,mugs,Ceramic Mug,24,6.96,store,completed,
+ORD-000391,CUST-0117,2023-02-10,North America,ST500,stickers,Sticker Sheet,8,1.36,online,completed,
+ORD-000392,CUST-0177,2023-03-06,Latin America,PB24,pens,Ballpoint Pen,39,1.17,store,completed,
+ORD-000393,CUST-0069,2023-04-04,North America,BK300,books,Paperback Book,38,9.29,online,completed,
+ORD-000396,CUST-0041,2023-04-11,Asia Pacific,MG010,mugs,Ceramic Mug,8,7.11,store,completed,BULK
+ORD-000398,CUST-0038,2023-01-24,Asia Pacific,SH900,shirts,Cotton T-Shirt,5,15.22,online,completed,
+ORD-000399,CUST-0096,2023-01-04,Latin America,BK300,books,Paperback Book,16,8.4,online,completed,VIP
+ORD-000400,CUST-0105,2023-01-21,Latin America,PT010,posters,Motivational Poster,22,6.65,online,completed,
+ORD-000404,CUST-0052,2023-01-08,Latin America,PB200,pens,Gel Pen 12-pack,31,3.04,partner,completed,VIP
+ORD-000405,CUST-0026,2023-01-09,Latin America,NB050,notebooks,Spiral Notebook,27,4.61,online,completed,VIP
+ORD-000407,CUST-0002,2023-02-07,Middle East & Africa,NB120,notebooks,Hardcover Journal,19,11.71,online,pending,
+ORD-000408,CUST-0097,2023-02-26,Middle East & Africa,NB120,notebooks,Hardcover Journal,35,9.95,online,completed,
+ORD-000411,CUST-0049,2023-03-25,North America,SH900,shirts,Cotton T-Shirt,8,18.12,online,completed,
+ORD-000412,CUST-0131,2023-06-12,Asia Pacific,NB120,notebooks,Hardcover Journal,10,10.19,store,completed,SPRING10
+ORD-000414,CUST-0100,2023-06-11,Europe,ST500,stickers,Sticker Sheet,22,1.45,store,completed,
+ORD-000415,CUST-0177,2023-05-20,Latin America,NB050,notebooks,Spiral Notebook,30,4.19,store,cancelled,
+ORD-000416,CUST-0023,2023-01-27,Asia Pacific,PB24,pens,Ballpoint Pen,12,1.11,online,completed,
+ORD-000417,CUST-0047,2023-06-14,Europe,BK300,books,Paperback Book,35,7.96,online,completed,
+ORD-000421,CUST-0063,2023-02-16,North America,SH900,shirts,Cotton T-Shirt,22,15.37,online,completed,
+ORD-000422,CUST-0153,2023-01-05,Europe,BK301,books,Cookbook,27,20.61,online,completed,
+ORD-000424,CUST-0176,2023-03-07,North America,ST500,stickers,Sticker Sheet,39,1.61,store,completed,
+ORD-000427,CUST-0022,2023-05-04,Europe,PT010,posters,Motivational Poster,8,7.44,store,completed,VIP
+ORD-000430,CUST-0197,2023-02-24,Asia Pacific,PB24,pens,Ballpoint Pen,19,1.1,online,completed,
+ORD-000432,CUST-0191,2023-03-16,Europe,BK301,books,Cookbook,5,18.27,online,completed,
+ORD-000435,CUST-0083,2023-02-21,North America,PT010,posters,Motivational Poster,39,7.08,online,completed,SPRING10
+ORD-000437,CUST-0189,2023-03-13,North America,ST500,stickers,Sticker Sheet,6,1.4,online,completed,
+ORD-000442,CUST-0020,2023-06-30,North America,BK300,books,Paperback Book,5,7.65,store,completed,SPRING10
+ORD-000444,CUST-0170,2023-04-20,Latin America,PT044,posters,World Map Poster,8,8.17,online,completed,VIP
+ORD-000446,CUST-0124,2023-06-24,Europe,PT044,posters,World Map Poster,30,10.44,online,completed,VIP
+ORD-000448,CUST-0109,2023-05-12,North America,PT010,posters,Motivational Poster,4,6.33,online,completed,
+ORD-000450,CUST-0034,2023-03-23,Europe,PT010,posters,Motivational Poster,36,6.76,online,completed,
+ORD-000452,CUST-0051,2023-01-17,Asia Pacific,PT010,posters,Motivational Poster,29,7.35,online,cancelled,VIP
+ORD-000453,CUST-0091,2023-02-08,Asia Pacific,PB24,pens,Ballpoint Pen,5,1.06,online,completed,
+ORD-000454,CUST-0033,2023-05-09,Middle East & Africa,PB24,pens,Ballpoint Pen,3,1.06,online,completed,
+ORD-000455,CUST-0022,2023-06-25,Europe,BK300,books,Paperback Book,3,8.59,online,completed,
+ORD-000457,CUST-0075,2023-05-12,Asia Pacific,SH900,shirts,Cotton T-Shirt,33,18.2,partner,completed,BULK
+ORD-000458,CUST-0117,2023-01-07,North America,BK301,books,Cookbook,25,16.66,store,cancelled,
+ORD-000459,CUST-0105,2023-04-29,Latin America,BK300,books,Paperback Book,11,8.94,online,completed,
+ORD-000460,CUST-0148,2023-06-10,North America,PT044,posters,World Map Poster,30,8.44,store,completed,
+ORD-000463,CUST-0170,2023-04-01,Latin America,MG010,mugs,Ceramic Mug,35,6.26,online,completed,
+ORD-000469,CUST-0007,2023-03-22,North America,MG010,mugs,Ceramic Mug,36,6.95,store,completed,
+ORD-000471,CUST-0009,2023-01-17,North America,NB120,notebooks,Hardcover Journal,8,9.78,store,completed,BULK
+ORD-000472,CUST-0042,2023-02-07,Asia Pacific,ST500,stickers,Sticker Sheet,38,1.39,store,completed,
+ORD-000474,CUST-0189,2023-06-23,North America,NB050,notebooks,Spiral Notebook,23,4.14,online,completed,SPRING10
+ORD-000478,CUST-0180,2023-03-31,Asia Pacific,ST500,stickers,Sticker Sheet,18,1.32,online,pending,VIP
+ORD-000479,CUST-0146,2023-03-07,Asia Pacific,MG010,mugs,Ceramic Mug,-4,5.65,store,returned,BULK
+ORD-000480,CUST-0021,2023-01-16,North America,ST500,stickers,Sticker Sheet,30,1.6,online,completed,
+ORD-000482,CUST-0053,2023-03-23,Europe,NB050,notebooks,Spiral Notebook,39,3.88,online,pending,
+ORD-000484,CUST-0170,2023-06-16,Latin America,PB200,pens,Gel Pen 12-pack,7,3.1,online,completed,
+ORD-000485,CUST-0124,2023-03-01,Europe,PT010,posters,Motivational Poster,1,7.69,online,completed,
+ORD-000486,CUST-0036,2023-06-01,Asia Pacific,PB24,pens,Ballpoint Pen,8,1.12,online,completed,
+ORD-000487,CUST-0131,2023-01-31,Asia Pacific,ST500,stickers,Sticker Sheet,27,1.38,online,pending,
+ORD-000488,CUST-0083,2023-03-06,North America,PB200,pens,Gel Pen 12-pack,22,2.89,online,pending,VIP
+ORD-000489,CUST-0013,2023-02-20,North America,PB24,pens,Ballpoint Pen,14,1.28,store,completed,
+ORD-000493,CUST-0176,2023-06-09,North America,PT010,posters,Motivational Poster,3,7.22,online,pending,
+ORD-000494,CUST-0143,2023-03-15,Asia Pacific,MG010,mugs,Ceramic Mug,2,6.91,store,completed,
+ORD-000498,CUST-0175,2023-01-07,North America,SH901,shirts,Polo Shirt,23,23.27,partner,completed,
+ORD-000499,CUST-0150,2023-04-21,North America,BK301,books,Cookbook,30,18.64,store,completed,BULK
+ORD-000504,CUST-0050,2023-01-05,Europe,SH901,shirts,Polo Shirt,29,22.64,store,completed,BULK
+ORD-000509,CUST-0008,2023-03-13,Asia Pacific,PB24,pens,Ballpoint Pen,32,1.07,online,completed,
+ORD-000511,CUST-0015,2023-03-26,Asia Pacific,PB24,pens,Ballpoint Pen,37,1.26,store,completed,VIP
+ORD-000513,CUST-0001,2023-03-11,Asia Pacific,PT044,posters,World Map Poster,1,9.53,partner,completed,
+ORD-000516,CUST-0104,2023-01-29,Europe,PT044,posters,World Map Poster,4,8.54,online,completed,
+ORD-000517,CUST-0057,2023-01-25,Asia Pacific,SH901,shirts,Polo Shirt,5,22.47,store,completed,
+ORD-000519,CUST-0091,2023-01-23,Asia Pacific,MG010,mugs,Ceramic Mug,33,6.35,online,completed,BULK
+ORD-000523,CUST-0166,2023-06-25,Europe,PB24,pens,Ballpoint Pen,22,1.1,online,completed,VIP
+ORD-000524,CUST-0087,2023-06-02,North America,SH900,shirts,Cotton T-Shirt,27,17.05,store,completed,
+ORD-000528,CUST-0026,2023-02-26,Latin America,NB120,notebooks,Hardcover Journal,24,10.06,online,completed,
+ORD-000532,CUST-0097,2023-01-28,Middle East & Africa,BK300,books,Paperback Book,29,9.71,store,completed,SPRING10
+ORD-000535,CUST-0030,2023-03-08,North America,BK301,books,Cookbook,15,20.47,online,completed,SPRING10
+ORD-000538,CUST-0111,2023-06-22,Europe,BK300,books,Paperback Book,24,7.76,store,completed,
+ORD-000542,CUST-0051,2023-04-24,Asia Pacific,ST500,stickers,Sticker Sheet,18,1.36,store,completed,VIP
+ORD-000545,CUST-0077,2023-02-17,North America,BK301,books,Cookbook,2,16.49,store,completed,BULK
+ORD-000547,CUST-0032,2023-01-09,Europe,SH901,shirts,Polo Shirt,15,23.06,online,completed,
+ORD-000548,CUST-0184,2023-05-15,Europe,PT044,posters,World Map Poster,21,9.54,partner,completed,
+ORD-000550,CUST-0065,2023-03-05,Latin America,SH900,shirts,Cotton T-Shirt,15,14.92,partner,completed,BULK
+ORD-000551,CUST-0184,2023-05-18,Europe,PB200,pens,Gel Pen 12-pack,13,2.7,online,completed,
+ORD-000552,CUST-0122,2023-03-22,Europe,SH900,shirts,Cotton T-Shirt,2,16.7,online,completed,
+ORD-000554,CUST-0094,2023-06-19,North America,PT044,posters,World Map Poster,6,9.22,store,pending,
+ORD-000559,CUST-0133,2023-02-05,Asia Pacific,SH900,shirts,Cotton T-Shirt,36,14.73,online,completed,BULK
+ORD-000560,CUST-0038,2023-03-20,Asia Pacific,PT044,posters,World Map Poster,37,10.29,online,completed,
+ORD-000564,CUST-0164,2023-05-19,North America,PB200,pens,Gel Pen 12-pack,10,2.93,partner,completed,
+ORD-000565,CUST-0164,2023-03-14,North America,BK300,books,Paperback Book,37,8.64,online,completed,SPRING10
+ORD-000568,CUST-0094,2023-03-30,North America,NB050,notebooks,Spiral Notebook,14,4.47,store,completed,
+ORD-000571,CUST-0166,2023-06-24,Europe,SH901,shirts,Polo Shirt,34,24.26,store,completed,SPRING10
+ORD-000573,CUST-0137,2023-02-15,North America,SH901,shirts,Polo Shirt,33,20.43,online,completed,BULK
+ORD-000574,CUST-0069,2023-04-05,North America,ST500,stickers,Sticker Sheet,31,1.44,online,cancelled,VIP
+ORD-000575,CUST-0112,2023-02-04,Europe,PB200,pens,Gel Pen 12-pack,32,2.55,online,completed,
+ORD-000580,CUST-0159,2023-02-24,Europe,PT044,posters,World Map Poster,24,9.63,online,completed,SPRING10
+ORD-000581,CUST-0132,2023-06-14,North America,BK300,books,Paperback Book,36,8.34,partner,completed,VIP
+ORD-000582,CUST-0125,2023-02-02,Asia Pacific,PB200,pens,Gel Pen 12-pack,-5,3.3,partner,returned,
+ORD-000586,CUST-0159,2023-05-05,Europe,SH901,shirts,Polo Shirt,2,25.61,store,completed,
+ORD-000587,CUST-0166,2023-04-24,Europe,BK300,books,Paperback Book,38,8.37,store,completed,SPRING10
+ORD-000588,CUST-0043,2023-01-27,North America,BK301,books,Cookbook,37,19.71,store,completed,SPRING10
+ORD-000589,CUST-0043,2023-06-01,North America,MG010,mugs,Ceramic Mug,37,5.75,store,completed,SPRING10
+ORD-000590,CUST-0185,2023-06-23,North America,PT044,posters,World Map Poster,35,9.7,online,completed,
+ORD-000593,CUST-0058,2023-02-21,North America,NB050,notebooks,Spiral Notebook,39,4.13,online,completed,
+ORD-000594,CUST-0128,2023-04-15,Europe,MG010,mugs,Ceramic Mug,22,7.08,online,completed,BULK
+ORD-000596,CUST-0001,2023-05-03,Asia Pacific,SH901,shirts,Polo Shirt,9,21.49,store,completed,
+ORD-000597,CUST-0111,2023-01-10,Europe,NB120,notebooks,Hardcover Journal,30,9.87,online,completed,
+ORD-000601,CUST-0176,2023-04-26,North America,BK301,books,Cookbook,8,18.23,online,completed,SPRING10
+ORD-000603,CUST-0080,2023-01-13,Latin America,ST500,stickers,Sticker Sheet,25,1.29,store,completed,
+ORD-000604,CUST-0092,2023-06-12,North America,ST500,stickers,Sticker Sheet,27,1.45,online,completed,
+ORD-000607,CUST-0087,2023-04-02,North America,SH901,shirts,Polo Shirt,20,22.85,store,completed,BULK
+ORD-000609,CUST-0158,2023-03-11,Asia Pacific,SH901,shirts,Polo Shirt,28,23.02,online,completed,
+ORD-000610,CUST-0127,2023-02-12,Asia Pacific,BK301,books,Cookbook,11,18.9,store,completed,
+ORD-000611,CUST-0100,2023-05-09,Europe,PT010,posters,Motivational Poster,33,6.86,online,completed,
+ORD-000614,CUST-0185,2023-06-28,North America,BK300,books,Paperback Book,37,9.77,store,completed,
+ORD-000615,CUST-0130,2023-04-14,North America,PT044,posters,World Map Poster,26,9.09,online,completed,
+ORD-000616,CUST-0064,2023-02-21,North America,PT044,posters,World Map Poster,37,8.11,store,completed,
+ORD-000617,CUST-0083,2023-04-09,North America,SH900,shirts,Cotton T-Shirt,3,15.45,online,completed,
+ORD-000618,CUST-0146,2023-02-25,Asia Pacific,NB050,notebooks,Spiral Notebook,21,4.39,online,completed,
+ORD-000619,CUST-0144,2023-03-10,Europe,SH901,shirts,Polo Shirt,31,23.64,online,completed,SPRING10
+ORD-000621,CUST-0061,2023-02-18,North America,PT010,posters,Motivational Poster,-2,7.2,store,returned,SPRING10
+ORD-000622,CUST-0132,2023-01-18,North America,PB24,pens,Ballpoint Pen,19,1.1,store,pending,
+ORD-000624,CUST-0120,2023-04-15,Latin America,NB050,notebooks,Spiral Notebook,17,4.62,online,completed,
+ORD-000625,CUST-0015,2023-06-15,Asia Pacific,PT010,posters,Motivational Poster,35,6.67,online,completed,BULK
+ORD-000626,CUST-0095,2023-02-21,Asia Pacific,SH901,shirts,Polo Shirt,5,22.81,online,completed,SPRING10
+ORD-000627,CUST-0123,2023-03-18,North America,PB24,pens,Ballpoint Pen,10,1.07,store,completed,
+ORD-000628,CUST-0191,2023-06-10,Europe,BK300,books,Paperback Book,4,8.58,online,pending,
+ORD-000630,CUST-0069,2023-06-01,North America,MG010,mugs,Ceramic Mug,10,7.0,store,completed,
+ORD-000633,CUST-0019,2023-04-09,Latin America,SH900,shirts,Cotton T-Shirt,-4,17.35,online,returned,SPRING10
+ORD-000634,CUST-0136,2023-04-13,Europe,PB24,pens,Ballpoint Pen,6,1.24,store,cancelled,
+ORD-000635,CUST-0198,2023-06-05,North America,PB24,pens,Ballpoint Pen,1,1.12,online,completed,
+ORD-000636,CUST-0170,2023-01-12,Latin America,ST500,stickers,Sticker Sheet,9,1.58,online,completed,
+ORD-000639,CUST-0198,2023-04-22,North America,NB120,notebooks,Hardcover Journal,39,9.69,online,cancelled,
+ORD-000640,CUST-0090,2023-05-17,North America,NB050,notebooks,Spiral Notebook,9,4.0,online,pending,SPRING10
+ORD-000641,CUST-0058,2023-04-30,North America,PT010,posters,Motivational Poster,14,7.49,online,completed,
+ORD-000644,CUST-0150,2023-02-09,North America,SH900,shirts,Cotton T-Shirt,22,16.27,online,completed,BULK
+ORD-000645,CUST-0056,2023-05-31,Asia Pacific,NB050,notebooks,Spiral Notebook,32,4.27,online,completed,SPRING10
+ORD-000646,CUST-0199,2023-01-06,Europe,MG010,mugs,Ceramic Mug,15,6.01,store,completed,
+ORD-000647,CUST-0091,2023-06-15,Asia Pacific,BK300,books,Paperback Book,31,7.96,partner,completed,
+ORD-000648,CUST-0107,2023-04-01,North America,BK301,books,Cookbook,25,19.27,online,completed,VIP
+ORD-000649,CUST-0151,2023-05-03,Europe,NB050,notebooks,Spiral Notebook,12,3.98,online,completed,BULK
+ORD-000650,CUST-0132,2023-06-16,North America,BK300,books,Paperback Book,36,9.39,store,cancelled,VIP
+ORD-000651,CUST-0035,2023-04-29,Latin America,MG010,mugs,Ceramic Mug,-2,5.85,partner,returned,SPRING10
+ORD-000652,CUST-0061,2023-05-24,North America,NB050,notebooks,Spiral Notebook,6,4.65,store,completed,VIP
+ORD-000655,CUST-0143,2023-01-03,Asia Pacific,BK301,books,Cookbook,2,16.56,online,completed,
+ORD-000656,CUST-0074,2023-05-18,Europe,PT044,posters,World Map Poster,36,10.33,store,completed,
+ORD-000659,CUST-0079,2023-03-16,Latin America,PT010,posters,Motivational Poster,10,5.99,online,completed,
+ORD-000661,CUST-0179,2023-02-22,North America,NB050,notebooks,Spiral Notebook,21,4.39,store,completed,
+ORD-000662,CUST-0113,2023-01-08,North America,NB120,notebooks,Hardcover Journal,25,11.79,online,pending,SPRING10
+ORD-000666,CUST-0102,2023-05-06,North America,SH900,shirts,Cotton T-Shirt,27,14.94,online,completed,BULK
+ORD-000668,CUST-0182,2023-06-03,Latin America,BK300,books,Paperback Book,1,8.19,store,completed,SPRING10
+ORD-000670,CUST-0084,2023-02-06,North America,PB200,pens,Gel Pen 12-pack,38,3.03,online,completed,BULK
+ORD-000671,CUST-0038,2023-02-05,Asia Pacific,PT044,posters,World Map Poster,36,9.1,store,completed,
+ORD-000675,CUST-0140,2023-04-29,Latin America,SH900,shirts,Cotton T-Shirt,6,16.66,online,completed,BULK
+ORD-000676,CUST-0082,2023-01-09,North America,BK300,books,Paperback Book,15,8.9,online,completed,
+ORD-000679,CUST-0052,2023-04-01,Latin America,NB050,notebooks,Spiral Notebook,32,4.26,store,completed,VIP
+ORD-000682,CUST-0019,2023-04-14,Latin America,BK301,books,Cookbook,20,18.98,online,completed,
+ORD-000687,CUST-0147,2023-04-09,Latin America,NB050,notebooks,Spiral Notebook,33,3.95,online,completed,VIP
+ORD-000692,CUST-0066,2023-01-16,North America,PT010,posters,Motivational Poster,15,6.44,online,completed,BULK
+ORD-000693,CUST-0162,2023-05-14,North America,BK300,books,Paperback Book,2,8.64,online,completed,
+ORD-000694,CUST-0040,2023-06-12,North America,NB050,notebooks,Spiral Notebook,-2,4.13,store,returned,
+ORD-000698,CUST-0173,2023-02-23,North America,NB120,notebooks,Hardcover Journal,13,10.74,store,completed,SPRING10
+ORD-000700,CUST-0050,2023-05-03,Europe,NB120,notebooks,Hardcover Journal,12,11.53,online,pending,SPRING10
+ORD-000701,CUST-0183,2023-02-03,Asia Pacific,PT010,posters,Motivational Poster,22,6.82,store,completed,BULK
+ORD-000703,CUST-0035,2023-03-11,Latin America,PB200,pens,Gel Pen 12-pack,10,2.68,online,completed,
+ORD-000704,CUST-0026,2023-01-06,Latin America,PT044,posters,World Map Poster,20,10.16,store,completed,
+ORD-000705,CUST-0175,2023-01-29,North America,BK300,books,Paperback Book,5,9.25,online,completed,
+ORD-000706,CUST-0056,2023-06-15,Asia Pacific,NB120,notebooks,Hardcover Journal,26,10.92,store,completed,BULK
+ORD-000707,CUST-0154,2023-02-07,Europe,MG010,mugs,Ceramic Mug,30,6.95,store,completed,
+ORD-000710,CUST-0057,2023-04-29,Asia Pacific,NB050,notebooks,Spiral Notebook,12,4.07,online,completed,
+ORD-000711,CUST-0057,2023-01-02,Asia Pacific,SH900,shirts,Cotton T-Shirt,22,14.96,partner,completed,
+ORD-000712,CUST-0135,2023-06-25,North America,BK301,books,Cookbook,28,18.36,online,completed,
+ORD-000713,CUST-0183,2023-02-25,Asia Pacific,PB200,pens,Gel Pen 12-pack,39,2.84,online,completed,SPRING10
+ORD-000715,CUST-0149,2023-04-17,Europe,PT010,posters,Motivational Poster,10,6.52,online,completed,
+ORD-000716,CUST-0041,2023-06-23,Asia Pacific,PT044,posters,World Map Poster,11,10.01,online,pending,BULK
+ORD-000717,CUST-0193,2023-01-07,Europe,SH901,shirts,Polo Shirt,10,24.89,store,completed,
+ORD-000718,CUST-0109,2023-02-17,North America,SH901,shirts,Polo Shirt,19,24.41,store,completed,
+ORD-000719,CUST-0110,2023-03-17,North America,PB200,pens,Gel Pen 12-pack,35,3.24,store,completed,VIP
+ORD-000720,CUST-0141,2023-01-19,North America,MG010,mugs,Ceramic Mug,2,6.19,online,completed,
+ORD-000724,CUST-0123,2023-04-08,North America,SH901,shirts,Polo Shirt,27,25.68,online,completed,BULK
+ORD-000727,CUST-0062,2023-01-17,Asia Pacific,BK301,books,Cookbook,10,17.18,store,completed,SPRING10
+ORD-000728,CUST-0126,2023-02-03,Asia Pacific,MG010,mugs,Ceramic Mug,21,6.31,store,pending,
+ORD-000730,CUST-0065,2023-06-04,Latin America,BK301,books,Cookbook,24,17.51,online,cancelled,BULK
+ORD-000731,CUST-0144,2023-01-04,Europe,PT010,posters,Motivational Poster,13,7.28,partner,completed,
+ORD-000738,CUST-0005,2023-04-05,North America,PT044,posters,World Map Poster,26,9.8,online,completed,
+ORD-000743,CUST-0193,2023-03-01,Europe,PT044,posters,World Map Poster,26,9.49,online,completed,SPRING10
+ORD-000744,CUST-0123,2023-06-13,North America,SH900,shirts,Cotton T-Shirt,22,18.63,store,completed,
+ORD-000745,CUST-0073,2023-02-17,North America,BK301,books,Cookbook,25,18.67,online,completed,
+ORD-000746,CUST-0089,2023-04-13,Europe,SH900,shirts,Cotton T-Shirt,30,17.85,online,completed,SPRING10
+ORD-000747,CUST-0036,2023-05-31,Asia Pacific,SH901,shirts,Polo Shirt,19,23.97,online,completed,VIP
+ORD-000750,CUST-0171,2023-05-23,Asia Pacific,PB24,pens,Ballpoint Pen,22,1.23,store,pending,SPRING10
+ORD-000751,CUST-0066,2023-05-01,North America,BK300,books,Paperback Book,7,8.16,online,completed,
+ORD-000755,CUST-0141,2023-03-24,North America,PB200,pens,Gel Pen 12-pack,32,2.72,online,completed,
+ORD-000756,CUST-0098,2023-03-10,Asia Pacific,MG010,mugs,Ceramic Mug,34,5.91,store,completed,SPRING10
+ORD-000758,CUST-0127,2023-04-21,Asia Pacific,ST500,stickers,Sticker Sheet,5,1.37,online,completed,SPRING10
+ORD-000759,CUST-0163,2023-03-14,North America,BK300,books,Paperback Book,-5,8.46,store,returned,
+ORD-000760,CUST-0067,2023-01-12,North America,MG010,mugs,Ceramic Mug,37,6.69,online,pending,BULK
+ORD-000761,CUST-0162,2023-05-28,North America,PB24,pens,Ballpoint Pen,15,1.07,online,completed,SPRING10
+ORD-000762,CUST-0049,2023-05-24,North America,MG010,mugs,Ceramic Mug,2,5.78,online,completed,VIP
+ORD-000764,CUST-0183,2023-03-15,Asia Pacific,NB120,notebooks,Hardcover Journal,33,10.02,online,completed,
+ORD-000767,CUST-0064,2023-06-18,North America,BK300,books,Paperback Book,29,8.48,store,completed,
+ORD-000768,CUST-0169,2023-03-08,North America,NB120,notebooks,Hardcover Journal,8,10.23,online,completed,
+ORD-000771,CUST-0005,2023-05-17,North America,SH901,shirts,Polo Shirt,24,24.16,online,completed,
+ORD-000772,CUST-0149,2023-04-07,Europe,ST500,stickers,Sticker Sheet,18,1.3,online,completed,BULK
+ORD-000774,CUST-0153,2023-05-10,Europe,PT010,posters,Motivational Poster,14,7.48,partner,cancelled,VIP
+ORD-000775,CUST-0047,2023-05-27,Europe,ST500,stickers,Sticker Sheet,8,1.49,partner,completed,
+ORD-000776,CUST-0153,2023-05-08,Europe,SH900,shirts,Cotton T-Shirt,7,16.2,online,completed,
+ORD-000777,CUST-0022,2023-04-21,Europe,SH901,shirts,Polo Shirt,8,23.19,store,completed,
+ORD-000779,CUST-0126,2023-06-17,Asia Pacific,NB050,notebooks,Spiral Notebook,4,4.74,online,completed,BULK
+ORD-000780,CUST-0092,2023-06-20,North America,NB050,notebooks,Spiral Notebook,16,4.85,store,completed,
+ORD-000782,CUST-0049,2023-05-12,North America,NB050,notebooks,Spiral Notebook,30,4.08,online,cancelled,BULK
+ORD-000783,CUST-0122,2023-02-06,Europe,BK300,books,Paperback Book,25,8.35,store,completed,
+ORD-000785,CUST-0127,2023-01-21,Asia Pacific,SH901,shirts,Polo Shirt,31,22.24,store,completed,
+ORD-000787,CUST-0062,2023-04-08,Asia Pacific,BK301,books,Cookbook,34,19.16,online,completed,SPRING10
+ORD-000788,CUST-0052,2023-03-20,Latin America,PT010,posters,Motivational Poster,5,6.28,online,completed,
+ORD-000789,CUST-0093,2023-01-16,Latin America,PB200,pens,Gel Pen 12-pack,32,3.24,partner,completed,VIP
+ORD-000791,CUST-0073,2023-06-06,North America,PB200,pens,Gel Pen 12-pack,29,2.56,online,completed,
+ORD-000792,CUST-0082,2023-05-06,North America,BK300,books,Paperback Book,-2,9.57,store,returned,
+ORD-000794,CUST-0044,2023-01-15,Europe,NB050,notebooks,Spiral Notebook,4,4.22,partner,completed,BULK
+ORD-000796,CUST-0164,2023-06-30,North America,NB050,notebooks,Spiral Notebook,16,4.08,online,completed,
+ORD-000798,CUST-0173,2023-02-15,North America,BK301,books,Cookbook,37,18.39,store,completed,BULK
+ORD-000800,CUST-0034,2023-03-29,Europe,NB120,notebooks,Hardcover Journal,38,11.04,store,completed,
+ORD-000803,CUST-0008,2023-05-06,Asia Pacific,BK301,books,Cookbook,-3,19.79,online,returned,SPRING10
+ORD-000804,CUST-0068,2023-02-17,North America,PB24,pens,Ballpoint Pen,27,1.07,online,completed,
+ORD-000805,CUST-0091,2023-04-19,Asia Pacific,NB120,notebooks,Hardcover Journal,21,9.47,online,pending,SPRING10
+ORD-000809,CUST-0047,2023-03-24,Europe,PT044,posters,World Map Poster,20,9.74,store,completed,
+ORD-000811,CUST-0140,2023-02-25,Latin America,ST500,stickers,Sticker Sheet,4,1.36,store,completed,SPRING10
+ORD-000813,CUST-0121,2023-06-01,Latin America,PT010,posters,Motivational Poster,19,6.31,online,completed,
+ORD-000817,CUST-0091,2023-06-28,Asia Pacific,PB200,pens,Gel Pen 12-pack,31,2.93,online,completed,BULK
+ORD-000818,CUST-0200,2023-05-05,Europe,PT044,posters,World Map Poster,26,9.23,store,completed,BULK
+ORD-000820,CUST-0039,2023-03-01,North America,PT044,posters,World Map Poster,14,9.11,partner,completed,
+ORD-000821,CUST-0190,2023-02-10,Latin America,BK300,books,Paperback Book,12,9.72,partner,cancelled,BULK
+ORD-000826,CUST-0124,2023-03-06,Europe,BK301,books,Cookbook,20,19.04,store,completed,
+ORD-000827,CUST-0176,2023-06-14,North America,SH900,shirts,Cotton T-Shirt,13,16.3,online,completed,BULK
+ORD-000829,CUST-0058,2023-05-07,North America,BK300,books,Paperback Book,4,8.98,partner,completed,VIP
+ORD-000830,CUST-0197,2023-01-06,Asia Pacific,MG010,mugs,Ceramic Mug,11,5.57,online,pending,BULK
+ORD-000831,CUST-0127,2023-01-27,Asia Pacific,MG010,mugs,Ceramic Mug,6,5.54,online,completed,
+ORD-000834,CUST-0028,2023-04-07,Europe,PB200,pens,Gel Pen 12-pack,8,2.94,online,completed,BULK
+ORD-000835,CUST-0118,2023-04-05,Asia Pacific,SH900,shirts,Cotton T-Shirt,15,17.06,partner,completed,
+ORD-000836,CUST-0159,2023-01-15,Europe,SH900,shirts,Cotton T-Shirt,34,15.29,store,completed,
+ORD-000838,CUST-0055,2023-02-09,North America,ST500,stickers,Sticker Sheet,33,1.35,online,completed,
+ORD-000840,CUST-0177,2023-03-29,Latin America,PB200,pens,Gel Pen 12-pack,36,3.12,online,pending,
+ORD-000841,CUST-0045,2023-05-03,Europe,NB050,notebooks,Spiral Notebook,14,4.1,online,completed,
+ORD-000842,CUST-0133,2023-04-10,Asia Pacific,NB050,notebooks,Spiral Notebook,35,3.99,online,completed,BULK
+ORD-000844,CUST-0023,2023-01-12,Asia Pacific,SH900,shirts,Cotton T-Shirt,38,16.14,partner,completed,
+ORD-000845,CUST-0143,2023-05-09,Asia Pacific,BK300,books,Paperback Book,14,8.2,online,cancelled,
+ORD-000846,CUST-0167,2023-04-12,Asia Pacific,BK301,books,Cookbook,9,20.89,online,cancelled,SPRING10
+ORD-000847,CUST-0116,2023-04-10,North America,BK301,books,Cookbook,23,17.24,online,completed,
+ORD-000848,CUST-0036,2023-03-12,Asia Pacific,PB24,pens,Ballpoint Pen,37,1.27,online,completed,SPRING10
+ORD-000850,CUST-0085,2023-05-19,Europe,PT010,posters,Motivational Poster,23,7.67,online,completed,BULK
+ORD-000851,CUST-0102,2023-06-02,North America,PT010,posters,Motivational Poster,6,6.34,online,cancelled,BULK
+ORD-000852,CUST-0111,2023-05-21,Europe,BK300,books,Paperback Book,17,8.6,online,completed,SPRING10
+ORD-000854,CUST-0101,2023-05-04,Asia Pacific,PT010,posters,Motivational Poster,22,6.16,online,completed,
+ORD-000855,CUST-0060,2023-05-05,Europe,NB050,notebooks,Spiral Notebook,14,4.74,online,completed,
+ORD-000856,CUST-0138,2023-04-30,Asia Pacific,NB050,notebooks,Spiral Notebook,14,4.13,online,completed,
+ORD-000857,CUST-0160,2023-04-30,Europe,NB050,notebooks,Spiral Notebook,3,4.44,online,pending,
+ORD-000858,CUST-0131,2023-02-02,Asia Pacific,NB050,notebooks,Spiral Notebook,12,4.44,online,completed,SPRING10
+ORD-000860,CUST-0199,2023-01-10,Europe,PT010,posters,Motivational Poster,10,6.05,store,completed,
+ORD-000861,CUST-0005,2023-03-24,North America,PT044,posters,World Map Poster,39,8.48,store,completed,
+ORD-000862,CUST-0200,2023-03-15,Europe,PT044,posters,World Map Poster,4,8.46,online,completed,
+ORD-000863,CUST-0007,2023-04-17,North America,BK300,books,Paperback Book,23,8.33,online,completed,
+ORD-000867,CUST-0137,2023-05-09,North America,BK300,books,Paperback Book,22,9.05,online,completed,
+ORD-000869,CUST-0024,2023-01-17,Middle East & Africa,PB24,pens,Ballpoint Pen,28,1.1,online,completed,BULK
+ORD-000874,CUST-0093,2023-04-25,Latin America,PT010,posters,Motivational Poster,19,6.84,online,completed,
+ORD-000875,CUST-0036,2023-01-13,Asia Pacific,NB050,notebooks,Spiral Notebook,24,4.93,store,completed,
+ORD-000877,CUST-0042,2023-01-25,Asia Pacific,PB200,pens,Gel Pen 12-pack,10,2.92,store,completed,
+ORD-000881,CUST-0153,2023-06-24,Europe,PB24,pens,Ballpoint Pen,28,1.07,online,completed,SPRING10
+ORD-000883,CUST-0065,2023-03-03,Latin America,ST500,stickers,Sticker Sheet,33,1.43,online,completed,
+ORD-000884,CUST-0158,2023-06-08,Asia Pacific,PB24,pens,Ballpoint Pen,30,1.04,online,completed,
+ORD-000885,CUST-0137,2023-02-14,North America,PT010,posters,Motivational Poster,39,7.58,online,completed,SPRING10
+ORD-000890,CUST-0084,2023-04-23,North America,NB050,notebooks,Spiral Notebook,12,4.15,store,completed,
+ORD-000891,CUST-0079,2023-01-25,Latin America,PT010,posters,Motivational Poster,33,6.67,online,completed,SPRING10
+ORD-000893,CUST-0048,2023-06-29,Europe,NB050,notebooks,Spiral Notebook,14,4.21,store,completed,
+ORD-000894,CUST-0150,2023-02-04,North America,NB120,notebooks,Hardcover Journal,29,10.35,store,completed,SPRING10
+ORD-000897,CUST-0034,2023-06-12,Europe,NB050,notebooks,Spiral Notebook,1,4.6,online,completed,
+ORD-000899,CUST-0045,2023-01-14,Europe,SH900,shirts,Cotton T-Shirt,7,17.97,store,completed,
+ORD-000900,CUST-0179,2023-02-04,North America,BK301,books,Cookbook,34,20.24,online,completed,
+ORD-000901,CUST-0054,2023-04-11,North America,SH901,shirts,Polo Shirt,3,23.78,online,completed,
+ORD-000903,CUST-0114,2023-02-18,North America,SH901,shirts,Polo Shirt,7,20.54,store,completed,
+ORD-000904,CUST-0176,2023-01-13,North America,NB120,notebooks,Hardcover Journal,17,11.04,store,completed,VIP
+ORD-000913,CUST-0103,2023-05-08,Europe,ST500,stickers,Sticker Sheet,9,1.56,online,completed,VIP
+ORD-000914,CUST-0011,2023-02-05,Asia Pacific,NB050,notebooks,Spiral Notebook,16,4.88,partner,completed,
+ORD-000916,CUST-0001,2023-04-11,Asia Pacific,MG010,mugs,Ceramic Mug,23,7.03,store,pending,
+ORD-000918,CUST-0088,2023-06-01,North America,PT010,posters,Motivational Poster,5,7.29,online,completed,SPRING10
+ORD-000920,CUST-0155,2023-01-16,Europe,PB200,pens,Gel Pen 12-pack,9,2.93,online,completed,
+ORD-000922,CUST-0007,2023-06-13,North America,PB24,pens,Ballpoint Pen,33,1.11,online,completed,BULK
+ORD-000923,CUST-0068,2023-06-18,North America,BK301,books,Cookbook,27,18.2,store,cancelled,VIP
+ORD-000924,CUST-0131,2023-04-07,Asia Pacific,SH901,shirts,Polo Shirt,16,23.73,online,pending,
+ORD-000926,CUST-0165,2023-05-24,Asia Pacific,BK301,books,Cookbook,16,16.35,online,cancelled,
+ORD-000928,CUST-0034,2023-06-05,Europe,NB050,notebooks,Spiral Notebook,10,4.07,online,completed,
+ORD-000929,CUST-0006,2023-01-18,North America,PT010,posters,Motivational Poster,8,7.55,online,pending,
+ORD-000931,CUST-0014,2023-03-09,Asia Pacific,SH901,shirts,Polo Shirt,22,22.2,online,completed,
+ORD-000932,CUST-0173,2023-04-09,North America,MG010,mugs,Ceramic Mug,32,5.81,store,completed,
+ORD-000936,CUST-0108,2023-06-05,Europe,NB050,notebooks,Spiral Notebook,3,4.39,online,completed,BULK
+ORD-000938,CUST-0164,2023-04-30,North America,PB200,pens,Gel Pen 12-pack,23,2.58,online,completed,
+ORD-000941,CUST-0085,2023-01-19,Europe,SH900,shirts,Cotton T-Shirt,12,17.09,online,completed,
+ORD-000942,CUST-0079,2023-06-02,Latin America,NB120,notebooks,Hardcover Journal,-5,10.9,online,returned,
+ORD-000943,CUST-0110,2023-06-20,North America,PB24,pens,Ballpoint Pen,23,1.12,online,completed,VIP
+ORD-000944,CUST-0148,2023-04-04,North America,SH901,shirts,Polo Shirt,18,25.98,store,completed,VIP
+ORD-000945,CUST-0118,2023-05-17,Asia Pacific,SH900,shirts,Cotton T-Shirt,12,15.86,store,pending,
+ORD-000947,CUST-0066,2023-01-19,North America,SH901,shirts,Polo Shirt,20,25.78,store,completed,
+ORD-000948,CUST-0151,2023-02-25,Europe,PB24,pens,Ballpoint Pen,19,1.17,online,completed,BULK
+ORD-000950,CUST-0101,2023-05-09,Asia Pacific,BK301,books,Cookbook,23,17.46,store,completed,
+ORD-000954,CUST-0093,2023-05-31,Latin America,BK300,books,Paperback Book,19,8.14,online,completed,VIP
+ORD-000955,CUST-0062,2023-06-26,Asia Pacific,ST500,stickers,Sticker Sheet,31,1.3,online,completed,
+ORD-000958,CUST-0044,2023-04-04,Europe,MG010,mugs,Ceramic Mug,30,6.48,online,cancelled,
+ORD-000961,CUST-0130,2023-01-03,North America,ST500,stickers,Sticker Sheet,26,1.65,store,completed,BULK
+ORD-000967,CUST-0068,2023-03-02,North America,SH901,shirts,Polo Shirt,4,22.6,store,completed,
+ORD-000968,CUST-0036,2023-02-21,Asia Pacific,NB120,notebooks,Hardcover Journal,23,11.4,online,completed,
+ORD-000972,CUST-0165,2023-03-04,Asia Pacific,NB050,notebooks,Spiral Notebook,29,4.53,online,completed,
+ORD-000973,CUST-0013,2023-03-24,North America,NB120,notebooks,Hardcover Journal,15,11.65,online,completed,
+ORD-000975,CUST-0140,2023-04-21,Latin America,BK300,books,Paperback Book,29,8.04,online,completed,BULK
+ORD-000977,CUST-0171,2023-04-26,Asia Pacific,SH900,shirts,Cotton T-Shirt,7,15.27,store,completed,
+ORD-000978,CUST-0028,2023-04-07,Europe,SH900,shirts,Cotton T-Shirt,10,14.47,online,cancelled,BULK
+ORD-000979,CUST-0198,2023-03-02,North America,MG010,mugs,Ceramic Mug,19,6.34,online,pending,BULK
+ORD-000982,CUST-0090,2023-02-12,North America,BK301,books,Cookbook,37,17.98,online,completed,SPRING10
+ORD-000983,CUST-0184,2023-05-09,Europe,ST500,stickers,Sticker Sheet,16,1.28,store,completed,SPRING10
+ORD-000985,CUST-0037,2023-05-20,Europe,BK301,books,Cookbook,3,16.41,online,completed,
+ORD-000987,CUST-0191,2023-04-05,Europe,BK301,books,Cookbook,10,16.26,store,completed,
+ORD-000988,CUST-0196,2023-01-22,Europe,BK300,books,Paperback Book,39,8.84,online,completed,VIP
+ORD-000989,CUST-0192,2023-05-03,North America,NB120,notebooks,Hardcover Journal,20,11.81,store,completed,BULK
+ORD-000991,CUST-0091,2023-03-07,Asia Pacific,NB120,notebooks,Hardcover Journal,-5,11.02,store,returned,BULK
+ORD-000993,CUST-0124,2023-01-05,Europe,BK301,books,Cookbook,32,16.73,online,completed,BULK
+ORD-000994,CUST-0045,2023-01-25,Europe,NB050,notebooks,Spiral Notebook,32,4.58,online,completed,BULK
+ORD-000997,CUST-0190,2023-04-18,Latin America,PT044,posters,World Map Poster,37,9.13,store,completed,VIP
+ORD-000998,CUST-0058,2023-04-05,North America,ST500,stickers,Sticker Sheet,16,1.4,online,pending,SPRING10
+ORD-000999,CUST-0051,2023-01-26,Asia Pacific,PB200,pens,Gel Pen 12-pack,-5,3.11,online,returned,VIP

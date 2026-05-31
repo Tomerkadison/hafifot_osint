@@ -1,0 +1,13 @@
+product_sku,product_name,category,unit_cost,list_price
+PB200,Gel Pen 12-pack,pens,1.1,3.0
+PB24,Ballpoint Pen,pens,0.4,1.2
+NB050,Spiral Notebook,notebooks,1.8,4.5
+NB120,Hardcover Journal,notebooks,4.2,11.0
+PT010,Motivational Poster,posters,2.3,7.0
+PT044,World Map Poster,posters,3.1,9.5
+SH900,Cotton T-Shirt,shirts,5.5,17.0
+SH901,Polo Shirt,shirts,8.0,24.0
+BK300,Paperback Book,books,3.0,9.0
+BK301,Cookbook,books,6.5,19.0
+MG010,Ceramic Mug,mugs,2.2,6.5
+ST500,Sticker Sheet,stickers,0.3,1.5
