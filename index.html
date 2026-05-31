@@ -413,50 +413,39 @@
     background: rgba(20,26,46,.6);
     flex-shrink: 0;
     direction: rtl;
+    align-items: center;
   }
 
   .nb-btn {
-    flex: 1;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    padding: 14px 20px;
+    padding: 14px 32px;
     border-radius: 12px;
-    border: 2px solid;
+    border: 2px solid var(--brand2);
     text-decoration: none;
     font-family: inherit;
-    font-size: .95rem;
+    font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
+    background: rgba(34,211,238,.08);
+    color: var(--brand2);
     transition: transform .15s, box-shadow .2s, background .15s;
     direction: rtl;
   }
   .nb-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px -8px currentColor;
+    box-shadow: 0 8px 24px -8px var(--brand2);
+    background: rgba(34,211,238,.16);
   }
-
-  .nb-btn-exercise {
-    background: rgba(91,141,239,.1);
-    border-color: var(--brand);
-    color: var(--brand);
-  }
-  .nb-btn-exercise:hover { background: rgba(91,141,239,.18); }
-
-  .nb-btn-solution {
-    background: rgba(52,211,153,.08);
-    border-color: var(--green);
-    color: var(--green);
-  }
-  .nb-btn-solution:hover { background: rgba(52,211,153,.16); }
 
   .nb-btn-icon {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     flex-shrink: 0;
   }
   .nb-btn-text .main { display: block; font-size: 1rem; }
-  .nb-btn-text .sub { display: block; font-size: .75rem; font-weight: 400; opacity: .75; direction: ltr; text-align: center; }
+  .nb-btn-text .sub { display: block; font-size: .75rem; font-weight: 400; opacity: .7; }
 
   #tab-exercise iframe {
     flex: 1;
@@ -678,18 +667,11 @@
 
       <div id="tab-exercise" class="tab-content">
         <div class="notebook-buttons">
-          <a id="nb-exercise-btn" class="nb-btn nb-btn-exercise" href="#" download>
+          <a id="nb-download-btn" class="nb-btn" href="#" download>
             <span class="nb-btn-icon">⬇️</span>
             <span class="nb-btn-text">
-              <span class="main">הורד Notebook תרגיל</span>
-              <span class="sub">Exercises.ipynb</span>
-            </span>
-          </a>
-          <a id="nb-solution-btn" class="nb-btn nb-btn-solution" href="#" download>
-            <span class="nb-btn-icon">⬇️</span>
-            <span class="nb-btn-text">
-              <span class="main">הורד Notebook פתרונות</span>
-              <span class="sub">Solutions.ipynb</span>
+              <span class="main">הורד את חומרי הפרק</span>
+              <span class="sub">Exercises + Solutions + data/</span>
             </span>
           </a>
         </div>
@@ -744,9 +726,8 @@
       document.getElementById('subject-frame').src  = subjectSrc;
       document.getElementById('exercise-frame').src = exerciseSrc;
 
-      // update notebook download links
-      document.getElementById('nb-exercise-btn').href = `${BASE}/${ch.dir}/Exercises.ipynb`;
-      document.getElementById('nb-solution-btn').href = `${BASE}/${ch.dir}/Solutions.ipynb`;
+      // update download button
+      document.getElementById('nb-download-btn').href = `${BASE}/${ch.dir}/download.zip`;
 
       document.getElementById('home-view').classList.remove('active');
       document.getElementById('chapter-view').classList.add('active');
