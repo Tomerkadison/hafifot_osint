@@ -144,7 +144,10 @@
   /* ── Home page ── */
   #home-view {
     overflow-y: auto;
+    align-items: center;
+    flex-direction: column;
   }
+  #home-view > * { width: 100%; }
   #home-view::-webkit-scrollbar { width: 6px; }
   #home-view::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
 
@@ -153,7 +156,7 @@
     background: linear-gradient(135deg, rgba(91,141,239,.18), rgba(34,211,238,.08));
     border-bottom: 1px solid var(--line);
     direction: rtl;
-    text-align: right;
+    text-align: center;
   }
   .home-hero .kicker {
     color: var(--brand2);
@@ -175,6 +178,7 @@
     color: var(--muted);
     max-width: 620px;
     line-height: 1.8;
+    margin: 0 auto;
   }
   .home-hero .desc strong { color: var(--ink); }
 
@@ -183,6 +187,8 @@
     direction: rtl;
     text-align: right;
     max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
   }
 
   .section-title {
