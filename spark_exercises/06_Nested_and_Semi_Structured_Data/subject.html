@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 06 — מידע מקונן</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f0a06; --card:#1c1510; --ink:#fff7ee; --muted:#d3bda6;
+    --brand:#e8590c; --brand2:#f59e0b; --accent:#22d3ee; --line:#3a2c1d;
+    --code-bg:#120d08; --green:#34d399; --red:#f76b6b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:radial-gradient(1200px 600px at 80% -10%,#3a2410 0,var(--bg) 55%);
+    color:var(--ink); font-family:"Heebo",-apple-system,"Segoe UI",Arial,sans-serif;
+    line-height:1.75; padding:0 0 80px}
+  .wrap{max-width:900px; margin:0 auto; padding:0 22px}
+  header.hero{padding:60px 22px 44px; text-align:center; border-bottom:1px solid var(--line)}
+  .kicker{font-weight:600; letter-spacing:.06em; font-size:.95rem}
+  h1{font-size:2.4rem; font-weight:800; margin:.2em 0 .15em; line-height:1.2}
+  .hero p{color:var(--muted); font-size:1.13rem; max-width:660px; margin:.4em auto 0}
+  .slide{background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:28px 32px; margin:24px 0; box-shadow:0 20px 50px -30px #000}
+  .slide h2{font-size:1.55rem; margin:0 0 .5em; display:flex; align-items:center; gap:.5em}
+  .slide h2 .num{background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#1a0e02;
+    width:1.7em; height:1.7em; border-radius:12px; display:grid; place-items:center;
+    font-size:.95rem; font-weight:800; flex:0 0 auto}
+  .slide h3{color:var(--brand2); font-size:1.1rem; margin:1.3em 0 .3em}
+  p,li{color:#f0e6d8}
+  .muted{color:var(--muted)}
+  ul,ol{margin:.4em 0; padding-inline-start:1.3em}
+  li{margin:.35em 0}
+  code{background:var(--code-bg); border:1px solid var(--line); padding:.12em .45em;
+    border-radius:7px; font-family:"SFMono-Regular",Consolas,monospace; color:#ffce9e;
+    direction:ltr; display:inline-block; font-size:.9em}
+  .cmp{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px}
+  .cmp>div{border:1px solid var(--line); border-radius:12px; padding:14px 16px}
+  .cmp .bad{background:rgba(247,107,107,.06)}
+  .cmp .good{background:rgba(232,89,12,.10)}
+  .cmp h4{margin:0 0 .4em; font-size:1rem}
+  table{width:100%; border-collapse:collapse; margin-top:10px; font-size:.95rem}
+  th,td{border:1px solid var(--line); padding:10px 12px; text-align:right; vertical-align:top}
+  th{background:#2a1f14; color:var(--brand2); font-weight:600}
+  td code{font-size:.85em}
+  a{color:var(--brand2); text-decoration:none; font-weight:600}
+  a:hover{text-decoration:underline}
+  .doc-link{display:inline-block; direction:ltr}
+  .tag{display:inline-block; font-size:.78rem; padding:.1em .6em; border-radius:999px;
+    border:1px solid var(--line); background:#2a1f14; color:var(--muted); direction:ltr}
+  .tip{border-right:4px solid var(--green); background:rgba(52,211,153,.07);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .warn{border-right:4px solid var(--brand2); background:rgba(245,158,11,.10);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .steps{counter-reset:s; list-style:none; padding:0}
+  .steps li{counter-increment:s; position:relative; padding-right:2.4em; margin:.5em 0}
+  .steps li::before{content:counter(s); position:absolute; right:0; top:.05em;
+    width:1.6em; height:1.6em; border-radius:8px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#1a0e02;
+    font-weight:800; font-size:.85rem}
+  .cta{background:linear-gradient(135deg,rgba(232,89,12,.16),rgba(245,158,11,.10));
+    border:1px solid var(--brand); border-radius:18px; padding:26px 30px; margin-top:30px}
+  .cta h2{color:var(--brand2)}
+  .pill{display:inline-block; background:#2a1f14; border:1px solid var(--line);
+    border-radius:999px; padding:.25em .9em; margin:.2em; font-size:.9rem; direction:ltr}
+  @media(max-width:640px){.cmp{grid-template-columns:1fr} h1{font-size:1.85rem}}
+
+  .kicker{color:#f59e0b}
+  header.hero{background:linear-gradient(135deg,rgba(232,89,12,.20),rgba(245,158,11,.10))}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">Spark for Power Users · פרק 06</div>
+  <h1>מידע מקונן וחצי-מובנה</h1>
+  <p>structs, arrays ו-explode — כאן Spark עוקף בענק את pandas/Polars.</p>
+</header>
+
+<div class="wrap">
+
+  <section class="slide">
+    <h2><span class="num">1</span>מידע אמיתי הוא מקונן</h2>
+    <p>אירועים, לוגים, ותגובות API כמעט תמיד מגיעים כ-JSON מקונן: אובייקט בתוך אובייקט, ומערכים בתוך שדות. ב-pandas/Polars זה כאב ראש — לרוב משטחים הכול או שומרים מחרוזות JSON.</p><p>Spark קורא JSON ישירות לטיפוסים מובנים: <code>struct</code> (אובייקט), <code>array</code> (מערך), ו-<code>map</code> (מילון). ה-schema נשמר, וה-Catalyst optimizer יודע לעבוד איתו.</p>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">2</span>structs — גישה עם נקודה</h2>
+    <p>שדה מקונן הוא פשוט <code>parent.child</code>:</p><ul><li><code>events.select("device.os")</code> — שדה בודד.</li><li><code>events.select("device.*")</code> — לשטח את כל השדות.</li><li><code>F.col("geo.country")</code> — בתוך <code>filter</code> או <code>groupBy</code>.</li></ul><p>אפשר גם <strong>לבנות</strong> struct עם <code>F.struct("a", "b")</code>.</p>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">3</span>arrays — explode הוא הכוכב</h2>
+    <p>מערך בתוך שורה (סל קניות, רשימת תגיות) זה נפוץ מאוד. הכלים:</p><ul><li><code>F.size(arr)</code> — אורך המערך.</li><li><code>F.explode(arr)</code> — <strong>שורה לכל איבר</strong> (שורה אחת עם 3 פריטים → 3 שורות). זו הפעולה המרכזית.</li><li><code>F.posexplode(arr)</code> — כמו explode, אבל גם המיקום.</li><li><code>F.array_contains</code>, <code>arr[0]</code>, <code>F.explode_outer</code> (שומר שורות עם מערך ריק/null).</li></ul><p>אחרי explode עובדים על השורות כרגיל — groupBy, sum, join.</p>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">4</span>מידע מקונן: pandas/Polars מול Spark</h2>
+    <div class="cmp">
+      <div class="bad"><h4>🐼 pandas / ⚡ Polars</h4>
+        <ul>
+          <li>JSON לרוב משוטח ידנית</li>
+          <li>מערכים בעמודה = object dtype מסורבל</li>
+          <li><code>json_normalize</code> / list-cols</li>
+          <li>אין schema אכיפה</li>
+        </ul>
+      </div>
+      <div class="good"><h4>🔥 Spark</h4>
+        <ul>
+          <li><code>read.json</code> שומר struct/array</li>
+          <li><code>device.os</code> גישה ישירה</li>
+          <li><code>explode</code> / <code>from_json</code> מובנים</li>
+          <li>schema מלא ונאכף</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tip">💡 ב-Foundry הרבה datasets הם בדיוק כאלה — אירועים מקוננים. <code>explode</code> ו-<code>from_json</code> הם לחם-חוק.</div>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">5</span>הפונקציות של הפרק + תיעוד</h2>
+    <table>
+      <thead><tr><th>מה זה עושה</th><th>פונקציה</th><th>תיעוד רשמי</th></tr></thead>
+      <tbody>
+        <tr><td>קריאת JSON</td><td><code>spark.read.json()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrameReader.json.html" target="_blank">json ↗</a></td></tr>
+        <tr><td>שורה לכל איבר במערך</td><td><code>F.explode()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.explode.html" target="_blank">explode ↗</a></td></tr>
+        <tr><td>explode עם מיקום</td><td><code>F.posexplode()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.posexplode.html" target="_blank">posexplode ↗</a></td></tr>
+        <tr><td>אורך מערך</td><td><code>F.size()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.size.html" target="_blank">size ↗</a></td></tr>
+        <tr><td>בניית struct</td><td><code>F.struct()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.struct.html" target="_blank">struct ↗</a></td></tr>
+        <tr><td>פרסור JSON לפי schema</td><td><code>F.from_json()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.from_json.html" target="_blank">from_json ↗</a></td></tr>
+        <tr><td>המרה ל-JSON</td><td><code>F.to_json()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.to_json.html" target="_blank">to_json ↗</a></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="cta">
+    <h2>🎯 לקריאה נוספת</h2>
+    <p>קראו על Complex Types (struct/array/map) ועל פונקציות המערך הרבות ב-<code>F.*</code> — <code>transform</code>, <code>filter</code>, <code>aggregate</code> על מערכים.</p>
+    <div>
+      <span class="pill"><a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/dataframe.html" target="_blank">PySpark DataFrame API ↗</a></span>
+      <span class="pill"><a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/functions.html" target="_blank">Functions (F.*) ↗</a></span>
+      <span class="pill"><a href="https://spark.apache.org/docs/latest/api/python/reference/index.html" target="_blank">PySpark API Reference ↗</a></span>
+      <span class="pill"><a href="https://spark.apache.org/docs/latest/sql-programming-guide.html" target="_blank">SQL Programming Guide ↗</a></span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

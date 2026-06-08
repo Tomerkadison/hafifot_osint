@@ -1,0 +1,501 @@
+customer_id,customer_name,email,country,city,region_id,segment,loyalty_tier,signup_date
+CUST-0001,Skiba Systems,contact1@skiba.example,SG,Singapore,APAC,SMB,Bronze,2023-10-20
+CUST-0002,Dabfeed Holdings,contact2@dabfeed.example,UK,London,EU,Enterprise,Silver,2021-02-14
+CUST-0003,Brightlane Group,contact3@brightlane.example,MX,Mexico City,LATAM,Enterprise,Bronze,2021-07-12
+CUST-0004,Vinte Co,contact4@vinte.example,JP,Tokyo,APAC,Consumer,Bronze,2021-04-18
+CUST-0005,Bluezoom Holdings,contact5@bluezoom.example,US,Chicago,NA,Consumer,Silver,2022-09-21
+CUST-0006,Skipfire Group,contact6@skipfire.example,ZA,Cape Town,MEA,SMB,Bronze,2019-12-29
+CUST-0007,Rhybox Inc,contact7@rhybox.example,AU,Sydney,APAC,Consumer,Gold,2022-09-25
+CUST-0008,Cloudkit Partners,contact8@cloudkit.example,JP,Tokyo,APAC,SMB,Bronze,2020-05-12
+CUST-0009,Dabtype Inc,contact9@dabtype.example,US,Chicago,NA,Consumer,Silver,2023-10-11
+CUST-0010,Skipfire LLC,contact10@skipfire.example,ES,Madrid,EU,Consumer,Silver,2019-12-27
+CUST-0011,Photobean Group,contact11@photobean.example,US,Seattle,NA,Consumer,Silver,2021-08-24
+CUST-0012,Cloudkit Partners,contact12@cloudkit.example,BR,Sao Paulo,LATAM,SMB,Silver,2022-10-19
+CUST-0013,Vinte Partners,contact13@vinte.example,DE,Berlin,EU,Consumer,Silver,2019-11-16
+CUST-0014,Dabfeed Partners,contact14@dabfeed.example,SG,Singapore,APAC,Consumer,Platinum,2021-05-23
+CUST-0015,Skipfire Group,contact15@skipfire.example,ES,Madrid,EU,Consumer,Bronze,2020-05-14
+CUST-0016,Mybuzz Group,contact16@mybuzz.example,US,Austin,NA,Consumer,Bronze,2019-08-21
+CUST-0017,Kanoodle Partners,contact17@kanoodle.example,UK,London,EU,Consumer,Silver,2022-07-10
+CUST-0018,Zooxo Group,contact18@zooxo.example,US,Austin,NA,SMB,Gold,2021-05-28
+CUST-0019,Voonix Holdings,contact19@voonix.example,JP,Tokyo,APAC,Consumer,Bronze,2022-09-27
+CUST-0020,Brightlane LLC,contact20@brightlane.example,DE,Berlin,EU,SMB,Bronze,2021-03-29
+CUST-0021,Brightlane LLC,contact21@brightlane.example,AU,Sydney,APAC,Enterprise,Gold,2020-03-15
+CUST-0022,Dabfeed LLC,contact22@dabfeed.example,US,Seattle,NA,Consumer,Silver,2019-11-18
+CUST-0023,Jaxbean Group,contact23@jaxbean.example,AE,Dubai,MEA,Consumer,Platinum,2020-12-16
+CUST-0024,Viva Systems,contact24@viva.example,AR,Buenos Aires,LATAM,SMB,Silver,2022-10-03
+CUST-0025,Mybuzz LLC,contact25@mybuzz.example,JP,Tokyo,APAC,Consumer,Silver,2020-05-12
+CUST-0026,Skipfire Inc,contact26@skipfire.example,US,Seattle,NA,Consumer,Bronze,2021-03-11
+CUST-0027,Photobean Systems,contact27@photobean.example,UK,London,EU,Enterprise,Platinum,2020-11-04
+CUST-0028,Viva Co,contact28@viva.example,CA,Toronto,NA,Enterprise,Bronze,2022-10-24
+CUST-0029,Pixelplay Group,contact29@pixelplay.example,US,Austin,NA,SMB,Silver,2021-06-27
+CUST-0030,Rhybox Inc,contact30@rhybox.example,IN,Bengaluru,APAC,Consumer,Bronze,2023-05-02
+CUST-0031,Gigabyte Co,contact31@gigabyte.example,IN,Bengaluru,APAC,SMB,Silver,2022-01-24
+CUST-0032,Cloudkit Partners,contact32@cloudkit.example,ZA,Cape Town,MEA,SMB,Silver,2023-07-17
+CUST-0033,Brightlane Group,contact33@brightlane.example,US,Chicago,NA,Consumer,Silver,2021-04-21
+CUST-0034,Zooxo Holdings,contact34@zooxo.example,CA,Toronto,NA,SMB,Gold,2019-01-29
+CUST-0035,Jaxbean Co,contact35@jaxbean.example,UK,London,EU,Consumer,Bronze,2021-06-21
+CUST-0036,Quaxo Co,contact36@quaxo.example,US,Seattle,NA,Consumer,Silver,2021-11-02
+CUST-0037,Kanoodle Holdings,contact37@kanoodle.example,CA,Toronto,NA,Consumer,Bronze,2023-03-07
+CUST-0038,Dabtype Holdings,contact38@dabtype.example,ES,Madrid,EU,Consumer,Bronze,2020-02-15
+CUST-0039,Brightlane Inc,contact39@brightlane.example,US,Austin,NA,Consumer,Bronze,2023-03-28
+CUST-0040,Gigabyte Holdings,contact40@gigabyte.example,SG,Singapore,APAC,SMB,Bronze,2023-05-13
+CUST-0041,Cloudkit LLC,contact41@cloudkit.example,DE,Berlin,EU,Enterprise,Bronze,2020-07-27
+CUST-0042,Quaxo Partners,contact42@quaxo.example,JP,Tokyo,APAC,SMB,Silver,2020-05-04
+CUST-0043,Twinte Holdings,contact43@twinte.example,SG,Singapore,APAC,SMB,Silver,2023-09-10
+CUST-0044,Mybuzz Systems,contact44@mybuzz.example,US,Seattle,NA,Enterprise,Silver,2021-10-13
+CUST-0045,Photobean LLC,contact45@photobean.example,IN,Bengaluru,APAC,Consumer,Bronze,2019-11-06
+CUST-0046,Bluezoom Partners,contact46@bluezoom.example,JP,Tokyo,APAC,Consumer,Bronze,2019-04-16
+CUST-0047,Pixelplay Partners,contact47@pixelplay.example,US,Chicago,NA,Consumer,Bronze,2021-01-05
+CUST-0048,Nexora Inc,contact48@nexora.example,US,Austin,NA,Consumer,Gold,2022-05-28
+CUST-0049,Bluezoom Partners,contact49@bluezoom.example,IN,Bengaluru,APAC,SMB,Gold,2019-11-17
+CUST-0050,Brightlane Systems,contact50@brightlane.example,US,Austin,NA,Consumer,Bronze,2020-04-28
+CUST-0051,Pixelplay Partners,contact51@pixelplay.example,CA,Toronto,NA,Consumer,Silver,2019-09-13
+CUST-0052,Skiba Systems,contact52@skiba.example,US,Seattle,NA,Consumer,Bronze,2023-01-26
+CUST-0053,Viva Systems,contact53@viva.example,AU,Sydney,APAC,Consumer,Bronze,2020-05-19
+CUST-0054,Gigabyte Co,contact54@gigabyte.example,AU,Sydney,APAC,Enterprise,Bronze,2020-04-27
+CUST-0055,Quaxo Systems,contact55@quaxo.example,JP,Tokyo,APAC,Consumer,Bronze,2021-02-28
+CUST-0056,Viva Partners,contact56@viva.example,IN,Bengaluru,APAC,Consumer,Silver,2022-11-16
+CUST-0057,Voonix Holdings,contact57@voonix.example,UK,London,EU,Consumer,Gold,2020-11-21
+CUST-0058,Nexora Partners,contact58@nexora.example,UK,London,EU,Consumer,Bronze,2020-01-24
+CUST-0059,Realcube Holdings,contact59@realcube.example,US,Chicago,NA,SMB,Silver,2021-11-08
+CUST-0060,Gigabyte Systems,contact60@gigabyte.example,US,Seattle,NA,Consumer,Silver,2019-03-12
+CUST-0061,Bluezoom Systems,contact61@bluezoom.example,JP,Tokyo,APAC,Consumer,Platinum,2021-08-05
+CUST-0062,Brightlane Partners,contact62@brightlane.example,UK,London,EU,Consumer,Silver,2019-06-12
+CUST-0063,Quaxo Group,contact63@quaxo.example,DE,Berlin,EU,SMB,Bronze,2022-09-25
+CUST-0064,Dabfeed LLC,contact64@dabfeed.example,JP,Tokyo,APAC,SMB,Silver,2019-12-11
+CUST-0065,Bluezoom Co,contact65@bluezoom.example,DE,Berlin,EU,SMB,Bronze,2021-01-18
+CUST-0066,Yodel Partners,contact66@yodel.example,FR,Paris,EU,SMB,Platinum,2023-04-22
+CUST-0067,Rhybox Partners,contact67@rhybox.example,UK,London,EU,SMB,Bronze,2022-06-13
+CUST-0068,Gigabyte LLC,contact68@gigabyte.example,US,Austin,NA,Consumer,Silver,2021-01-21
+CUST-0069,Quaxo LLC,contact69@quaxo.example,US,Chicago,NA,Consumer,Bronze,2023-08-13
+CUST-0070,Viva Systems,contact70@viva.example,DE,Berlin,EU,Consumer,Bronze,2022-08-24
+CUST-0071,Voonix Systems,contact71@voonix.example,US,Austin,NA,Consumer,Gold,2019-06-28
+CUST-0072,Jaxbean Inc,contact72@jaxbean.example,FR,Paris,EU,SMB,Silver,2020-01-02
+CUST-0073,Bluezoom Group,contact73@bluezoom.example,BR,Sao Paulo,LATAM,Consumer,Bronze,2021-04-26
+CUST-0074,Photobean LLC,contact74@photobean.example,US,Austin,NA,SMB,Platinum,2022-12-23
+CUST-0075,Cloudkit Co,contact75@cloudkit.example,US,Austin,NA,Enterprise,Gold,2023-01-04
+CUST-0076,Photobean Holdings,contact76@photobean.example,US,Chicago,NA,Consumer,Bronze,2020-05-15
+CUST-0077,Viva LLC,contact77@viva.example,US,Austin,NA,Enterprise,Silver,2019-09-04
+CUST-0078,Pixelplay Co,contact78@pixelplay.example,JP,Tokyo,APAC,SMB,Silver,2021-01-03
+CUST-0079,Viva Group,contact79@viva.example,ES,Madrid,EU,Enterprise,Silver,2023-03-26
+CUST-0080,Quaxo LLC,contact80@quaxo.example,IN,Bengaluru,APAC,Consumer,Bronze,2019-03-06
+CUST-0081,Skipfire Partners,contact81@skipfire.example,JP,Tokyo,APAC,Consumer,Bronze,2022-03-12
+CUST-0082,Brightlane LLC,contact82@brightlane.example,FR,Paris,EU,Consumer,Gold,2020-01-20
+CUST-0083,Pixelplay Holdings,contact83@pixelplay.example,AU,Sydney,APAC,Consumer,Gold,2023-04-03
+CUST-0084,Nexora Inc,contact84@nexora.example,US,Austin,NA,Consumer,Gold,2020-02-20
+CUST-0085,Zooxo Systems,contact85@zooxo.example,US,Chicago,NA,Enterprise,Platinum,2023-05-03
+CUST-0086,Mybuzz Inc,contact86@mybuzz.example,US,Chicago,NA,SMB,Silver,2022-02-03
+CUST-0087,Voonix Holdings,contact87@voonix.example,IN,Bengaluru,APAC,Consumer,Gold,2019-08-23
+CUST-0088,Voonix LLC,contact88@voonix.example,DE,Berlin,EU,Consumer,Gold,2023-09-09
+CUST-0089,Vinte Systems,contact89@vinte.example,US,Austin,NA,Consumer,Silver,2021-03-16
+CUST-0090,Cloudkit LLC,contact90@cloudkit.example,DE,Berlin,EU,Consumer,Silver,2021-08-20
+CUST-0091,Voonix Inc,contact91@voonix.example,CA,Toronto,NA,Enterprise,Bronze,2023-02-06
+CUST-0092,Voonix Holdings,contact92@voonix.example,JP,Tokyo,APAC,Consumer,Silver,2020-06-09
+CUST-0093,Dabtype Systems,contact93@dabtype.example,FR,Paris,EU,Consumer,Bronze,2020-03-10
+CUST-0094,Yodel Holdings,contact94@yodel.example,US,Seattle,NA,SMB,Bronze,2021-07-11
+CUST-0095,Twinte Systems,contact95@twinte.example,US,Chicago,NA,Consumer,Silver,2020-12-22
+CUST-0096,Brightlane Systems,contact96@brightlane.example,ES,Madrid,EU,Consumer,Bronze,2023-07-25
+CUST-0097,Viva Partners,contact97@viva.example,CA,Toronto,NA,SMB,Bronze,2022-09-06
+CUST-0098,Skiba LLC,contact98@skiba.example,US,Seattle,NA,SMB,Gold,2021-08-12
+CUST-0099,Bluezoom Group,contact99@bluezoom.example,CA,Toronto,NA,Enterprise,Gold,2022-12-22
+CUST-0100,Gigabyte Inc,contact100@gigabyte.example,ZA,Cape Town,MEA,SMB,Bronze,2022-08-10
+CUST-0101,Pixelplay LLC,contact101@pixelplay.example,AR,Buenos Aires,LATAM,Consumer,Bronze,2023-12-02
+CUST-0102,Dabfeed Group,contact102@dabfeed.example,AU,Sydney,APAC,SMB,Bronze,2022-03-10
+CUST-0103,Jaxbean Inc,contact103@jaxbean.example,US,Chicago,NA,Enterprise,Gold,2023-12-06
+CUST-0104,Dabtype Holdings,contact104@dabtype.example,AE,Dubai,MEA,SMB,Gold,2021-01-22
+CUST-0105,Cloudkit Inc,contact105@cloudkit.example,IN,Bengaluru,APAC,Enterprise,Bronze,2020-06-02
+CUST-0106,Brightlane Holdings,contact106@brightlane.example,IN,Bengaluru,APAC,SMB,Gold,2020-11-29
+CUST-0107,Gigabyte Co,contact107@gigabyte.example,UK,London,EU,Enterprise,Bronze,2023-06-01
+CUST-0108,Photobean LLC,contact108@photobean.example,CA,Toronto,NA,Consumer,Bronze,2022-11-06
+CUST-0109,Mybuzz LLC,contact109@mybuzz.example,US,Austin,NA,SMB,Platinum,2022-01-11
+CUST-0110,Skiba Systems,contact110@skiba.example,BR,Sao Paulo,LATAM,Consumer,Bronze,2023-02-23
+CUST-0111,Realcube Co,contact111@realcube.example,ES,Madrid,EU,SMB,Bronze,2020-02-06
+CUST-0112,Vinte Group,contact112@vinte.example,CA,Toronto,NA,SMB,Bronze,2021-10-25
+CUST-0113,Yodel Co,contact113@yodel.example,US,Chicago,NA,Enterprise,Silver,2019-04-11
+CUST-0114,Dabfeed Partners,contact114@dabfeed.example,FR,Paris,EU,Enterprise,Platinum,2023-04-28
+CUST-0115,Realcube Partners,contact115@realcube.example,CA,Toronto,NA,Consumer,Platinum,2020-12-24
+CUST-0116,Pixelplay Systems,contact116@pixelplay.example,MX,Mexico City,LATAM,SMB,Bronze,2019-04-03
+CUST-0117,Voonix Co,contact117@voonix.example,AU,Sydney,APAC,SMB,Bronze,2020-04-15
+CUST-0118,Nexora LLC,contact118@nexora.example,IN,Bengaluru,APAC,Consumer,Gold,2022-09-23
+CUST-0119,Cloudkit Group,contact119@cloudkit.example,UK,London,EU,Consumer,Bronze,2020-01-30
+CUST-0120,Kanoodle Group,contact120@kanoodle.example,UK,London,EU,Consumer,Gold,2022-11-23
+CUST-0121,Viva Partners,contact121@viva.example,ES,Madrid,EU,SMB,Silver,2020-02-26
+CUST-0122,Realcube Group,contact122@realcube.example,FR,Paris,EU,Consumer,Bronze,2023-10-16
+CUST-0123,Vinte Inc,contact123@vinte.example,US,Seattle,NA,Enterprise,Gold,2022-03-05
+CUST-0124,Voonix Systems,contact124@voonix.example,FR,Paris,EU,Consumer,Bronze,2021-08-28
+CUST-0125,Jaxbean Inc,contact125@jaxbean.example,US,Austin,NA,Enterprise,Bronze,2021-03-31
+CUST-0126,Rhybox Group,contact126@rhybox.example,DE,Berlin,EU,Consumer,Silver,2020-01-03
+CUST-0127,Cloudkit Partners,contact127@cloudkit.example,US,Austin,NA,SMB,Silver,2023-01-21
+CUST-0128,Dabfeed Systems,contact128@dabfeed.example,US,Austin,NA,Consumer,Silver,2021-11-21
+CUST-0129,Skipfire LLC,contact129@skipfire.example,US,Austin,NA,SMB,Silver,2023-11-10
+CUST-0130,Cloudkit Holdings,contact130@cloudkit.example,DE,Berlin,EU,SMB,Platinum,2023-08-10
+CUST-0131,Mybuzz Partners,contact131@mybuzz.example,CA,Toronto,NA,Enterprise,Platinum,2019-11-05
+CUST-0132,Bluezoom Inc,contact132@bluezoom.example,BR,Sao Paulo,LATAM,SMB,Silver,2019-06-14
+CUST-0133,Dabtype Group,contact133@dabtype.example,DE,Berlin,EU,Consumer,Bronze,2019-05-11
+CUST-0134,Gigabyte Inc,contact134@gigabyte.example,US,Austin,NA,Consumer,Silver,2019-05-16
+CUST-0135,Skipfire Co,contact135@skipfire.example,DE,Berlin,EU,Consumer,Platinum,2023-02-18
+CUST-0136,Twinte Inc,contact136@twinte.example,US,Chicago,NA,Consumer,Bronze,2022-11-14
+CUST-0137,Rhybox Group,contact137@rhybox.example,AE,Dubai,MEA,SMB,Silver,2023-05-29
+CUST-0138,Rhybox Co,contact138@rhybox.example,FR,Paris,EU,SMB,Bronze,2021-08-10
+CUST-0139,Vinte Group,contact139@vinte.example,SG,Singapore,APAC,SMB,Bronze,2021-03-27
+CUST-0140,Mybuzz LLC,contact140@mybuzz.example,US,Chicago,NA,Enterprise,Silver,2021-05-03
+CUST-0141,Skipfire Group,contact141@skipfire.example,DE,Berlin,EU,SMB,Bronze,2022-12-24
+CUST-0142,Viva Group,contact142@viva.example,ES,Madrid,EU,SMB,Gold,2019-10-08
+CUST-0143,Viva Partners,contact143@viva.example,AR,Buenos Aires,LATAM,Consumer,Gold,2023-03-17
+CUST-0144,Mybuzz Systems,contact144@mybuzz.example,UK,London,EU,Consumer,Gold,2022-06-06
+CUST-0145,Nexora Systems,contact145@nexora.example,UK,London,EU,SMB,Bronze,2019-05-22
+CUST-0146,Voonix LLC,contact146@voonix.example,CA,Toronto,NA,Enterprise,Bronze,2020-07-15
+CUST-0147,Bluezoom Co,contact147@bluezoom.example,CA,Toronto,NA,Consumer,Silver,2022-06-11
+CUST-0148,Cloudkit Inc,contact148@cloudkit.example,UK,London,EU,Consumer,Gold,2020-06-22
+CUST-0149,Twinte LLC,contact149@twinte.example,ES,Madrid,EU,SMB,Silver,2020-06-12
+CUST-0150,Kanoodle LLC,contact150@kanoodle.example,US,Seattle,NA,Consumer,Gold,2022-02-08
+CUST-0151,Rhybox LLC,contact151@rhybox.example,AU,Sydney,APAC,Consumer,Bronze,2022-02-11
+CUST-0152,Skipfire Group,contact152@skipfire.example,AR,Buenos Aires,LATAM,Enterprise,Gold,2022-06-19
+CUST-0153,Skiba Co,contact153@skiba.example,US,Chicago,NA,SMB,Bronze,2022-05-30
+CUST-0154,Zooxo Partners,contact154@zooxo.example,UK,London,EU,Consumer,Bronze,2021-03-26
+CUST-0155,Quaxo Co,contact155@quaxo.example,US,Austin,NA,Enterprise,Silver,2019-06-08
+CUST-0156,Viva Group,contact156@viva.example,SG,Singapore,APAC,Consumer,Bronze,2021-03-15
+CUST-0157,Voonix Partners,contact157@voonix.example,CA,Toronto,NA,Enterprise,Bronze,2020-03-08
+CUST-0158,Nexora Co,contact158@nexora.example,SG,Singapore,APAC,Consumer,Bronze,2021-09-23
+CUST-0159,Voonix Systems,contact159@voonix.example,JP,Tokyo,APAC,SMB,Bronze,2021-05-12
+CUST-0160,Yodel Inc,contact160@yodel.example,IN,Bengaluru,APAC,Consumer,Gold,2022-02-04
+CUST-0161,Pixelplay Systems,contact161@pixelplay.example,US,Chicago,NA,Consumer,Bronze,2021-06-16
+CUST-0162,Kanoodle Holdings,contact162@kanoodle.example,AR,Buenos Aires,LATAM,Enterprise,Silver,2022-01-03
+CUST-0163,Vinte Inc,contact163@vinte.example,CA,Toronto,NA,Consumer,Gold,2019-05-12
+CUST-0164,Yodel Holdings,contact164@yodel.example,US,Seattle,NA,Consumer,Bronze,2021-05-28
+CUST-0165,Pixelplay Group,contact165@pixelplay.example,UK,London,EU,Consumer,Bronze,2021-06-19
+CUST-0166,Jaxbean Systems,contact166@jaxbean.example,US,Chicago,NA,SMB,Gold,2023-10-23
+CUST-0167,Jaxbean Holdings,contact167@jaxbean.example,IN,Bengaluru,APAC,SMB,Gold,2019-11-27
+CUST-0168,Bluezoom LLC,contact168@bluezoom.example,AU,Sydney,APAC,Enterprise,Silver,2019-06-23
+CUST-0169,Realcube Holdings,contact169@realcube.example,US,Chicago,NA,Consumer,Gold,2021-02-27
+CUST-0170,Voonix Co,contact170@voonix.example,ZA,Cape Town,MEA,Consumer,Bronze,2022-08-31
+CUST-0171,Realcube LLC,contact171@realcube.example,US,Chicago,NA,Consumer,Bronze,2021-11-06
+CUST-0172,Skipfire Inc,contact172@skipfire.example,ES,Madrid,EU,SMB,Silver,2023-09-14
+CUST-0173,Skipfire Group,contact173@skipfire.example,CA,Toronto,NA,Enterprise,Bronze,2022-02-17
+CUST-0174,Mybuzz Group,contact174@mybuzz.example,BR,Sao Paulo,LATAM,SMB,Gold,2022-03-16
+CUST-0175,Quaxo Group,contact175@quaxo.example,US,Seattle,NA,SMB,Silver,2022-10-18
+CUST-0176,Viva LLC,contact176@viva.example,US,Austin,NA,Consumer,Gold,2023-07-12
+CUST-0177,Yodel LLC,contact177@yodel.example,ES,Madrid,EU,Enterprise,Silver,2022-10-11
+CUST-0178,Nexora Group,contact178@nexora.example,ZA,Cape Town,MEA,Consumer,Bronze,2023-12-28
+CUST-0179,Viva Partners,contact179@viva.example,AR,Buenos Aires,LATAM,Consumer,Bronze,2020-06-07
+CUST-0180,Viva Holdings,contact180@viva.example,AU,Sydney,APAC,Consumer,Bronze,2020-04-24
+CUST-0181,Twinte Partners,contact181@twinte.example,MX,Mexico City,LATAM,Consumer,Gold,2023-12-19
+CUST-0182,Gigabyte Inc,contact182@gigabyte.example,BR,Sao Paulo,LATAM,Consumer,Bronze,2021-08-19
+CUST-0183,Rhybox Partners,contact183@rhybox.example,FR,Paris,EU,Consumer,Bronze,2023-04-19
+CUST-0184,Pixelplay Group,contact184@pixelplay.example,US,Seattle,NA,Consumer,Bronze,2020-01-08
+CUST-0185,Kanoodle Holdings,contact185@kanoodle.example,AU,Sydney,APAC,SMB,Bronze,2023-02-28
+CUST-0186,Photobean Systems,contact186@photobean.example,JP,Tokyo,APAC,Consumer,Gold,2021-03-13
+CUST-0187,Gigabyte Co,contact187@gigabyte.example,US,Austin,NA,Consumer,Bronze,2023-12-03
+CUST-0188,Cloudkit Holdings,contact188@cloudkit.example,CA,Toronto,NA,Enterprise,Platinum,2022-12-28
+CUST-0189,Photobean Inc,contact189@photobean.example,SG,Singapore,APAC,SMB,Bronze,2020-08-08
+CUST-0190,Kanoodle Inc,contact190@kanoodle.example,US,Chicago,NA,Consumer,Silver,2021-10-20
+CUST-0191,Yodel Holdings,contact191@yodel.example,BR,Sao Paulo,LATAM,Consumer,Bronze,2022-03-07
+CUST-0192,Quaxo Holdings,contact192@quaxo.example,US,Seattle,NA,Enterprise,Bronze,2022-09-29
+CUST-0193,Mybuzz Group,contact193@mybuzz.example,CA,Toronto,NA,Consumer,Gold,2020-08-26
+CUST-0194,Dabtype Co,contact194@dabtype.example,IN,Bengaluru,APAC,Consumer,Platinum,2019-12-11
+CUST-0195,Nexora Systems,contact195@nexora.example,US,Chicago,NA,Enterprise,Gold,2021-03-25
+CUST-0196,Viva Inc,contact196@viva.example,US,Austin,NA,Consumer,Bronze,2022-10-17
+CUST-0197,Kanoodle LLC,contact197@kanoodle.example,ES,Madrid,EU,SMB,Bronze,2019-02-08
+CUST-0198,Mybuzz Inc,contact198@mybuzz.example,AR,Buenos Aires,LATAM,SMB,Silver,2019-11-20
+CUST-0199,Skiba Systems,contact199@skiba.example,US,Seattle,NA,SMB,Bronze,2020-05-16
+CUST-0200,Zooxo Inc,contact200@zooxo.example,US,Chicago,NA,Consumer,Silver,2019-04-11
+CUST-0201,Twinte Partners,contact201@twinte.example,SG,Singapore,APAC,Consumer,Silver,2019-02-09
+CUST-0202,Nexora Inc,contact202@nexora.example,AE,Dubai,MEA,Consumer,Silver,2019-10-11
+CUST-0203,Twinte LLC,contact203@twinte.example,UK,London,EU,Consumer,Gold,2021-03-22
+CUST-0204,Jaxbean Group,contact204@jaxbean.example,US,Chicago,NA,Enterprise,Silver,2019-05-12
+CUST-0205,Brightlane Holdings,contact205@brightlane.example,US,Seattle,NA,Consumer,Bronze,2023-06-18
+CUST-0206,Realcube Co,contact206@realcube.example,US,Austin,NA,SMB,Bronze,2019-11-22
+CUST-0207,Cloudkit Group,contact207@cloudkit.example,US,Chicago,NA,SMB,Silver,2021-09-29
+CUST-0208,Skipfire Systems,contact208@skipfire.example,IN,Bengaluru,APAC,SMB,Silver,2020-01-06
+CUST-0209,Skiba Inc,contact209@skiba.example,CA,Toronto,NA,Consumer,Bronze,2022-08-15
+CUST-0210,Twinte Systems,contact210@twinte.example,DE,Berlin,EU,Consumer,Bronze,2023-10-06
+CUST-0211,Yodel Co,contact211@yodel.example,SG,Singapore,APAC,Enterprise,Gold,2020-07-01
+CUST-0212,Jaxbean Partners,contact212@jaxbean.example,ES,Madrid,EU,SMB,Gold,2020-10-18
+CUST-0213,Viva Partners,contact213@viva.example,US,Chicago,NA,SMB,Silver,2019-03-25
+CUST-0214,Dabfeed Co,contact214@dabfeed.example,JP,Tokyo,APAC,Enterprise,Bronze,2022-07-22
+CUST-0215,Realcube Group,contact215@realcube.example,AU,Sydney,APAC,SMB,Bronze,2021-03-12
+CUST-0216,Rhybox LLC,contact216@rhybox.example,IN,Bengaluru,APAC,Consumer,Silver,2022-01-18
+CUST-0217,Voonix Co,contact217@voonix.example,US,Chicago,NA,SMB,Bronze,2023-01-19
+CUST-0218,Vinte Inc,contact218@vinte.example,US,Austin,NA,Consumer,Silver,2019-07-07
+CUST-0219,Jaxbean Holdings,contact219@jaxbean.example,AR,Buenos Aires,LATAM,SMB,Silver,2022-01-06
+CUST-0220,Viva LLC,contact220@viva.example,US,Chicago,NA,Enterprise,Bronze,2019-03-19
+CUST-0221,Viva Holdings,contact221@viva.example,CA,Toronto,NA,Consumer,Bronze,2021-04-10
+CUST-0222,Quaxo Inc,contact222@quaxo.example,DE,Berlin,EU,Consumer,Bronze,2019-11-19
+CUST-0223,Brightlane Co,contact223@brightlane.example,JP,Tokyo,APAC,Consumer,Gold,2023-08-17
+CUST-0224,Bluezoom Holdings,contact224@bluezoom.example,ZA,Cape Town,MEA,Enterprise,Silver,2023-08-24
+CUST-0225,Realcube Group,contact225@realcube.example,US,Chicago,NA,Consumer,Bronze,2023-08-16
+CUST-0226,Pixelplay Co,contact226@pixelplay.example,MX,Mexico City,LATAM,Consumer,Gold,2019-01-22
+CUST-0227,Voonix Partners,contact227@voonix.example,CA,Toronto,NA,Consumer,Silver,2023-11-06
+CUST-0228,Cloudkit LLC,contact228@cloudkit.example,DE,Berlin,EU,Consumer,Silver,2023-11-07
+CUST-0229,Kanoodle Partners,contact229@kanoodle.example,DE,Berlin,EU,Consumer,Platinum,2019-05-23
+CUST-0230,Nexora Inc,contact230@nexora.example,US,Austin,NA,Consumer,Bronze,2022-01-25
+CUST-0231,Rhybox Co,contact231@rhybox.example,CA,Toronto,NA,Consumer,Bronze,2021-01-31
+CUST-0232,Twinte Co,contact232@twinte.example,UK,London,EU,Consumer,Silver,2019-10-08
+CUST-0233,Voonix Holdings,contact233@voonix.example,ZA,Cape Town,MEA,Consumer,Bronze,2019-05-17
+CUST-0234,Vinte LLC,contact234@vinte.example,UK,London,EU,Consumer,Silver,2023-03-30
+CUST-0235,Jaxbean Partners,contact235@jaxbean.example,MX,Mexico City,LATAM,Consumer,Bronze,2021-07-19
+CUST-0236,Mybuzz Systems,contact236@mybuzz.example,IN,Bengaluru,APAC,SMB,Bronze,2023-11-05
+CUST-0237,Vinte Inc,contact237@vinte.example,DE,Berlin,EU,Consumer,Bronze,2020-11-04
+CUST-0238,Bluezoom Group,contact238@bluezoom.example,SG,Singapore,APAC,Consumer,Bronze,2020-02-05
+CUST-0239,Jaxbean Holdings,contact239@jaxbean.example,US,Chicago,NA,Consumer,Bronze,2023-09-17
+CUST-0240,Vinte Inc,contact240@vinte.example,US,Chicago,NA,Consumer,Bronze,2020-01-28
+CUST-0241,Nexora Holdings,contact241@nexora.example,SG,Singapore,APAC,Consumer,Gold,2020-11-21
+CUST-0242,Nexora Partners,contact242@nexora.example,JP,Tokyo,APAC,Consumer,Bronze,2020-03-17
+CUST-0243,Rhybox Co,contact243@rhybox.example,US,Chicago,NA,Enterprise,Bronze,2023-08-19
+CUST-0244,Viva Inc,contact244@viva.example,DE,Berlin,EU,Consumer,Bronze,2022-06-18
+CUST-0245,Gigabyte Co,contact245@gigabyte.example,UK,London,EU,Consumer,Bronze,2019-10-02
+CUST-0246,Dabtype Holdings,contact246@dabtype.example,MX,Mexico City,LATAM,Consumer,Bronze,2022-05-15
+CUST-0247,Mybuzz Group,contact247@mybuzz.example,ES,Madrid,EU,Consumer,Silver,2019-05-11
+CUST-0248,Jaxbean Partners,contact248@jaxbean.example,FR,Paris,EU,Consumer,Bronze,2022-10-07
+CUST-0249,Photobean Co,contact249@photobean.example,US,Austin,NA,SMB,Gold,2020-09-03
+CUST-0250,Nexora Partners,contact250@nexora.example,DE,Berlin,EU,SMB,Gold,2021-08-07
+CUST-0251,Nexora Inc,contact251@nexora.example,AU,Sydney,APAC,Consumer,Bronze,2021-03-25
+CUST-0252,Pixelplay LLC,contact252@pixelplay.example,AR,Buenos Aires,LATAM,Consumer,Bronze,2022-04-02
+CUST-0253,Dabtype Group,contact253@dabtype.example,DE,Berlin,EU,Consumer,Bronze,2023-06-04
+CUST-0254,Yodel LLC,contact254@yodel.example,US,Chicago,NA,Consumer,Silver,2019-09-16
+CUST-0255,Skipfire LLC,contact255@skipfire.example,US,Seattle,NA,SMB,Bronze,2022-06-08
+CUST-0256,Zooxo Co,contact256@zooxo.example,JP,Tokyo,APAC,Consumer,Gold,2020-06-07
+CUST-0257,Skipfire LLC,contact257@skipfire.example,AU,Sydney,APAC,Consumer,Gold,2021-03-15
+CUST-0258,Quaxo Co,contact258@quaxo.example,US,Chicago,NA,Enterprise,Gold,2021-08-10
+CUST-0259,Photobean Group,contact259@photobean.example,US,Seattle,NA,Consumer,Silver,2019-02-28
+CUST-0260,Rhybox Group,contact260@rhybox.example,UK,London,EU,Consumer,Platinum,2020-11-13
+CUST-0261,Rhybox Partners,contact261@rhybox.example,US,Seattle,NA,SMB,Bronze,2019-07-18
+CUST-0262,Realcube Co,contact262@realcube.example,AU,Sydney,APAC,Consumer,Bronze,2020-03-29
+CUST-0263,Jaxbean Group,contact263@jaxbean.example,US,Seattle,NA,Consumer,Bronze,2020-12-20
+CUST-0264,Brightlane Inc,contact264@brightlane.example,CA,Toronto,NA,Consumer,Platinum,2020-11-20
+CUST-0265,Kanoodle LLC,contact265@kanoodle.example,AR,Buenos Aires,LATAM,Enterprise,Silver,2021-12-19
+CUST-0266,Realcube Holdings,contact266@realcube.example,US,Austin,NA,Consumer,Gold,2021-07-29
+CUST-0267,Mybuzz Partners,contact267@mybuzz.example,CA,Toronto,NA,Consumer,Bronze,2021-02-07
+CUST-0268,Dabtype Inc,contact268@dabtype.example,US,Chicago,NA,Consumer,Platinum,2022-11-29
+CUST-0269,Pixelplay Group,contact269@pixelplay.example,CA,Toronto,NA,Consumer,Silver,2019-02-10
+CUST-0270,Twinte LLC,contact270@twinte.example,CA,Toronto,NA,SMB,Silver,2022-10-26
+CUST-0271,Photobean Partners,contact271@photobean.example,CA,Toronto,NA,Consumer,Platinum,2022-12-08
+CUST-0272,Rhybox LLC,contact272@rhybox.example,US,Chicago,NA,SMB,Bronze,2023-08-23
+CUST-0273,Gigabyte Partners,contact273@gigabyte.example,CA,Toronto,NA,SMB,Bronze,2019-03-19
+CUST-0274,Jaxbean Systems,contact274@jaxbean.example,FR,Paris,EU,SMB,Silver,2021-09-25
+CUST-0275,Skipfire Partners,contact275@skipfire.example,IN,Bengaluru,APAC,Consumer,Bronze,2020-09-05
+CUST-0276,Gigabyte LLC,contact276@gigabyte.example,US,Austin,NA,Enterprise,Bronze,2019-01-30
+CUST-0277,Jaxbean Inc,contact277@jaxbean.example,US,Austin,NA,SMB,Bronze,2023-03-18
+CUST-0278,Mybuzz Inc,contact278@mybuzz.example,UK,London,EU,Consumer,Bronze,2021-05-25
+CUST-0279,Gigabyte Group,contact279@gigabyte.example,BR,Sao Paulo,LATAM,SMB,Gold,2021-05-16
+CUST-0280,Skipfire LLC,contact280@skipfire.example,BR,Sao Paulo,LATAM,Enterprise,Silver,2019-04-05
+CUST-0281,Pixelplay Systems,contact281@pixelplay.example,US,Chicago,NA,Consumer,Bronze,2020-04-30
+CUST-0282,Yodel Inc,contact282@yodel.example,CA,Toronto,NA,Enterprise,Bronze,2019-06-15
+CUST-0283,Quaxo Inc,contact283@quaxo.example,US,Chicago,NA,Consumer,Bronze,2023-08-25
+CUST-0284,Yodel Systems,contact284@yodel.example,US,Chicago,NA,SMB,Silver,2023-11-08
+CUST-0285,Viva Systems,contact285@viva.example,ES,Madrid,EU,Enterprise,Gold,2021-07-09
+CUST-0286,Nexora LLC,contact286@nexora.example,UK,London,EU,Consumer,Platinum,2021-03-29
+CUST-0287,Photobean Group,contact287@photobean.example,US,Austin,NA,SMB,Bronze,2023-04-11
+CUST-0288,Dabfeed Group,contact288@dabfeed.example,CA,Toronto,NA,Consumer,Bronze,2021-08-26
+CUST-0289,Gigabyte LLC,contact289@gigabyte.example,ES,Madrid,EU,SMB,Silver,2019-12-07
+CUST-0290,Photobean LLC,contact290@photobean.example,US,Chicago,NA,SMB,Silver,2019-02-26
+CUST-0291,Quaxo Co,contact291@quaxo.example,AU,Sydney,APAC,Consumer,Silver,2020-01-01
+CUST-0292,Skiba Co,contact292@skiba.example,US,Chicago,NA,Consumer,Silver,2019-11-27
+CUST-0293,Skiba Group,contact293@skiba.example,MX,Mexico City,LATAM,Consumer,Silver,2020-04-25
+CUST-0294,Dabfeed Group,contact294@dabfeed.example,US,Chicago,NA,Consumer,Bronze,2020-09-28
+CUST-0295,Vinte Co,contact295@vinte.example,AU,Sydney,APAC,Consumer,Bronze,2021-05-01
+CUST-0296,Dabfeed Inc,contact296@dabfeed.example,MX,Mexico City,LATAM,Consumer,Bronze,2023-04-06
+CUST-0297,Twinte LLC,contact297@twinte.example,AE,Dubai,MEA,Consumer,Bronze,2020-01-26
+CUST-0298,Cloudkit Co,contact298@cloudkit.example,JP,Tokyo,APAC,Consumer,Bronze,2020-09-17
+CUST-0299,Realcube Co,contact299@realcube.example,IN,Bengaluru,APAC,SMB,Silver,2021-06-21
+CUST-0300,Dabtype Systems,contact300@dabtype.example,UK,London,EU,SMB,Bronze,2020-03-11
+CUST-0301,Voonix Group,contact301@voonix.example,IN,Bengaluru,APAC,SMB,Bronze,2019-08-27
+CUST-0302,Brightlane Systems,contact302@brightlane.example,US,Seattle,NA,Consumer,Silver,2023-09-06
+CUST-0303,Twinte LLC,contact303@twinte.example,DE,Berlin,EU,Enterprise,Gold,2022-07-20
+CUST-0304,Vinte Holdings,contact304@vinte.example,FR,Paris,EU,SMB,Bronze,2023-12-17
+CUST-0305,Mybuzz Co,contact305@mybuzz.example,MX,Mexico City,LATAM,Consumer,Gold,2019-10-25
+CUST-0306,Yodel Partners,contact306@yodel.example,DE,Berlin,EU,Consumer,Gold,2021-08-31
+CUST-0307,Bluezoom Co,contact307@bluezoom.example,CA,Toronto,NA,SMB,Silver,2022-01-23
+CUST-0308,Realcube Inc,contact308@realcube.example,FR,Paris,EU,Consumer,Silver,2023-08-20
+CUST-0309,Photobean LLC,contact309@photobean.example,US,Chicago,NA,Consumer,Bronze,2019-03-14
+CUST-0310,Dabtype Partners,contact310@dabtype.example,CA,Toronto,NA,Enterprise,Platinum,2020-03-14
+CUST-0311,Photobean Partners,contact311@photobean.example,FR,Paris,EU,Consumer,Bronze,2019-03-01
+CUST-0312,Photobean LLC,contact312@photobean.example,FR,Paris,EU,Consumer,Gold,2019-12-19
+CUST-0313,Dabfeed Group,contact313@dabfeed.example,CA,Toronto,NA,Enterprise,Silver,2020-12-03
+CUST-0314,Mybuzz Group,contact314@mybuzz.example,CA,Toronto,NA,SMB,Bronze,2020-08-21
+CUST-0315,Dabtype Holdings,contact315@dabtype.example,US,Seattle,NA,Consumer,Bronze,2019-02-15
+CUST-0316,Bluezoom Group,contact316@bluezoom.example,US,Austin,NA,Enterprise,Silver,2022-10-12
+CUST-0317,Gigabyte Group,contact317@gigabyte.example,US,Chicago,NA,Enterprise,Silver,2023-08-22
+CUST-0318,Yodel Partners,contact318@yodel.example,JP,Tokyo,APAC,Consumer,Bronze,2021-08-28
+CUST-0319,Mybuzz Inc,contact319@mybuzz.example,CA,Toronto,NA,SMB,Silver,2022-11-13
+CUST-0320,Voonix Partners,contact320@voonix.example,BR,Sao Paulo,LATAM,Consumer,Gold,2023-03-21
+CUST-0321,Cloudkit LLC,contact321@cloudkit.example,MX,Mexico City,LATAM,Consumer,Silver,2021-03-03
+CUST-0322,Voonix Holdings,contact322@voonix.example,DE,Berlin,EU,SMB,Silver,2023-01-11
+CUST-0323,Mybuzz Inc,contact323@mybuzz.example,CA,Toronto,NA,Consumer,Bronze,2023-08-23
+CUST-0324,Dabtype Systems,contact324@dabtype.example,FR,Paris,EU,SMB,Gold,2023-12-20
+CUST-0325,Voonix Inc,contact325@voonix.example,AU,Sydney,APAC,SMB,Bronze,2019-06-20
+CUST-0326,Skiba Inc,contact326@skiba.example,AU,Sydney,APAC,Consumer,Gold,2019-03-04
+CUST-0327,Voonix Partners,contact327@voonix.example,IN,Bengaluru,APAC,SMB,Bronze,2022-12-29
+CUST-0328,Twinte Co,contact328@twinte.example,ES,Madrid,EU,Consumer,Silver,2023-04-13
+CUST-0329,Dabtype Partners,contact329@dabtype.example,FR,Paris,EU,Enterprise,Bronze,2020-05-18
+CUST-0330,Quaxo Partners,contact330@quaxo.example,CA,Toronto,NA,Consumer,Bronze,2019-03-19
+CUST-0331,Jaxbean Co,contact331@jaxbean.example,IN,Bengaluru,APAC,SMB,Gold,2020-04-29
+CUST-0332,Quaxo Partners,contact332@quaxo.example,CA,Toronto,NA,SMB,Silver,2021-02-14
+CUST-0333,Cloudkit LLC,contact333@cloudkit.example,JP,Tokyo,APAC,Consumer,Silver,2020-05-08
+CUST-0334,Cloudkit Systems,contact334@cloudkit.example,AR,Buenos Aires,LATAM,SMB,Platinum,2021-02-16
+CUST-0335,Mybuzz Partners,contact335@mybuzz.example,CA,Toronto,NA,SMB,Platinum,2021-07-06
+CUST-0336,Quaxo Co,contact336@quaxo.example,DE,Berlin,EU,SMB,Gold,2020-04-14
+CUST-0337,Yodel Inc,contact337@yodel.example,US,Seattle,NA,SMB,Bronze,2019-10-05
+CUST-0338,Dabfeed Holdings,contact338@dabfeed.example,SG,Singapore,APAC,Enterprise,Silver,2021-10-29
+CUST-0339,Quaxo Co,contact339@quaxo.example,US,Chicago,NA,Consumer,Gold,2023-02-12
+CUST-0340,Viva Holdings,contact340@viva.example,AR,Buenos Aires,LATAM,Consumer,Bronze,2023-11-05
+CUST-0341,Brightlane Co,contact341@brightlane.example,US,Austin,NA,Consumer,Bronze,2023-11-01
+CUST-0342,Nexora LLC,contact342@nexora.example,ZA,Cape Town,MEA,SMB,Gold,2019-09-17
+CUST-0343,Kanoodle Co,contact343@kanoodle.example,SG,Singapore,APAC,Consumer,Silver,2019-11-07
+CUST-0344,Brightlane Group,contact344@brightlane.example,DE,Berlin,EU,Consumer,Silver,2021-12-02
+CUST-0345,Photobean LLC,contact345@photobean.example,AU,Sydney,APAC,Consumer,Platinum,2023-08-24
+CUST-0346,Dabtype Group,contact346@dabtype.example,SG,Singapore,APAC,Enterprise,Silver,2021-10-26
+CUST-0347,Vinte LLC,contact347@vinte.example,MX,Mexico City,LATAM,Consumer,Bronze,2019-04-18
+CUST-0348,Twinte LLC,contact348@twinte.example,US,Seattle,NA,SMB,Bronze,2023-01-29
+CUST-0349,Zooxo Co,contact349@zooxo.example,DE,Berlin,EU,Consumer,Bronze,2021-07-23
+CUST-0350,Viva Inc,contact350@viva.example,US,Seattle,NA,Enterprise,Bronze,2022-04-24
+CUST-0351,Dabtype Group,contact351@dabtype.example,FR,Paris,EU,Consumer,Gold,2023-09-07
+CUST-0352,Cloudkit LLC,contact352@cloudkit.example,US,Seattle,NA,Consumer,Gold,2019-12-06
+CUST-0353,Mybuzz Inc,contact353@mybuzz.example,FR,Paris,EU,Enterprise,Bronze,2021-12-08
+CUST-0354,Vinte Co,contact354@vinte.example,FR,Paris,EU,Enterprise,Bronze,2021-03-18
+CUST-0355,Skipfire Holdings,contact355@skipfire.example,FR,Paris,EU,Consumer,Gold,2019-07-10
+CUST-0356,Gigabyte Partners,contact356@gigabyte.example,UK,London,EU,Consumer,Bronze,2021-04-11
+CUST-0357,Cloudkit LLC,contact357@cloudkit.example,AU,Sydney,APAC,SMB,Silver,2021-05-30
+CUST-0358,Pixelplay Systems,contact358@pixelplay.example,SG,Singapore,APAC,Enterprise,Silver,2019-06-10
+CUST-0359,Dabtype Holdings,contact359@dabtype.example,ES,Madrid,EU,Consumer,Silver,2023-08-24
+CUST-0360,Pixelplay Group,contact360@pixelplay.example,UK,London,EU,Consumer,Bronze,2020-07-28
+CUST-0361,Dabfeed Holdings,contact361@dabfeed.example,BR,Sao Paulo,LATAM,SMB,Silver,2021-04-05
+CUST-0362,Quaxo Group,contact362@quaxo.example,US,Chicago,NA,SMB,Bronze,2019-12-13
+CUST-0363,Cloudkit Systems,contact363@cloudkit.example,US,Chicago,NA,SMB,Silver,2020-04-07
+CUST-0364,Vinte Holdings,contact364@vinte.example,US,Seattle,NA,SMB,Bronze,2019-05-03
+CUST-0365,Realcube Inc,contact365@realcube.example,IN,Bengaluru,APAC,Consumer,Silver,2022-04-08
+CUST-0366,Mybuzz Holdings,contact366@mybuzz.example,DE,Berlin,EU,Enterprise,Silver,2022-04-11
+CUST-0367,Dabtype Partners,contact367@dabtype.example,AU,Sydney,APAC,Enterprise,Bronze,2023-09-30
+CUST-0368,Voonix Group,contact368@voonix.example,SG,Singapore,APAC,SMB,Bronze,2023-05-19
+CUST-0369,Skipfire Partners,contact369@skipfire.example,US,Seattle,NA,Consumer,Bronze,2020-08-07
+CUST-0370,Dabfeed Systems,contact370@dabfeed.example,AR,Buenos Aires,LATAM,Consumer,Bronze,2021-09-07
+CUST-0371,Photobean Partners,contact371@photobean.example,AU,Sydney,APAC,SMB,Bronze,2019-04-21
+CUST-0372,Dabfeed Co,contact372@dabfeed.example,US,Seattle,NA,Consumer,Platinum,2020-04-09
+CUST-0373,Dabfeed LLC,contact373@dabfeed.example,US,Chicago,NA,Enterprise,Bronze,2019-12-26
+CUST-0374,Photobean Group,contact374@photobean.example,US,Chicago,NA,Consumer,Gold,2022-02-18
+CUST-0375,Dabfeed LLC,contact375@dabfeed.example,US,Seattle,NA,SMB,Platinum,2020-09-22
+CUST-0376,Kanoodle Systems,contact376@kanoodle.example,US,Chicago,NA,Enterprise,Bronze,2022-11-09
+CUST-0377,Dabfeed Group,contact377@dabfeed.example,BR,Sao Paulo,LATAM,Consumer,Silver,2021-12-08
+CUST-0378,Gigabyte Group,contact378@gigabyte.example,FR,Paris,EU,Consumer,Gold,2021-08-10
+CUST-0379,Cloudkit Systems,contact379@cloudkit.example,US,Austin,NA,SMB,Silver,2022-12-19
+CUST-0380,Zooxo Holdings,contact380@zooxo.example,AU,Sydney,APAC,SMB,Bronze,2021-02-22
+CUST-0381,Vinte Co,contact381@vinte.example,ES,Madrid,EU,Consumer,Bronze,2023-12-06
+CUST-0382,Jaxbean Inc,contact382@jaxbean.example,AR,Buenos Aires,LATAM,SMB,Bronze,2019-06-19
+CUST-0383,Kanoodle Inc,contact383@kanoodle.example,AU,Sydney,APAC,Enterprise,Silver,2019-08-19
+CUST-0384,Voonix Inc,contact384@voonix.example,UK,London,EU,Consumer,Platinum,2021-07-15
+CUST-0385,Vinte Partners,contact385@vinte.example,US,Austin,NA,Consumer,Platinum,2023-05-06
+CUST-0386,Rhybox Systems,contact386@rhybox.example,ZA,Cape Town,MEA,Consumer,Bronze,2022-01-22
+CUST-0387,Voonix Holdings,contact387@voonix.example,AU,Sydney,APAC,Consumer,Silver,2023-03-18
+CUST-0388,Nexora Inc,contact388@nexora.example,ZA,Cape Town,MEA,Consumer,Bronze,2019-03-08
+CUST-0389,Kanoodle Holdings,contact389@kanoodle.example,US,Austin,NA,Consumer,Gold,2020-01-30
+CUST-0390,Nexora Partners,contact390@nexora.example,BR,Sao Paulo,LATAM,SMB,Bronze,2022-03-29
+CUST-0391,Quaxo Inc,contact391@quaxo.example,FR,Paris,EU,Consumer,Platinum,2019-12-10
+CUST-0392,Mybuzz Holdings,contact392@mybuzz.example,CA,Toronto,NA,Enterprise,Gold,2022-07-08
+CUST-0393,Bluezoom Holdings,contact393@bluezoom.example,FR,Paris,EU,Consumer,Bronze,2019-06-20
+CUST-0394,Cloudkit Holdings,contact394@cloudkit.example,AU,Sydney,APAC,Consumer,Bronze,2022-10-26
+CUST-0395,Bluezoom LLC,contact395@bluezoom.example,US,Austin,NA,SMB,Gold,2020-06-17
+CUST-0396,Gigabyte LLC,contact396@gigabyte.example,DE,Berlin,EU,Enterprise,Bronze,2022-07-16
+CUST-0397,Rhybox LLC,contact397@rhybox.example,IN,Bengaluru,APAC,Consumer,Silver,2020-07-15
+CUST-0398,Photobean Holdings,contact398@photobean.example,US,Chicago,NA,Consumer,Gold,2019-03-14
+CUST-0399,Vinte Holdings,contact399@vinte.example,DE,Berlin,EU,Consumer,Silver,2019-03-20
+CUST-0400,Realcube Systems,contact400@realcube.example,ES,Madrid,EU,Consumer,Bronze,2022-08-24
+CUST-0401,Pixelplay Group,contact401@pixelplay.example,CA,Toronto,NA,Consumer,Bronze,2022-10-12
+CUST-0402,Jaxbean LLC,contact402@jaxbean.example,BR,Sao Paulo,LATAM,Consumer,Bronze,2021-06-06
+CUST-0403,Jaxbean Inc,contact403@jaxbean.example,SG,Singapore,APAC,Consumer,Platinum,2020-08-15
+CUST-0404,Yodel Co,contact404@yodel.example,CA,Toronto,NA,Consumer,Bronze,2021-02-25
+CUST-0405,Twinte Holdings,contact405@twinte.example,AE,Dubai,MEA,Enterprise,Bronze,2023-06-28
+CUST-0406,Gigabyte Partners,contact406@gigabyte.example,MX,Mexico City,LATAM,SMB,Bronze,2019-05-24
+CUST-0407,Dabfeed Inc,contact407@dabfeed.example,US,Seattle,NA,Consumer,Platinum,2019-11-26
+CUST-0408,Dabfeed LLC,contact408@dabfeed.example,SG,Singapore,APAC,Consumer,Bronze,2020-06-08
+CUST-0409,Bluezoom Inc,contact409@bluezoom.example,US,Seattle,NA,Consumer,Gold,2022-10-26
+CUST-0410,Yodel Holdings,contact410@yodel.example,IL,Tel Aviv,MEA,Consumer,Silver,2023-08-05
+CUST-0411,Realcube Systems,contact411@realcube.example,SG,Singapore,APAC,SMB,Gold,2019-05-03
+CUST-0412,Quaxo Partners,contact412@quaxo.example,JP,Tokyo,APAC,Enterprise,Platinum,2019-05-27
+CUST-0413,Photobean Group,contact413@photobean.example,US,Seattle,NA,Enterprise,Gold,2023-12-05
+CUST-0414,Bluezoom Inc,contact414@bluezoom.example,BR,Sao Paulo,LATAM,Enterprise,Platinum,2019-12-28
+CUST-0415,Twinte Group,contact415@twinte.example,US,Austin,NA,Enterprise,Bronze,2021-06-27
+CUST-0416,Twinte LLC,contact416@twinte.example,CA,Toronto,NA,Enterprise,Gold,2020-11-18
+CUST-0417,Nexora Group,contact417@nexora.example,US,Seattle,NA,Consumer,Silver,2019-09-10
+CUST-0418,Quaxo Inc,contact418@quaxo.example,IN,Bengaluru,APAC,Consumer,Silver,2022-06-12
+CUST-0419,Nexora Partners,contact419@nexora.example,US,Austin,NA,Consumer,Gold,2020-11-05
+CUST-0420,Twinte Holdings,contact420@twinte.example,MX,Mexico City,LATAM,SMB,Platinum,2019-05-07
+CUST-0421,Skipfire Holdings,contact421@skipfire.example,AU,Sydney,APAC,Consumer,Silver,2019-05-07
+CUST-0422,Vinte Systems,contact422@vinte.example,US,Chicago,NA,SMB,Silver,2020-06-09
+CUST-0423,Vinte Inc,contact423@vinte.example,US,Austin,NA,SMB,Silver,2019-05-02
+CUST-0424,Nexora Holdings,contact424@nexora.example,CA,Toronto,NA,Consumer,Bronze,2023-03-05
+CUST-0425,Dabtype Group,contact425@dabtype.example,DE,Berlin,EU,Consumer,Bronze,2019-02-13
+CUST-0426,Zooxo Co,contact426@zooxo.example,SG,Singapore,APAC,Consumer,Bronze,2023-04-07
+CUST-0427,Viva Co,contact427@viva.example,US,Chicago,NA,Consumer,Bronze,2021-09-27
+CUST-0428,Quaxo LLC,contact428@quaxo.example,SG,Singapore,APAC,Enterprise,Bronze,2022-12-22
+CUST-0429,Yodel Inc,contact429@yodel.example,CA,Toronto,NA,SMB,Gold,2021-07-02
+CUST-0430,Gigabyte Group,contact430@gigabyte.example,SG,Singapore,APAC,SMB,Bronze,2019-10-01
+CUST-0431,Nexora Systems,contact431@nexora.example,MX,Mexico City,LATAM,Consumer,Platinum,2019-04-05
+CUST-0432,Jaxbean Inc,contact432@jaxbean.example,AU,Sydney,APAC,Consumer,Silver,2023-06-06
+CUST-0433,Skiba Systems,contact433@skiba.example,JP,Tokyo,APAC,Consumer,Bronze,2022-06-04
+CUST-0434,Photobean Partners,contact434@photobean.example,SG,Singapore,APAC,SMB,Bronze,2021-02-02
+CUST-0435,Dabfeed Group,contact435@dabfeed.example,US,Austin,NA,SMB,Bronze,2021-08-09
+CUST-0436,Jaxbean Group,contact436@jaxbean.example,US,Seattle,NA,Consumer,Platinum,2020-08-19
+CUST-0437,Mybuzz Partners,contact437@mybuzz.example,US,Chicago,NA,Enterprise,Bronze,2020-04-02
+CUST-0438,Dabfeed Inc,contact438@dabfeed.example,ES,Madrid,EU,Consumer,Silver,2019-10-01
+CUST-0439,Cloudkit LLC,contact439@cloudkit.example,SG,Singapore,APAC,Enterprise,Platinum,2022-01-03
+CUST-0440,Skipfire Co,contact440@skipfire.example,UK,London,EU,Consumer,Platinum,2022-06-20
+CUST-0441,Nexora Inc,contact441@nexora.example,AR,Buenos Aires,LATAM,Consumer,Bronze,2020-03-09
+CUST-0442,Skipfire Co,contact442@skipfire.example,US,Seattle,NA,SMB,Bronze,2019-01-16
+CUST-0443,Zooxo Group,contact443@zooxo.example,JP,Tokyo,APAC,Consumer,Bronze,2022-10-23
+CUST-0444,Gigabyte LLC,contact444@gigabyte.example,US,Austin,NA,Consumer,Bronze,2019-03-23
+CUST-0445,Voonix Inc,contact445@voonix.example,US,Seattle,NA,Consumer,Bronze,2019-05-12
+CUST-0446,Twinte Group,contact446@twinte.example,SG,Singapore,APAC,Consumer,Silver,2022-10-11
+CUST-0447,Dabfeed Co,contact447@dabfeed.example,IL,Tel Aviv,MEA,SMB,Gold,2019-01-20
+CUST-0448,Twinte LLC,contact448@twinte.example,FR,Paris,EU,Enterprise,Silver,2023-12-15
+CUST-0449,Viva Group,contact449@viva.example,CA,Toronto,NA,Enterprise,Silver,2019-12-12
+CUST-0450,Dabtype Group,contact450@dabtype.example,UK,London,EU,Consumer,Bronze,2021-10-10
+CUST-0451,Twinte LLC,contact451@twinte.example,US,Chicago,NA,Consumer,Gold,2022-12-16
+CUST-0452,Voonix Co,contact452@voonix.example,AR,Buenos Aires,LATAM,Consumer,Silver,2023-06-17
+CUST-0453,Brightlane LLC,contact453@brightlane.example,AU,Sydney,APAC,Consumer,Gold,2020-03-27
+CUST-0454,Kanoodle Partners,contact454@kanoodle.example,US,Chicago,NA,Consumer,Platinum,2020-06-26
+CUST-0455,Mybuzz Co,contact455@mybuzz.example,CA,Toronto,NA,Enterprise,Bronze,2023-08-28
+CUST-0456,Skiba Systems,contact456@skiba.example,US,Chicago,NA,Enterprise,Bronze,2023-11-14
+CUST-0457,Quaxo LLC,contact457@quaxo.example,ZA,Cape Town,MEA,SMB,Bronze,2021-09-07
+CUST-0458,Yodel Group,contact458@yodel.example,ES,Madrid,EU,Consumer,Bronze,2019-07-15
+CUST-0459,Viva Systems,contact459@viva.example,AU,Sydney,APAC,Consumer,Platinum,2021-08-20
+CUST-0460,Zooxo Partners,contact460@zooxo.example,DE,Berlin,EU,Consumer,Bronze,2023-08-27
+CUST-0461,Dabtype Inc,contact461@dabtype.example,ES,Madrid,EU,Consumer,Gold,2019-12-28
+CUST-0462,Voonix Partners,contact462@voonix.example,CA,Toronto,NA,Consumer,Silver,2019-06-26
+CUST-0463,Cloudkit Systems,contact463@cloudkit.example,BR,Sao Paulo,LATAM,Consumer,Bronze,2022-08-17
+CUST-0464,Zooxo Inc,contact464@zooxo.example,US,Austin,NA,Consumer,Bronze,2022-06-16
+CUST-0465,Rhybox LLC,contact465@rhybox.example,ES,Madrid,EU,Enterprise,Silver,2022-10-14
+CUST-0466,Nexora Systems,contact466@nexora.example,JP,Tokyo,APAC,Consumer,Silver,2022-08-03
+CUST-0467,Twinte Co,contact467@twinte.example,ES,Madrid,EU,Enterprise,Bronze,2020-08-11
+CUST-0468,Vinte LLC,contact468@vinte.example,AR,Buenos Aires,LATAM,Consumer,Bronze,2023-10-13
+CUST-0469,Twinte LLC,contact469@twinte.example,US,Austin,NA,SMB,Silver,2022-04-27
+CUST-0470,Jaxbean Holdings,contact470@jaxbean.example,FR,Paris,EU,Consumer,Bronze,2022-10-11
+CUST-0471,Gigabyte Co,contact471@gigabyte.example,FR,Paris,EU,Consumer,Platinum,2019-10-20
+CUST-0472,Bluezoom Holdings,contact472@bluezoom.example,DE,Berlin,EU,Consumer,Bronze,2021-09-11
+CUST-0473,Yodel Partners,contact473@yodel.example,US,Seattle,NA,Consumer,Bronze,2021-11-09
+CUST-0474,Zooxo Co,contact474@zooxo.example,US,Austin,NA,Enterprise,Silver,2021-01-07
+CUST-0475,Twinte Partners,contact475@twinte.example,CA,Toronto,NA,Consumer,Silver,2021-12-03
+CUST-0476,Skiba Holdings,contact476@skiba.example,US,Seattle,NA,SMB,Silver,2022-08-07
+CUST-0477,Rhybox LLC,contact477@rhybox.example,DE,Berlin,EU,Consumer,Bronze,2022-12-13
+CUST-0478,Rhybox Systems,contact478@rhybox.example,ES,Madrid,EU,Consumer,Platinum,2021-09-07
+CUST-0479,Twinte Partners,contact479@twinte.example,DE,Berlin,EU,Consumer,Silver,2019-07-04
+CUST-0480,Photobean Partners,contact480@photobean.example,DE,Berlin,EU,Consumer,Silver,2021-08-20
+CUST-0481,Cloudkit Co,contact481@cloudkit.example,ES,Madrid,EU,Enterprise,Bronze,2022-05-24
+CUST-0482,Dabtype Group,contact482@dabtype.example,US,Seattle,NA,SMB,Bronze,2021-12-16
+CUST-0483,Viva Inc,contact483@viva.example,DE,Berlin,EU,SMB,Silver,2022-09-01
+CUST-0484,Nexora Group,contact484@nexora.example,CA,Toronto,NA,Consumer,Bronze,2021-12-19
+CUST-0485,Twinte Group,contact485@twinte.example,CA,Toronto,NA,Consumer,Silver,2020-09-09
+CUST-0486,Jaxbean Partners,contact486@jaxbean.example,UK,London,EU,Enterprise,Bronze,2023-04-26
+CUST-0487,Vinte Group,contact487@vinte.example,DE,Berlin,EU,Consumer,Platinum,2021-08-06
+CUST-0488,Dabfeed Group,contact488@dabfeed.example,US,Seattle,NA,Consumer,Silver,2019-04-02
+CUST-0489,Skipfire Group,contact489@skipfire.example,ES,Madrid,EU,Consumer,Gold,2019-12-19
+CUST-0490,Dabfeed Systems,contact490@dabfeed.example,DE,Berlin,EU,SMB,Silver,2023-09-20
+CUST-0491,Yodel Systems,contact491@yodel.example,AU,Sydney,APAC,SMB,Bronze,2020-03-04
+CUST-0492,Dabtype LLC,contact492@dabtype.example,ES,Madrid,EU,SMB,Gold,2020-09-09
+CUST-0493,Brightlane Partners,contact493@brightlane.example,JP,Tokyo,APAC,SMB,Silver,2020-11-30
+CUST-0494,Voonix Partners,contact494@voonix.example,CA,Toronto,NA,Consumer,Gold,2023-01-04
+CUST-0495,Dabtype Systems,contact495@dabtype.example,IN,Bengaluru,APAC,Enterprise,Bronze,2022-01-15
+CUST-0496,Gigabyte LLC,contact496@gigabyte.example,ES,Madrid,EU,Consumer,Silver,2021-01-03
+CUST-0497,Zooxo Systems,contact497@zooxo.example,DE,Berlin,EU,SMB,Gold,2023-08-13
+CUST-0498,Cloudkit Holdings,contact498@cloudkit.example,ES,Madrid,EU,Consumer,Silver,2021-08-10
+CUST-0499,Kanoodle Holdings,contact499@kanoodle.example,CA,Toronto,NA,Enterprise,Bronze,2020-01-22
+CUST-0500,Brightlane Holdings,contact500@brightlane.example,UK,London,EU,Consumer,Silver,2021-06-28

@@ -1,0 +1,6 @@
+region_id,region_name,currency,tax_rate
+NA,North America,USD,0.0
+EU,Europe,EUR,0.2
+APAC,Asia Pacific,USD,0.1
+LATAM,Latin America,USD,0.15
+MEA,Middle East & Africa,USD,0.05

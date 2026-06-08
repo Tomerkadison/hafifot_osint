@@ -1,0 +1,10 @@
+# local Spark build environment (not part of the course)
+.venv-spark/
+.venv/
+
+# python caches
+__pycache__/
+*.pyc
+
+# os
+.DS_Store

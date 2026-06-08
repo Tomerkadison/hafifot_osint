@@ -87,7 +87,7 @@ ITEMS = [
 
     {"md": "Show the **5 most expensive orders** (highest `unit_price`).\n\n"
            "*הציגו את 5 ההזמנות היקרות ביותר.*",
-     "sol": 'orders.sort("unit_price", descending=True).head(5)'},
+     "sol": 'orders.top_k(5, by="unit_price")'},
 
     {"md": "**How many** completed online orders from Europe have "
            "`quantity` of at least 15? (filter, then count the rows)\n\n"

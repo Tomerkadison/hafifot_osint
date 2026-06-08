@@ -108,7 +108,7 @@ ITEMS = [
     {
         "md": "What is the **average `unit_price`**, rounded to 2 decimals?\n\n"
               "*מהו המחיר הממוצע ליחידה, מעוגל ל-2 ספרות?*",
-        "sol": 'round(orders["unit_price"].mean(), 2)',
+        "sol": 'orders.select(pl.col("unit_price").mean().round(2))',
     },
     {
         "md": "How many **null (missing) values** does each column have? "
@@ -134,9 +134,13 @@ ITEMS = [
         "sol": 'orders.sort("quantity", descending=True).head(5)',
     },
     {
-        "md": "Select rows **10 through 14** (a 5-row slice) using `slice`.\n\n"
-              "*בחרו את השורות 10 עד 14 (חיתוך של 5 שורות) באמצעות `slice`.*",
-        "sol": "orders.slice(10, 5)",
+        "md": "Select rows **10 through 14** (a 5-row slice) using `slice`. "
+              "Add a row index first with `with_row_index()` so you can see the "
+              "0-based positions in the output.\n\n"
+              "*בחרו את השורות 10 עד 14 (חיתוך של 5 שורות) באמצעות `slice`. "
+              "הוסיפו קודם אינדקס שורה עם `with_row_index()` כדי לראות את המיקומים "
+              "(0-based) בפלט.*",
+        "sol": "orders.with_row_index().slice(10, 5)",
     },
 ]
 

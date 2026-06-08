@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spark Exercises — קורס Spark עברי</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0a06;
+    --card: #1c1510;
+    --sidebar: #150f09;
+    --ink: #fff7ee;
+    --muted: #d3bda6;
+    --brand: #e8590c;
+    --brand2: #f59e0b;
+    --accent: #22d3ee;
+    --green: #34d399;
+    --line: #3a2c1d;
+    --code-bg: #120d08;
+    --hover: #2a1f14;
+    --active: #36281a;
+    --sidebar-w: 280px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: "Heebo", -apple-system, "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  #app { display: flex; height: 100vh; overflow: hidden; }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    background: var(--sidebar);
+    border-left: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    order: -1;
+  }
+  .sidebar-logo {
+    padding: 18px 18px 14px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .sidebar-logo a.back { display:inline-block; color:var(--muted); font-size:.78rem; text-decoration:none; margin-bottom:8px; }
+  .sidebar-logo a.back:hover { color: var(--brand2); }
+  .sidebar-logo .brand {
+    font-size: 1.15rem; font-weight: 800; color: var(--brand2); letter-spacing: .04em;
+  }
+  .sidebar-logo .sub { font-size: .78rem; color: var(--muted); margin-top: 2px; }
+
+  .sidebar-nav { flex: 1; overflow-y: auto; padding: 10px 0 20px; }
+  .sidebar-nav::-webkit-scrollbar { width: 4px; }
+  .sidebar-nav::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; cursor: pointer; border-radius: 10px;
+    margin: 2px 8px; transition: background .15s; text-decoration: none;
+    color: var(--muted); font-size: .9rem; font-weight: 400;
+  }
+  .nav-item:hover { background: var(--hover); color: var(--ink); }
+  .nav-item.active { background: var(--active); color: var(--brand2); font-weight: 600; }
+  .nav-item.home-item { color: var(--ink); font-weight: 600; margin-bottom: 6px; }
+
+  .nav-badge {
+    flex-shrink: 0; width: 26px; height: 26px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--brand), var(--brand2));
+    color: #1a0e02; font-size: .75rem; font-weight: 800;
+    display: grid; place-items: center;
+  }
+  .nav-item.active .nav-badge { background: linear-gradient(135deg, var(--brand2), #fbbf24); }
+  .nav-capstone .nav-badge { background: linear-gradient(135deg, var(--accent), #0891b2); }
+
+  .nav-title { flex: 1; direction: rtl; text-align: right; line-height: 1.3; }
+  .nav-title .en { font-size: .7rem; color: var(--muted); display: block; direction: ltr; text-align: left; }
+  .nav-divider { height: 1px; background: var(--line); margin: 8px 14px 6px; }
+
+  /* ── Main content ── */
+  .content { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+  .view { display: none; flex-direction: column; height: 100%; }
+  .view.active { display: flex; }
+
+  /* ── Home page ── */
+  #home-view { overflow-y: auto; align-items: center; flex-direction: column; }
+  #home-view > * { width: 100%; }
+  #home-view::-webkit-scrollbar { width: 6px; }
+  #home-view::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+  .home-hero {
+    padding: 56px 48px 38px;
+    background: linear-gradient(135deg, rgba(232,89,12,.22), rgba(245,158,11,.08));
+    border-bottom: 1px solid var(--line);
+    direction: rtl; text-align: center;
+  }
+  .home-hero .kicker {
+    color: var(--brand2); font-size: .9rem; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .home-hero h1 { font-size: 2.6rem; font-weight: 800; line-height: 1.15; margin-bottom: 16px; }
+  .home-hero h1 span { color: var(--brand2); }
+  .home-hero .desc { font-size: 1.1rem; color: var(--muted); max-width: 660px; line-height: 1.8; margin: 0 auto; }
+  .home-hero .desc strong { color: var(--ink); }
+
+  .home-body { padding: 36px 48px 60px; direction: rtl; text-align: right; max-width: 980px; margin: 0 auto; width: 100%; }
+
+  .section-title {
+    font-size: 1.3rem; font-weight: 700; color: var(--brand2);
+    margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+  .callout {
+    background: linear-gradient(135deg, rgba(232,89,12,.10), var(--card));
+    border: 1px solid var(--line); border-left: 4px solid var(--brand);
+    border-radius: 12px; padding: 16px 20px; margin-bottom: 36px;
+    direction: rtl; color: var(--muted); line-height: 1.8;
+  }
+  .callout strong { color: var(--ink); }
+
+  .chapter-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 14px; margin-bottom: 48px;
+  }
+  .chapter-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 18px 20px; cursor: pointer;
+    transition: border-color .2s, transform .15s, box-shadow .2s;
+    text-align: right; direction: rtl;
+  }
+  .chapter-card:hover {
+    border-color: var(--brand); transform: translateY(-2px);
+    box-shadow: 0 8px 30px -10px rgba(232,89,12,.45);
+  }
+  .chapter-card.capstone { border-color: rgba(34,211,238,.3); background: linear-gradient(135deg, rgba(34,211,238,.06), var(--card)); }
+  .chapter-card.capstone:hover { border-color: var(--accent); }
+
+  .card-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--brand), var(--brand2));
+    color: #1a0e02; font-size: .8rem; font-weight: 800; margin-bottom: 10px;
+  }
+  .chapter-card.capstone .card-num { background: linear-gradient(135deg, var(--accent), #0891b2); }
+
+  .card-title { font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .card-en { font-size: .75rem; color: var(--muted); direction: ltr; text-align: left; margin-bottom: 10px; }
+  .card-desc { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+  .card-tag {
+    display: inline-block; font-size: .7rem; padding: .1em .55em; border-radius: 999px;
+    background: rgba(34,211,238,.12); border: 1px solid rgba(34,211,238,.3);
+    color: var(--accent); margin-top: 8px; direction: ltr;
+  }
+
+  .structure-box, .setup-box {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 24px 28px; margin-bottom: 48px;
+  }
+  .structure-box table { width: 100%; border-collapse: collapse; font-size: .93rem; }
+  .structure-box th, .structure-box td { border: 1px solid var(--line); padding: 10px 14px; text-align: right; vertical-align: top; }
+  .structure-box th { background: #2a1f14; color: var(--brand2); font-weight: 600; font-size: .85rem; }
+  .structure-box code, .setup-box code {
+    background: var(--code-bg); border: 1px solid var(--line); padding: .1em .4em;
+    border-radius: 6px; font-family: Consolas, monospace; color: #ffce9e; direction: ltr;
+    display: inline-block; font-size: .85em;
+  }
+  .setup-box pre {
+    background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 20px; font-family: Consolas, monospace; font-size: .9rem; color: #ffce9e;
+    direction: ltr; text-align: left; margin-top: 12px; overflow-x: auto;
+  }
+  .setup-box a { color: var(--brand2); }
+
+  /* ── Chapter view ── */
+  #chapter-view { flex-direction: column; overflow: hidden; }
+  .chapter-header {
+    padding: 8px 20px 6px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(135deg, rgba(232,89,12,.12), transparent);
+    direction: rtl; flex-shrink: 0;
+  }
+  .chapter-header .ch-kicker { font-size: .75rem; color: var(--muted); margin-bottom: 1px; direction: ltr; text-align: left; }
+  .chapter-header h2 { font-size: 1.1rem; font-weight: 800; color: var(--ink); }
+
+  .tab-bar { display: flex; gap: 0; padding: 4px 16px 0; border-bottom: 1px solid var(--line); flex-shrink: 0; direction: rtl; }
+  .tab-btn {
+    padding: 7px 18px; font-size: .9rem; font-weight: 600; font-family: inherit;
+    border: none; background: transparent; color: var(--muted); cursor: pointer;
+    border-bottom: 3px solid transparent; transition: color .15s, border-color .15s; border-radius: 8px 8px 0 0;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--brand2); border-bottom-color: var(--brand2); background: rgba(245,158,11,.06); }
+
+  .tab-content { flex: 1; display: none; flex-direction: column; overflow: hidden; }
+  .tab-content.active { display: flex; }
+  #tab-subject { overflow: hidden; }
+  #tab-subject iframe, #tab-exercise iframe { flex: 1; border: none; width: 100%; height: 100%; }
+  #tab-exercise { overflow: hidden; }
+
+  .notebook-buttons {
+    display: flex; gap: 12px; padding: 10px 18px; border-bottom: 1px solid var(--line);
+    background: rgba(28,21,16,.6); flex-shrink: 0; direction: rtl; align-items: center;
+  }
+  .nb-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+    padding: 9px 24px; border-radius: 12px; border: 2px solid var(--brand2);
+    text-decoration: none; font-family: inherit; font-size: 1rem; font-weight: 700;
+    cursor: pointer; background: rgba(245,158,11,.08); color: var(--brand2);
+    transition: transform .15s, box-shadow .2s, background .15s; direction: rtl;
+  }
+  .nb-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px -8px var(--brand2); background: rgba(245,158,11,.16); }
+  .nb-btn-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .nb-btn-text .main { display: block; font-size: 1rem; }
+  .nb-btn-text .sub { display: block; font-size: .75rem; font-weight: 400; opacity: .7; }
+
+  @media (max-width: 700px) {
+    .sidebar { width: 230px; min-width: 230px; }
+    .home-hero { padding: 36px 20px 28px; }
+    .home-hero h1 { font-size: 1.8rem; }
+    .home-body { padding: 24px 20px 40px; }
+    .notebook-buttons { flex-direction: column; }
+    .chapter-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a class="back" href="index.html">← בחירת קורס</a>
+      <div class="brand">🔥 Spark Exercises</div>
+      <div class="sub">קורס Spark בעברית · Palantir Foundry</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item home-item active" data-view="home" onclick="navigate('home')">
+        <span style="font-size:1.1rem">🏠</span>
+        <span class="nav-title">דף הבית</span>
+      </div>
+      <div class="nav-divider"></div>
+
+      <div class="nav-item" data-view="ch01" onclick="navigate('ch01')">
+        <span class="nav-badge">01</span>
+        <span class="nav-title">חשיבה ובסיס<span class="en">Spark Mindset & Basics</span></span>
+      </div>
+      <div class="nav-item" data-view="ch02" onclick="navigate('ch02')">
+        <span class="nav-badge">02</span>
+        <span class="nav-title">חישוב עצל ותוכנית<span class="en">Lazy Execution & the Plan</span></span>
+      </div>
+      <div class="nav-item" data-view="ch03" onclick="navigate('ch03')">
+        <span class="nav-badge">03</span>
+        <span class="nav-title">Spark SQL<span class="en">Spark SQL</span></span>
+      </div>
+      <div class="nav-item nav-capstone" data-view="ch04" onclick="navigate('ch04')">
+        <span class="nav-badge">04</span>
+        <span class="nav-title">פונקציות חלון 🎯<span class="en">Window Functions</span></span>
+      </div>
+      <div class="nav-item nav-capstone" data-view="ch05" onclick="navigate('ch05')">
+        <span class="nav-badge">05</span>
+        <span class="nav-title">Joins ו-Shuffles 🎯<span class="en">Joins & Shuffles</span></span>
+      </div>
+      <div class="nav-item nav-capstone" data-view="ch06" onclick="navigate('ch06')">
+        <span class="nav-badge">06</span>
+        <span class="nav-title">מידע מקונן 🎯<span class="en">Nested & Semi-structured</span></span>
+      </div>
+      <div class="nav-item" data-view="ch07" onclick="navigate('ch07')">
+        <span class="nav-badge">07</span>
+        <span class="nav-title">UDFs וביצועים<span class="en">UDFs, Built-ins & Performance</span></span>
+      </div>
+      <div class="nav-item" data-view="ch08" onclick="navigate('ch08')">
+        <span class="nav-badge">08</span>
+        <span class="nav-title">Schemas, קריאה וכתיבה<span class="en">Schemas, Reading & Writing</span></span>
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-item nav-capstone" data-view="ch09" onclick="navigate('ch09')">
+        <span class="nav-badge">09</span>
+        <span class="nav-title">פרויקט מסכם 🎯<span class="en">Capstone: Streamline</span></span>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- ══ CONTENT ══ -->
+  <main class="content">
+
+    <!-- Home view -->
+    <div id="home-view" class="view active">
+      <div class="home-hero">
+        <div class="kicker">קורס Spark מעשי · עברית</div>
+        <h1>תרגילים ב-<span>Apache Spark</span></h1>
+        <p class="desc">
+          המשך ישיר לקורסי ה-pandas וה-Polars — אבל בלי לחזור על אותם דברים.
+          כאן מתמקדים ב<strong>מה שמייחד את Spark</strong>: חישוב מבוזר ועצל,
+          פונקציות חלון, SQL, מידע מקונן, וביצועים — בדיוק כמו שעובדים
+          ב-<strong>Palantir Foundry</strong>.
+        </p>
+      </div>
+
+      <div class="home-body">
+
+        <div class="callout">
+          <strong>הפילוסופיה:</strong> הבסיס (read / select / filter / groupBy) — בקצרה,
+          כי אתם כבר מכירים אותו מ-pandas ו-Polars. כל השאר עוסק במה ש-Spark עושה
+          <strong>אחרת</strong>: lazy execution, shuffles, Window functions, JSON מקונן,
+          ו-UDFs מול פונקציות מובנות.
+        </div>
+
+        <div class="section-title">הפרקים</div>
+        <div class="chapter-grid">
+
+          <div class="chapter-card" onclick="navigate('ch01')">
+            <div class="card-num">01</div>
+            <div class="card-title">חשיבה ובסיס ב-Spark</div>
+            <div class="card-en">Spark Mindset & Basics</div>
+            <div class="card-desc">כל הבסיס במהירות — והרעיון הגדול: DataFrame הוא מתכון עצל, ושום דבר לא רץ עד action.</div>
+          </div>
+
+          <div class="chapter-card" onclick="navigate('ch02')">
+            <div class="card-num">02</div>
+            <div class="card-title">חישוב עצל ותוכנית</div>
+            <div class="card-en">Lazy Execution & the Plan</div>
+            <div class="card-desc">explain(), ה-Catalyst optimizer, מיזוג פילטרים, projection pruning, ו-cache.</div>
+          </div>
+
+          <div class="chapter-card" onclick="navigate('ch03')">
+            <div class="card-num">03</div>
+            <div class="card-title">Spark SQL</div>
+            <div class="card-en">Spark SQL</div>
+            <div class="card-desc">temp views ו-spark.sql — לכתוב SQL רגיל על DataFrames ולערבב חופשי עם ה-API.</div>
+          </div>
+
+          <div class="chapter-card capstone" onclick="navigate('ch04')">
+            <div class="card-num">04</div>
+            <div class="card-title">פונקציות חלון</div>
+            <div class="card-en">Window Functions 🎯</div>
+            <div class="card-desc">דירוג, top-N לכל קבוצה, running totals, lag/lead — הכלי הכי שימושי בעבודה ב-Foundry.</div>
+            <span class="card-tag">🎯 mission chapter</span>
+          </div>
+
+          <div class="chapter-card capstone" onclick="navigate('ch05')">
+            <div class="card-num">05</div>
+            <div class="card-title">Joins ו-Shuffles</div>
+            <div class="card-en">Joins & Shuffles 🎯</div>
+            <div class="card-desc">כל סוגי ה-join (כולל semi/anti), broadcast join, וקריאת ה-shuffle ב-explain.</div>
+            <span class="card-tag">🎯 mission chapter</span>
+          </div>
+
+          <div class="chapter-card capstone" onclick="navigate('ch06')">
+            <div class="card-num">06</div>
+            <div class="card-title">מידע מקונן וחצי-מובנה</div>
+            <div class="card-en">Nested & Semi-structured 🎯</div>
+            <div class="card-desc">structs, arrays, explode, from_json — כאן Spark עוקף בענק את pandas/Polars.</div>
+            <span class="card-tag">🎯 mission chapter</span>
+          </div>
+
+          <div class="chapter-card" onclick="navigate('ch07')">
+            <div class="card-num">07</div>
+            <div class="card-title">UDFs, מובנות וביצועים</div>
+            <div class="card-en">UDFs, Built-ins & Performance</div>
+            <div class="card-desc">UDF מול פונקציה מובנית, pandas_udf וקטורי, repartition/coalesce, ו-cache.</div>
+          </div>
+
+          <div class="chapter-card" onclick="navigate('ch08')">
+            <div class="card-num">08</div>
+            <div class="card-title">Schemas, קריאה וכתיבה</div>
+            <div class="card-en">Schemas, Reading & Writing</div>
+            <div class="card-desc">StructType, casting, ו-Parquet מחולק עם partitionBy — IO בסגנון Foundry.</div>
+          </div>
+
+          <div class="chapter-card capstone" onclick="navigate('ch09')">
+            <div class="card-num">09</div>
+            <div class="card-title">פרויקט מסכם: Streamline</div>
+            <div class="card-en">Capstone Case Study 🎯</div>
+            <div class="card-desc">pipeline מקצה-לקצה: ניקוי, העשרה, דירוג, איחוד התנהגות וטרנזקציות לטבלת customer-360.</div>
+            <span class="card-tag">🎯 capstone project</span>
+          </div>
+
+        </div>
+
+        <div class="section-title">מבנה כל פרק</div>
+        <div class="structure-box">
+          <table>
+            <thead><tr><th>קובץ</th><th>מה זה</th></tr></thead>
+            <tbody>
+              <tr><td><code>subject.html</code></td><td>מצגת בעברית על נושא הפרק + קישורים לתיעוד הרשמי של Spark</td></tr>
+              <tr><td><code>exercise.html</code></td><td>הסבר בעברית על התרגיל ומבנה המידע</td></tr>
+              <tr><td><code>Exercises.ipynb</code></td><td>התרגיל — שאלות עם תאי קוד ריקים (התא הראשון כבר פותח SparkSession)</td></tr>
+              <tr><td><code>Solutions.ipynb</code></td><td>אותן שאלות עם הפתרונות והפלט האמיתי של Spark</td></tr>
+              <tr><td><code>data/</code></td><td>קובצי המידע (CSV / JSON) שעליהם רצים התרגילים</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:14px; color:var(--muted); font-size:.9rem; direction:rtl;">
+            💡 פתחו תחילה את <strong>נושא הפרק</strong> ואז את <strong>התרגיל</strong> — ואז עברו ל-Notebook.
+          </p>
+        </div>
+
+        <div class="section-title">התקנה</div>
+        <div class="setup-box">
+          <p style="color:var(--muted); direction:rtl;">
+            ל-Spark צריך <strong style="color:var(--ink)">Java</strong> (פעם אחת) ואז
+            <code>pip install pyspark</code>. המדריך המלא — כולל אופציות של Google Colab
+            ו-Docker למי שלא רוצה להתקין — נמצא בקובץ
+            <a href="spark_exercises/SETUP.md" target="_blank">SETUP.md</a>.
+          </p>
+          <pre>brew install openjdk@17        # macOS (או Temurin 17 ב-Windows)
+pip install "pyspark==3.5.1" jupyter pandas pyarrow</pre>
+          <p style="color:var(--muted); direction:rtl; margin-top:12px;">
+            הכי קל להתחיל? פתחו notebook ב-<strong style="color:var(--ink)">Google Colab</strong>
+            והריצו <code>!pip install pyspark</code> — שם Java כבר מותקן.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Chapter view (shared for all chapters) -->
+    <div id="chapter-view" class="view">
+      <div class="chapter-header">
+        <div class="ch-kicker" id="ch-kicker"></div>
+        <h2 id="ch-title"></h2>
+      </div>
+
+      <div class="tab-bar">
+        <button class="tab-btn active" id="tab-subject-btn" onclick="switchTab('subject')">📖 נושא הפרק</button>
+        <button class="tab-btn" id="tab-exercise-btn" onclick="switchTab('exercise')">✏️ תרגיל</button>
+      </div>
+
+      <div id="tab-subject" class="tab-content active">
+        <iframe id="subject-frame" src="" title="נושא הפרק"></iframe>
+      </div>
+
+      <div id="tab-exercise" class="tab-content">
+        <div class="notebook-buttons">
+          <a id="nb-download-btn" class="nb-btn" href="#" download>
+            <span class="nb-btn-icon">⬇️</span>
+            <span class="nb-btn-text">
+              <span class="main">הורד את חומרי התרגיל</span>
+              <span class="sub">Exercises + Solutions + data/</span>
+            </span>
+          </a>
+        </div>
+        <iframe id="exercise-frame" src="" title="התרגיל"></iframe>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const BASE = 'spark_exercises';
+
+  const chapters = {
+    ch01: { dir: '01_Spark_Mindset_and_Basics',           he: 'חשיבה ובסיס ב-Spark',        en: 'Spark Mindset & Basics' },
+    ch02: { dir: '02_Lazy_Execution_and_the_Plan',        he: 'חישוב עצל ותוכנית',          en: 'Lazy Execution & the Plan' },
+    ch03: { dir: '03_Spark_SQL',                          he: 'Spark SQL',                  en: 'Spark SQL' },
+    ch04: { dir: '04_Window_Functions',                   he: 'פונקציות חלון',              en: 'Window Functions' },
+    ch05: { dir: '05_Joins_and_Shuffles',                 he: 'Joins ו-Shuffles',          en: 'Joins & Shuffles' },
+    ch06: { dir: '06_Nested_and_Semi_Structured_Data',    he: 'מידע מקונן וחצי-מובנה',      en: 'Nested & Semi-structured Data' },
+    ch07: { dir: '07_UDFs_Builtins_and_Performance',      he: 'UDFs, מובנות וביצועים',      en: 'UDFs, Built-ins & Performance' },
+    ch08: { dir: '08_Schemas_Reading_and_Writing',        he: 'Schemas, קריאה וכתיבה',      en: 'Schemas, Reading & Writing' },
+    ch09: { dir: '09_Capstone_Streamline_Analytics',      he: 'פרויקט מסכם: Streamline',    en: 'Capstone Case Study' },
+  };
+
+  let currentView = 'home';
+  let currentTab  = 'subject';
+
+  function navigate(view) {
+    document.querySelectorAll('.nav-item').forEach(el => {
+      el.classList.toggle('active', el.dataset.view === view);
+    });
+
+    if (view === 'home') {
+      document.getElementById('home-view').classList.add('active');
+      document.getElementById('chapter-view').classList.remove('active');
+    } else {
+      const ch = chapters[view];
+      if (!ch) return;
+      const num = view.replace('ch', '');
+      document.getElementById('ch-kicker').textContent = `פרק ${num} — ${ch.en}`;
+      document.getElementById('ch-title').textContent  = ch.he;
+      document.getElementById('subject-frame').src  = `${BASE}/${ch.dir}/subject.html`;
+      document.getElementById('exercise-frame').src = `${BASE}/${ch.dir}/exercise.html`;
+      const btn = document.getElementById('nb-download-btn');
+      btn.href = `${BASE}/${ch.dir}/chapter${num}.zip`;
+      btn.download = `chapter${num}.zip`;
+      document.getElementById('home-view').classList.remove('active');
+      document.getElementById('chapter-view').classList.add('active');
+      switchTab('subject');
+    }
+    currentView = view;
+    window.location.hash = view;
+  }
+
+  function switchTab(tab) {
+    currentTab = tab;
+    document.getElementById('tab-subject').classList.toggle('active',  tab === 'subject');
+    document.getElementById('tab-exercise').classList.toggle('active', tab === 'exercise');
+    document.getElementById('tab-subject-btn').classList.toggle('active',  tab === 'subject');
+    document.getElementById('tab-exercise-btn').classList.toggle('active', tab === 'exercise');
+  }
+
+  window.addEventListener('load', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && (hash === 'home' || chapters[hash])) navigate(hash);
+  });
+</script>
+</body>
+</html>

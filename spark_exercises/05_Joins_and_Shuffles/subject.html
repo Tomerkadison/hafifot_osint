@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 05 — Joins ו-Shuffles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f0a06; --card:#1c1510; --ink:#fff7ee; --muted:#d3bda6;
+    --brand:#e8590c; --brand2:#f59e0b; --accent:#22d3ee; --line:#3a2c1d;
+    --code-bg:#120d08; --green:#34d399; --red:#f76b6b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:radial-gradient(1200px 600px at 80% -10%,#3a2410 0,var(--bg) 55%);
+    color:var(--ink); font-family:"Heebo",-apple-system,"Segoe UI",Arial,sans-serif;
+    line-height:1.75; padding:0 0 80px}
+  .wrap{max-width:900px; margin:0 auto; padding:0 22px}
+  header.hero{padding:60px 22px 44px; text-align:center; border-bottom:1px solid var(--line)}
+  .kicker{font-weight:600; letter-spacing:.06em; font-size:.95rem}
+  h1{font-size:2.4rem; font-weight:800; margin:.2em 0 .15em; line-height:1.2}
+  .hero p{color:var(--muted); font-size:1.13rem; max-width:660px; margin:.4em auto 0}
+  .slide{background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:28px 32px; margin:24px 0; box-shadow:0 20px 50px -30px #000}
+  .slide h2{font-size:1.55rem; margin:0 0 .5em; display:flex; align-items:center; gap:.5em}
+  .slide h2 .num{background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#1a0e02;
+    width:1.7em; height:1.7em; border-radius:12px; display:grid; place-items:center;
+    font-size:.95rem; font-weight:800; flex:0 0 auto}
+  .slide h3{color:var(--brand2); font-size:1.1rem; margin:1.3em 0 .3em}
+  p,li{color:#f0e6d8}
+  .muted{color:var(--muted)}
+  ul,ol{margin:.4em 0; padding-inline-start:1.3em}
+  li{margin:.35em 0}
+  code{background:var(--code-bg); border:1px solid var(--line); padding:.12em .45em;
+    border-radius:7px; font-family:"SFMono-Regular",Consolas,monospace; color:#ffce9e;
+    direction:ltr; display:inline-block; font-size:.9em}
+  .cmp{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px}
+  .cmp>div{border:1px solid var(--line); border-radius:12px; padding:14px 16px}
+  .cmp .bad{background:rgba(247,107,107,.06)}
+  .cmp .good{background:rgba(232,89,12,.10)}
+  .cmp h4{margin:0 0 .4em; font-size:1rem}
+  table{width:100%; border-collapse:collapse; margin-top:10px; font-size:.95rem}
+  th,td{border:1px solid var(--line); padding:10px 12px; text-align:right; vertical-align:top}
+  th{background:#2a1f14; color:var(--brand2); font-weight:600}
+  td code{font-size:.85em}
+  a{color:var(--brand2); text-decoration:none; font-weight:600}
+  a:hover{text-decoration:underline}
+  .doc-link{display:inline-block; direction:ltr}
+  .tag{display:inline-block; font-size:.78rem; padding:.1em .6em; border-radius:999px;
+    border:1px solid var(--line); background:#2a1f14; color:var(--muted); direction:ltr}
+  .tip{border-right:4px solid var(--green); background:rgba(52,211,153,.07);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .warn{border-right:4px solid var(--brand2); background:rgba(245,158,11,.10);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .steps{counter-reset:s; list-style:none; padding:0}
+  .steps li{counter-increment:s; position:relative; padding-right:2.4em; margin:.5em 0}
+  .steps li::before{content:counter(s); position:absolute; right:0; top:.05em;
+    width:1.6em; height:1.6em; border-radius:8px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#1a0e02;
+    font-weight:800; font-size:.85rem}
+  .cta{background:linear-gradient(135deg,rgba(232,89,12,.16),rgba(245,158,11,.10));
+    border:1px solid var(--brand); border-radius:18px; padding:26px 30px; margin-top:30px}
+  .cta h2{color:var(--brand2)}
+  .pill{display:inline-block; background:#2a1f14; border:1px solid var(--line);
+    border-radius:999px; padding:.25em .9em; margin:.2em; font-size:.9rem; direction:ltr}
+  @media(max-width:640px){.cmp{grid-template-columns:1fr} h1{font-size:1.85rem}}
+
+  .kicker{color:#f59e0b}
+  header.hero{background:linear-gradient(135deg,rgba(232,89,12,.20),rgba(245,158,11,.10))}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">Spark for Power Users · פרק 05</div>
+  <h1>Joins ו-Shuffles</h1>
+  <p>לחבר טבלאות — ולהבין את ה-shuffle, הפעולה היקרה ביותר בחישוב מבוזר.</p>
+</header>
+
+<div class="wrap">
+
+  <section class="slide">
+    <h2><span class="num">1</span>join ב-Spark — ומה זה shuffle</h2>
+    <p>join מחבר שתי טבלאות לפי מפתח. ב-pandas/Polars זה קורה בזיכרון של מחשב אחד. ב-Spark, השורות של כל טבלה מפוזרות על מכונות שונות — אז כדי ש-מפתחות תואמים ייפגשו, Spark חייב <strong>להזיז מידע ברשת</strong>. זה ה-<strong>shuffle</strong>, והפעולה היקרה ביותר בחישוב מבוזר.</p><p>ב-<code>explain()</code> ה-shuffle מופיע בתור <code>Exchange</code>, וה-join עצמו בתור <code>SortMergeJoin</code>.</p>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">2</span>סוגי join</h2>
+    <ul><li><code>inner</code> — רק שורות עם התאמה בשני הצדדים.</li><li><code>left</code> / <code>right</code> / <code>outer</code> — שומר את כל השורות מצד אחד / שני / שניהם, עם <code>null</code> בחוסר.</li><li><code>left_semi</code> — כמו <code>inner</code>, אבל מחזיר <strong>רק את עמודות הצד השמאלי</strong>. זה בעצם "סנן לשורות שיש להן התאמה".</li><li><code>left_anti</code> — ההפך: שורות שמאליות <strong>בלי</strong> התאמה. מצוין למציאת "יתומים".</li></ul><p><code>semi</code>/<code>anti</code> כמעט לא קיימים ב-pandas — שם צריך טריקים. ב-Spark זה join מובנה.</p>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">3</span>Broadcast join — לעקוף את ה-shuffle</h2>
+    <p>אם אחת הטבלאות <strong>קטנה</strong> (טבלת ממדים: regions, products), אפשר לשלוח עותק שלה לכל executor במקום להזיז את הטבלה הגדולה. זה <strong>broadcast join</strong>, והוא חוסך את ה-shuffle לגמרי.</p><p><code>big.join(F.broadcast(small), "key")</code></p><p>ב-<code>explain()</code> תראו <code>BroadcastHashJoin</code>. Spark גם עושה זאת אוטומטית לטבלאות מתחת ל-<code>spark.sql.autoBroadcastJoinThreshold</code> (10MB כברירת מחדל).</p>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">4</span>join: pandas מול Spark</h2>
+    <div class="cmp">
+      <div class="bad"><h4>🐼 pandas</h4>
+        <ul>
+          <li><code>pd.merge(a, b, on='k')</code></li>
+          <li><code>how='inner'/'left'/...</code></li>
+          <li>אין <code>semi</code>/<code>anti</code> מובנה</li>
+          <li>הכול בזיכרון, ללא shuffle</li>
+        </ul>
+      </div>
+      <div class="good"><h4>🔥 Spark</h4>
+        <ul>
+          <li><code>a.join(b, 'k', 'inner')</code></li>
+          <li><code>'inner'/'left'/'left_semi'/'left_anti'</code></li>
+          <li><code>semi</code>/<code>anti</code> מובנים</li>
+          <li>shuffle על פני הרשת (או broadcast)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tip">💡 חברו על מפתח כ<strong>מחרוזת</strong> (<code>a.join(b, "customer_id")</code>) כדי שלא תיווצר עמודה כפולה מעורפלת.</div>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">5</span>הפונקציות של הפרק + תיעוד</h2>
+    <table>
+      <thead><tr><th>מה זה עושה</th><th>פונקציה</th><th>תיעוד רשמי</th></tr></thead>
+      <tbody>
+        <tr><td>חיבור טבלאות</td><td><code>DataFrame.join()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.join.html" target="_blank">join ↗</a></td></tr>
+        <tr><td>רמז ל-broadcast join</td><td><code>F.broadcast()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.broadcast.html" target="_blank">broadcast ↗</a></td></tr>
+        <tr><td>ספירת ערכים ייחודיים</td><td><code>F.countDistinct()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.count_distinct.html" target="_blank">countDistinct ↗</a></td></tr>
+        <tr><td>הצגת התוכנית</td><td><code>DataFrame.explain()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.explain.html" target="_blank">explain ↗</a></td></tr>
+        <tr><td>הסרת עמודה אחרי join</td><td><code>DataFrame.drop()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.drop.html" target="_blank">drop ↗</a></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="cta">
+    <h2>🎯 לקריאה נוספת</h2>
+    <p>קראו את מדריך ה-Performance Tuning על join strategies — מתי Spark בוחר SortMerge, מתי Broadcast, ומה זה shuffle hash join.</p>
+    <div>
+      <span class="pill"><a href="https://spark.apache.org/docs/latest/sql-ref-syntax-qry-select-hints.html" target="_blank">Join Hints ↗</a></span>
+      <span class="pill"><a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/dataframe.html" target="_blank">PySpark DataFrame API ↗</a></span>
+      <span class="pill"><a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/functions.html" target="_blank">Functions (F.*) ↗</a></span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

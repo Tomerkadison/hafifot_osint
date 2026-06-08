@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 04 — פונקציות חלון</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f0a06; --card:#1c1510; --ink:#fff7ee; --muted:#d3bda6;
+    --brand:#e8590c; --brand2:#f59e0b; --accent:#22d3ee; --line:#3a2c1d;
+    --code-bg:#120d08; --green:#34d399; --red:#f76b6b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:radial-gradient(1200px 600px at 80% -10%,#3a2410 0,var(--bg) 55%);
+    color:var(--ink); font-family:"Heebo",-apple-system,"Segoe UI",Arial,sans-serif;
+    line-height:1.75; padding:0 0 80px}
+  .wrap{max-width:900px; margin:0 auto; padding:0 22px}
+  header.hero{padding:60px 22px 44px; text-align:center; border-bottom:1px solid var(--line)}
+  .kicker{font-weight:600; letter-spacing:.06em; font-size:.95rem}
+  h1{font-size:2.4rem; font-weight:800; margin:.2em 0 .15em; line-height:1.2}
+  .hero p{color:var(--muted); font-size:1.13rem; max-width:660px; margin:.4em auto 0}
+  .slide{background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:28px 32px; margin:24px 0; box-shadow:0 20px 50px -30px #000}
+  .slide h2{font-size:1.55rem; margin:0 0 .5em; display:flex; align-items:center; gap:.5em}
+  .slide h2 .num{background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#1a0e02;
+    width:1.7em; height:1.7em; border-radius:12px; display:grid; place-items:center;
+    font-size:.95rem; font-weight:800; flex:0 0 auto}
+  .slide h3{color:var(--brand2); font-size:1.1rem; margin:1.3em 0 .3em}
+  p,li{color:#f0e6d8}
+  .muted{color:var(--muted)}
+  ul,ol{margin:.4em 0; padding-inline-start:1.3em}
+  li{margin:.35em 0}
+  code{background:var(--code-bg); border:1px solid var(--line); padding:.12em .45em;
+    border-radius:7px; font-family:"SFMono-Regular",Consolas,monospace; color:#ffce9e;
+    direction:ltr; display:inline-block; font-size:.9em}
+  .cmp{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10px}
+  .cmp>div{border:1px solid var(--line); border-radius:12px; padding:14px 16px}
+  .cmp .bad{background:rgba(247,107,107,.06)}
+  .cmp .good{background:rgba(232,89,12,.10)}
+  .cmp h4{margin:0 0 .4em; font-size:1rem}
+  table{width:100%; border-collapse:collapse; margin-top:10px; font-size:.95rem}
+  th,td{border:1px solid var(--line); padding:10px 12px; text-align:right; vertical-align:top}
+  th{background:#2a1f14; color:var(--brand2); font-weight:600}
+  td code{font-size:.85em}
+  a{color:var(--brand2); text-decoration:none; font-weight:600}
+  a:hover{text-decoration:underline}
+  .doc-link{display:inline-block; direction:ltr}
+  .tag{display:inline-block; font-size:.78rem; padding:.1em .6em; border-radius:999px;
+    border:1px solid var(--line); background:#2a1f14; color:var(--muted); direction:ltr}
+  .tip{border-right:4px solid var(--green); background:rgba(52,211,153,.07);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .warn{border-right:4px solid var(--brand2); background:rgba(245,158,11,.10);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0}
+  .steps{counter-reset:s; list-style:none; padding:0}
+  .steps li{counter-increment:s; position:relative; padding-right:2.4em; margin:.5em 0}
+  .steps li::before{content:counter(s); position:absolute; right:0; top:.05em;
+    width:1.6em; height:1.6em; border-radius:8px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#1a0e02;
+    font-weight:800; font-size:.85rem}
+  .cta{background:linear-gradient(135deg,rgba(232,89,12,.16),rgba(245,158,11,.10));
+    border:1px solid var(--brand); border-radius:18px; padding:26px 30px; margin-top:30px}
+  .cta h2{color:var(--brand2)}
+  .pill{display:inline-block; background:#2a1f14; border:1px solid var(--line);
+    border-radius:999px; padding:.25em .9em; margin:.2em; font-size:.9rem; direction:ltr}
+  @media(max-width:640px){.cmp{grid-template-columns:1fr} h1{font-size:1.85rem}}
+
+  .kicker{color:#f59e0b}
+  header.hero{background:linear-gradient(135deg,rgba(232,89,12,.20),rgba(245,158,11,.10))}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">Spark for Power Users · פרק 04</div>
+  <h1>פונקציות חלון (Window Functions)</h1>
+  <p>הכלי הכי שימושי לעבודה אמיתית: דירוג, סכום מצטבר, והשוואה בין שורות.</p>
+</header>
+
+<div class="wrap">
+
+  <section class="slide">
+    <h2><span class="num">1</span>מה זה window function?</h2>
+    <p><code>groupBy</code> מכווץ שורות: 1000 הזמנות הופכות ל-4 שורות (אחת לכל status). <strong>window function</strong> שומרת את כל השורות, אבל לכל שורה מחשבת ערך שמסתכל על שורות אחרות באותה קבוצה.</p><p>דוגמאות מהחיים: "מה הדירוג של ההזמנה הזו בתוך ה-channel שלה?", "מה הסכום המצטבר עד עכשיו?", "מה היה ב-הזמנה הקודמת?", "איזה אחוז מסך ההזמנות של הלקוח זו ההזמנה הזו?".</p>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">2</span>האנטומיה של חלון</h2>
+    <p>בונים חלון משלושה חלקים:</p><ul><li><code>partitionBy(...)</code> — לאיזו קבוצה כל שורה שייכת (כמו <code>GROUP BY</code>, אבל בלי לכווץ).</li><li><code>orderBy(...)</code> — הסדר בתוך הקבוצה (חובה ל-ranking, ל-<code>lag</code>, ול-running totals).</li><li><code>rowsBetween(...)</code> / <code>rangeBetween(...)</code> — המסגרת: אילו שורות נכנסות לחישוב (למשל "מההתחלה עד השורה הנוכחית").</li></ul><p><code>w = Window.partitionBy("customer_id").orderBy("order_ts")</code><br><code>df.withColumn("seq", F.row_number().over(w))</code></p>
+  </section>
+
+  <section class="slide">
+    <h2><span class="num">3</span>משפחות הפונקציות</h2>
+    <ul><li><strong>דירוג</strong>: <code>row_number</code> (ייחודי), <code>rank</code> (מדלג על תיקו), <code>dense_rank</code> (לא מדלג), <code>ntile(n)</code> (חלוקה ל-n דליים).</li><li><strong>שורות שכנות</strong>: <code>lag</code> (קודמת), <code>lead</code> (הבאה), <code>first</code>, <code>last</code>.</li><li><strong>אגרגציה על חלון</strong>: <code>sum</code>, <code>avg</code>, <code>min</code>, <code>max</code>, <code>count</code> — עם מסגרת ל-running totals וממוצע נע.</li></ul>
+  </section>
+
+  <div class="slide" style="border-right:4px solid var(--brand2)"><p style="margin:0">⚠️ <strong>partition של חלון ≠ partition פיזי.</strong> <code>partitionBy</code> בחלון הוא קיבוץ לוגי לחישוב. חלון בלי <code>partitionBy</code> שם את <em>כל</em> המידע ב-partition אחד — איטי וזולל זיכרון. כמעט תמיד תרצו <code>partitionBy</code>.</p></div>
+
+  <section class="slide">
+    <h2><span class="num">5</span>הפונקציות של הפרק + תיעוד</h2>
+    <table>
+      <thead><tr><th>מה זה עושה</th><th>פונקציה</th><th>תיעוד רשמי</th></tr></thead>
+      <tbody>
+        <tr><td>הגדרת חלון</td><td><code>Window.partitionBy()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.Window.partitionBy.html" target="_blank">partitionBy ↗</a></td></tr>
+        <tr><td>מספר שורה רץ</td><td><code>F.row_number()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.row_number.html" target="_blank">row_number ↗</a></td></tr>
+        <tr><td>דירוג עם דילוג</td><td><code>F.rank()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.rank.html" target="_blank">rank ↗</a></td></tr>
+        <tr><td>דירוג צפוף</td><td><code>F.dense_rank()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.dense_rank.html" target="_blank">dense_rank ↗</a></td></tr>
+        <tr><td>ערך מהשורה הקודמת</td><td><code>F.lag()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.lag.html" target="_blank">lag ↗</a></td></tr>
+        <tr><td>ערך מהשורה הבאה</td><td><code>F.lead()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.lead.html" target="_blank">lead ↗</a></td></tr>
+        <tr><td>חלוקה ל-n דליים</td><td><code>F.ntile()</code></td><td><a class="doc-link" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.ntile.html" target="_blank">ntile ↗</a></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="cta">
+    <h2>🎯 לקריאה נוספת</h2>
+    <p>קראו את מדריך ה-Window Functions הרשמי — שם מוסבר ההבדל בין <code>rowsBetween</code> ל-<code>rangeBetween</code>, שחשוב מאוד.</p>
+    <div>
+      <span class="pill"><a href="https://spark.apache.org/docs/latest/sql-ref-syntax-qry-select-window.html" target="_blank">Window Functions Guide ↗</a></span>
+      <span class="pill"><a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/dataframe.html" target="_blank">PySpark DataFrame API ↗</a></span>
+      <span class="pill"><a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/functions.html" target="_blank">Functions (F.*) ↗</a></span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

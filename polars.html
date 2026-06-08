@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polars Exercises — קורס Polars עברי</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b1020;
+    --card: #141a2e;
+    --sidebar: #0d1327;
+    --ink: #eef2ff;
+    --muted: #a9b4d0;
+    --brand: #5b8def;
+    --brand2: #22d3ee;
+    --accent: #f7b955;
+    --green: #34d399;
+    --line: #26304d;
+    --code-bg: #0a0f1f;
+    --hover: #1a2448;
+    --active: #1e2f5a;
+    --sidebar-w: 270px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: "Heebo", -apple-system, "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  /* ── App shell ── */
+  #app {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    background: var(--sidebar);
+    border-left: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    order: -1; /* always on the left */
+  }
+
+  .sidebar-logo {
+    padding: 20px 18px 16px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .sidebar-logo .brand {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--brand2);
+    letter-spacing: .04em;
+  }
+  .sidebar-logo .sub {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0 20px;
+  }
+  .sidebar-nav::-webkit-scrollbar { width: 4px; }
+  .sidebar-nav::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin: 2px 8px;
+    transition: background .15s;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: .9rem;
+    font-weight: 400;
+  }
+  .nav-item:hover { background: var(--hover); color: var(--ink); }
+  .nav-item.active { background: var(--active); color: var(--brand2); font-weight: 600; }
+  .nav-item.home-item { color: var(--ink); font-weight: 600; margin-bottom: 6px; }
+
+  .nav-badge {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--brand), var(--brand2));
+    color: #06122b;
+    font-size: .75rem;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+  }
+  .nav-item.active .nav-badge {
+    background: linear-gradient(135deg, var(--brand2), var(--green));
+  }
+  .nav-capstone .nav-badge {
+    background: linear-gradient(135deg, var(--accent), #f97316);
+  }
+
+  .nav-title {
+    flex: 1;
+    direction: rtl;
+    text-align: right;
+    line-height: 1.3;
+  }
+  .nav-title .en { font-size: .7rem; color: var(--muted); display: block; direction: ltr; text-align: left; }
+
+  .nav-divider {
+    height: 1px;
+    background: var(--line);
+    margin: 8px 14px 6px;
+  }
+
+  /* ── Main content ── */
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  /* ── Views ── */
+  .view { display: none; flex-direction: column; height: 100%; }
+  .view.active { display: flex; }
+
+  /* ── Home page ── */
+  #home-view {
+    overflow-y: auto;
+    align-items: center;
+    flex-direction: column;
+  }
+  #home-view > * { width: 100%; }
+  #home-view::-webkit-scrollbar { width: 6px; }
+  #home-view::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+  .home-hero {
+    padding: 60px 48px 40px;
+    background: linear-gradient(135deg, rgba(91,141,239,.18), rgba(34,211,238,.08));
+    border-bottom: 1px solid var(--line);
+    direction: rtl;
+    text-align: center;
+  }
+  .home-hero .kicker {
+    color: var(--brand2);
+    font-size: .9rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .home-hero h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .home-hero h1 span { color: var(--brand2); }
+  .home-hero .desc {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 620px;
+    line-height: 1.8;
+    margin: 0 auto;
+  }
+  .home-hero .desc strong { color: var(--ink); }
+
+  .home-body {
+    padding: 40px 48px 60px;
+    direction: rtl;
+    text-align: right;
+    max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--brand2);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    margin-bottom: 48px;
+  }
+
+  .chapter-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: border-color .2s, transform .15s, box-shadow .2s;
+    text-align: right;
+    direction: rtl;
+  }
+  .chapter-card:hover {
+    border-color: var(--brand);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px -10px rgba(91,141,239,.4);
+  }
+  .chapter-card.capstone {
+    border-color: rgba(247,185,85,.3);
+    background: linear-gradient(135deg, rgba(247,185,85,.06), var(--card));
+  }
+  .chapter-card.capstone:hover { border-color: var(--accent); }
+
+  .card-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--brand), var(--brand2));
+    color: #06122b;
+    font-size: .8rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .chapter-card.capstone .card-num {
+    background: linear-gradient(135deg, var(--accent), #f97316);
+  }
+
+  .card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .card-en {
+    font-size: .75rem;
+    color: var(--muted);
+    direction: ltr;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+  .card-desc {
+    font-size: .85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .card-tag {
+    display: inline-block;
+    font-size: .7rem;
+    padding: .1em .55em;
+    border-radius: 999px;
+    background: rgba(247,185,85,.12);
+    border: 1px solid rgba(247,185,85,.3);
+    color: var(--accent);
+    margin-top: 8px;
+    direction: ltr;
+  }
+
+  .structure-box {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 48px;
+  }
+  .structure-box table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .93rem;
+  }
+  .structure-box th, .structure-box td {
+    border: 1px solid var(--line);
+    padding: 10px 14px;
+    text-align: right;
+    vertical-align: top;
+  }
+  .structure-box th {
+    background: #1a2240;
+    color: var(--brand2);
+    font-weight: 600;
+    font-size: .85rem;
+  }
+  .structure-box code {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    padding: .1em .4em;
+    border-radius: 6px;
+    font-family: Consolas, monospace;
+    color: #aee3ff;
+    direction: ltr;
+    display: inline-block;
+    font-size: .85em;
+  }
+
+  .setup-box {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px 28px;
+  }
+  .setup-box pre {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-family: Consolas, monospace;
+    font-size: .9rem;
+    color: #aee3ff;
+    direction: ltr;
+    text-align: left;
+    margin-top: 12px;
+    overflow-x: auto;
+  }
+
+  /* ── Chapter view ── */
+  #chapter-view {
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .chapter-header {
+    padding: 8px 20px 6px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(135deg, rgba(91,141,239,.1), transparent);
+    direction: rtl;
+    flex-shrink: 0;
+  }
+  .chapter-header .ch-kicker {
+    font-size: .75rem;
+    color: var(--muted);
+    margin-bottom: 1px;
+    direction: ltr;
+    text-align: left;
+  }
+  .chapter-header h2 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--ink);
+  }
+
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    padding: 4px 16px 0;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+    direction: rtl;
+  }
+  .tab-btn {
+    padding: 7px 18px;
+    font-size: .9rem;
+    font-weight: 600;
+    font-family: inherit;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: color .15s, border-color .15s;
+    border-radius: 8px 8px 0 0;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active {
+    color: var(--brand2);
+    border-bottom-color: var(--brand2);
+    background: rgba(34,211,238,.05);
+  }
+
+  .tab-content {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .tab-content.active { display: flex; }
+
+  /* subject tab: just an iframe */
+  #tab-subject { overflow: hidden; }
+  #tab-subject iframe {
+    flex: 1;
+    border: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* exercise tab: notebook buttons + iframe */
+  #tab-exercise { overflow: hidden; }
+
+  .notebook-buttons {
+    display: flex;
+    gap: 12px;
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(20,26,46,.6);
+    flex-shrink: 0;
+    direction: rtl;
+    align-items: center;
+  }
+
+  .nb-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 9px 24px;
+    border-radius: 12px;
+    border: 2px solid var(--brand2);
+    text-decoration: none;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    background: rgba(34,211,238,.08);
+    color: var(--brand2);
+    transition: transform .15s, box-shadow .2s, background .15s;
+    direction: rtl;
+  }
+  .nb-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -8px var(--brand2);
+    background: rgba(34,211,238,.16);
+  }
+
+  .nb-btn-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .nb-btn-text .main { display: block; font-size: 1rem; }
+  .nb-btn-text .sub { display: block; font-size: .75rem; font-weight: 400; opacity: .7; }
+
+  #tab-exercise iframe {
+    flex: 1;
+    border: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    .sidebar { width: 220px; min-width: 220px; }
+    .home-hero { padding: 36px 20px 28px; }
+    .home-hero h1 { font-size: 1.8rem; }
+    .home-body { padding: 24px 20px 40px; }
+    .notebook-buttons { flex-direction: column; }
+    .chapter-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a href="index.html" style="display:inline-block; color:var(--muted); font-size:.78rem; text-decoration:none; margin-bottom:8px;">← בחירת קורס</a>
+      <div class="brand">⚡ Polars Exercises</div>
+      <div class="sub">קורס Polars בעברית · Palantir Foundry</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item home-item active" data-view="home" onclick="navigate('home')">
+        <span style="font-size:1.1rem">🏠</span>
+        <span class="nav-title">דף הבית</span>
+      </div>
+      <div class="nav-divider"></div>
+
+      <div class="nav-item" data-view="ch01" onclick="navigate('ch01')">
+        <span class="nav-badge">01</span>
+        <span class="nav-title">היכרות עם המידע<span class="en">Getting & Knowing Your Data</span></span>
+      </div>
+      <div class="nav-item" data-view="ch02" onclick="navigate('ch02')">
+        <span class="nav-badge">02</span>
+        <span class="nav-title">בחירת עמודות<span class="en">Selecting & Subsetting</span></span>
+      </div>
+      <div class="nav-item" data-view="ch03" onclick="navigate('ch03')">
+        <span class="nav-badge">03</span>
+        <span class="nav-title">סינון ומיון<span class="en">Filtering & Sorting</span></span>
+      </div>
+      <div class="nav-item" data-view="ch04" onclick="navigate('ch04')">
+        <span class="nav-badge">04</span>
+        <span class="nav-title">יצירת ועיבוד עמודות<span class="en">Creating & Transforming</span></span>
+      </div>
+      <div class="nav-item" data-view="ch05" onclick="navigate('ch05')">
+        <span class="nav-badge">05</span>
+        <span class="nav-title">קיבוץ ואגרגציה<span class="en">Grouping & Aggregation</span></span>
+      </div>
+      <div class="nav-item" data-view="ch06" onclick="navigate('ch06')">
+        <span class="nav-badge">06</span>
+        <span class="nav-title">חיבור טבלאות<span class="en">Joins & Merging</span></span>
+      </div>
+      <div class="nav-item" data-view="ch07" onclick="navigate('ch07')">
+        <span class="nav-badge">07</span>
+        <span class="nav-title">שרשור, Pivot ו-Unpivot<span class="en">Concat, Pivot & Unpivot</span></span>
+      </div>
+      <div class="nav-item" data-view="ch08" onclick="navigate('ch08')">
+        <span class="nav-badge">08</span>
+        <span class="nav-title">ניקוי נתונים<span class="en">Cleaning Data</span></span>
+      </div>
+      <div class="nav-item" data-view="ch09" onclick="navigate('ch09')">
+        <span class="nav-badge">09</span>
+        <span class="nav-title">חישוב עצל וביצועים<span class="en">Lazy Evaluation & Performance</span></span>
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-item nav-capstone" data-view="ch10" onclick="navigate('ch10')">
+        <span class="nav-badge">10</span>
+        <span class="nav-title">פרויקט מסכם: GDP 🎯<span class="en">Capstone Case Study</span></span>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- ══ CONTENT ══ -->
+  <main class="content">
+
+    <!-- Home view -->
+    <div id="home-view" class="view active">
+      <div class="home-hero">
+        <div class="kicker">קורס Polars מעשי · עברית</div>
+        <h1>תרגילים ב-<span>Polars</span></h1>
+        <p class="desc">
+          תרגילים מעשיים ללימוד <strong>Polars</strong>, בפורמט שאתם כבר מכירים מקורס ה-pandas.
+          הדגש הוא על עבודה עם DataFrames, joins, וטרנספורמציות אמיתיות בסגנון שאנחנו עושים
+          ב-<strong>Palantir Foundry</strong>.
+        </p>
+      </div>
+
+      <div class="home-body">
+
+        <div class="section-title">הפרקים</div>
+        <div class="chapter-grid">
+
+          <div class="chapter-card" onclick="navigate('ch01')">
+            <div class="card-num">01</div>
+            <div class="card-title">היכרות עם המידע</div>
+            <div class="card-en">Getting & Knowing Your Data</div>
+            <div class="card-desc">לפני שכותבים טרנספורמציה — מכירים את ה-DataFrame: shape, schema, describe, null_count ועוד.</div>
+          </div>
+
+          <div class="chapter-card" onclick="navigate('ch02')">
+            <div class="card-num">02</div>
+            <div class="card-title">בחירת עמודות</div>
+            <div class="card-en">Selecting & Subsetting</div>
+            <div class="card-desc">select, cs.*, drop, rename — הדרכים של Polars לבחור ולעצב את העמודות שאנחנו צריכים.</div>
+          </div>
+
+          <div class="chapter-card" onclick="navigate('ch03')">
+            <div class="card-num">03</div>
+            <div class="card-title">סינון ומיון</div>
+            <div class="card-en">Filtering & Sorting</div>
+            <div class="card-desc">filter עם expressions, sort עם מפתחות מרובים, is_in, is_null — ה-SQL WHERE של Polars.</div>
+          </div>
+
+          <div class="chapter-card" onclick="navigate('ch04')">
+            <div class="card-num">04</div>
+            <div class="card-title">יצירת ועיבוד עמודות</div>
+            <div class="card-en">Creating & Transforming Columns</div>
+            <div class="card-desc">with_columns, cast, str.to_date, dt.year, when/then/otherwise — הלב של כל pipeline.</div>
+          </div>
+
+          <div class="chapter-card" onclick="navigate('ch05')">
+            <div class="card-num">05</div>
+            <div class="card-title">קיבוץ ואגרגציה</div>
+            <div class="card-en">Grouping & Aggregation</div>
+            <div class="card-desc">group_by, agg, sum/mean/count/median — בניית דוחות עסקיים בשורה אחת.</div>
+          </div>
+
+          <div class="chapter-card" onclick="navigate('ch06')">
+            <div class="card-num">06</div>
+            <div class="card-title">חיבור טבלאות</div>
+            <div class="card-en">Joins & Merging 🎯</div>
+            <div class="card-desc">join (inner/left/anti), חיבור 4 טבלאות לאנליטיקה אחת. הכלי החשוב ביותר ב-Foundry.</div>
+            <span class="card-tag">🎯 mission chapter</span>
+          </div>
+
+          <div class="chapter-card" onclick="navigate('ch07')">
+            <div class="card-num">07</div>
+            <div class="card-title">שרשור, Pivot ו-Unpivot</div>
+            <div class="card-en">Concat, Pivot & Unpivot</div>
+            <div class="card-desc">vstack/hstack לאיחוד DataFrames, pivot לסיכום מטריצי, unpivot לתצורה ארוכה.</div>
+          </div>
+
+          <div class="chapter-card" onclick="navigate('ch08')">
+            <div class="card-num">08</div>
+            <div class="card-title">ניקוי נתונים</div>
+            <div class="card-en">Cleaning Data 🎯</div>
+            <div class="card-desc">fill_null, drop_nulls, str.strip, cast + try_parse — מקובץ מלוכלך לטבלה מוכנה לניתוח.</div>
+            <span class="card-tag">🎯 mission chapter</span>
+          </div>
+
+          <div class="chapter-card" onclick="navigate('ch09')">
+            <div class="card-num">09</div>
+            <div class="card-title">חישוב עצל וביצועים</div>
+            <div class="card-en">Lazy Evaluation & Performance</div>
+            <div class="card-desc">scan_csv, LazyFrame, collect, explain — עבודה על 1.1M שורות בשניות בודדות.</div>
+          </div>
+
+          <div class="chapter-card capstone" onclick="navigate('ch10')">
+            <div class="card-num">10</div>
+            <div class="card-title">פרויקט מסכם: GDP עולמי</div>
+            <div class="card-en">Capstone GDP Case Study 🎯</div>
+            <div class="card-desc">ניתוח GDP מקצה לקצה: join של 3 מקורות מידע, pivot, חישובים כלכליים, ודוח מסכם.</div>
+            <span class="card-tag">🎯 capstone project</span>
+          </div>
+
+        </div>
+
+        <div class="section-title">מבנה כל פרק</div>
+        <div class="structure-box">
+          <table>
+            <thead>
+              <tr><th>קובץ</th><th>מה זה</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>subject.html</code></td><td>מצגת בעברית על נושא הפרק + קישורים לתיעוד הרשמי של Polars</td></tr>
+              <tr><td><code>exercise.html</code></td><td>הסבר בעברית על התרגיל הספציפי ומבנה המידע</td></tr>
+              <tr><td><code>Exercises.ipynb</code></td><td>התרגיל — שאלות עם תאי קוד ריקים שאתם ממלאים</td></tr>
+              <tr><td><code>Solutions.ipynb</code></td><td>אותן שאלות עם הפתרונות והפלט הצפוי</td></tr>
+              <tr><td><code>data/</code></td><td>קובצי המידע (CSV) שעליהם רצים התרגילים</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:14px; color:var(--muted); font-size:.9rem; direction:rtl;">
+            💡 פתחו תחילה את <strong>נושא הפרק</strong> ואז את <strong>התרגיל</strong> — ואז עברו ל-Notebook.
+          </p>
+        </div>
+
+        <div class="section-title">התקנה</div>
+        <div class="setup-box">
+          <p style="color:var(--muted); direction:rtl;">התקינו את החבילות הנדרשות בסביבת Python שלכם:</p>
+          <pre>pip install "polars==1.24.0" "fastexcel==0.13.0" "XlsxWriter==3.2.2"</pre>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Chapter view (shared for all chapters) -->
+    <div id="chapter-view" class="view">
+      <div class="chapter-header">
+        <div class="ch-kicker" id="ch-kicker"></div>
+        <h2 id="ch-title"></h2>
+      </div>
+
+      <div class="tab-bar">
+        <button class="tab-btn active" id="tab-subject-btn" onclick="switchTab('subject')">📖 נושא הפרק</button>
+        <button class="tab-btn" id="tab-exercise-btn" onclick="switchTab('exercise')">✏️ תרגיל</button>
+      </div>
+
+      <div id="tab-subject" class="tab-content active">
+        <iframe id="subject-frame" src="" title="נושא הפרק"></iframe>
+      </div>
+
+      <div id="tab-exercise" class="tab-content">
+        <div class="notebook-buttons">
+          <a id="nb-download-btn" class="nb-btn" href="#" download>
+            <span class="nb-btn-icon">⬇️</span>
+            <span class="nb-btn-text">
+              <span class="main">הורד את חומרי התרגיל</span>
+              <span class="sub">Exercises + Solutions + data/</span>
+            </span>
+          </a>
+        </div>
+        <iframe id="exercise-frame" src="" title="התרגיל"></iframe>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const BASE = 'polars_exercises';
+
+  const chapters = {
+    ch01: { dir: '01_Getting_and_Knowing_Your_Data',    he: 'היכרות עם המידע',          en: 'Getting & Knowing Your Data' },
+    ch02: { dir: '02_Selecting_and_Subsetting',          he: 'בחירת עמודות',              en: 'Selecting & Subsetting' },
+    ch03: { dir: '03_Filtering_and_Sorting',             he: 'סינון ומיון',               en: 'Filtering & Sorting' },
+    ch04: { dir: '04_Creating_and_Transforming_Columns', he: 'יצירת ועיבוד עמודות',      en: 'Creating & Transforming Columns' },
+    ch05: { dir: '05_Grouping_and_Aggregation',          he: 'קיבוץ ואגרגציה',           en: 'Grouping & Aggregation' },
+    ch06: { dir: '06_Joins_and_Merging',                 he: 'חיבור טבלאות',             en: 'Joins & Merging' },
+    ch07: { dir: '07_Concat_Pivot_and_Unpivot',          he: 'שרשור, Pivot ו-Unpivot',   en: 'Concat, Pivot & Unpivot' },
+    ch08: { dir: '08_Cleaning_Data',                     he: 'ניקוי נתונים',              en: 'Cleaning Data' },
+    ch09: { dir: '09_Lazy_Evaluation_and_Performance',   he: 'חישוב עצל וביצועים',       en: 'Lazy Evaluation & Performance' },
+    ch10: { dir: '10_Capstone_GDP_Case_Study',           he: 'פרויקט מסכם: GDP עולמי',   en: 'Capstone Case Study' },
+  };
+
+  let currentView  = 'home';
+  let currentTab   = 'subject';
+
+  function navigate(view) {
+    // update sidebar active state
+    document.querySelectorAll('.nav-item').forEach(el => {
+      el.classList.toggle('active', el.dataset.view === view);
+    });
+
+    if (view === 'home') {
+      document.getElementById('home-view').classList.add('active');
+      document.getElementById('chapter-view').classList.remove('active');
+    } else {
+      const ch = chapters[view];
+      if (!ch) return;
+
+      // update header
+      const num = view.replace('ch', '');
+      document.getElementById('ch-kicker').textContent = `פרק ${num} — ${ch.en}`;
+      document.getElementById('ch-title').textContent   = ch.he;
+
+      // update iframe srcs
+      const subjectSrc  = `${BASE}/${ch.dir}/subject.html`;
+      const exerciseSrc = `${BASE}/${ch.dir}/exercise.html`;
+
+      document.getElementById('subject-frame').src  = subjectSrc;
+      document.getElementById('exercise-frame').src = exerciseSrc;
+
+      // update download button
+      const btn = document.getElementById('nb-download-btn');
+      btn.href = `${BASE}/${ch.dir}/chapter${num}.zip`;
+      btn.download = `chapter${num}.zip`;
+
+      document.getElementById('home-view').classList.remove('active');
+      document.getElementById('chapter-view').classList.add('active');
+
+      // reset to subject tab
+      switchTab('subject');
+    }
+
+    currentView = view;
+    // update URL hash for bookmarkability
+    window.location.hash = view;
+  }
+
+  function switchTab(tab) {
+    currentTab = tab;
+    document.getElementById('tab-subject').classList.toggle('active',  tab === 'subject');
+    document.getElementById('tab-exercise').classList.toggle('active', tab === 'exercise');
+    document.getElementById('tab-subject-btn').classList.toggle('active',  tab === 'subject');
+    document.getElementById('tab-exercise-btn').classList.toggle('active', tab === 'exercise');
+  }
+
+  // restore from hash on load
+  window.addEventListener('load', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && (hash === 'home' || chapters[hash])) {
+      navigate(hash);
+    }
+  });
+
+  // chapter cards in home page also use onclick="navigate(...)" directly
+</script>
+</body>
+</html>
