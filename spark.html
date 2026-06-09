@@ -80,7 +80,7 @@
     display: grid; place-items: center;
   }
   .nav-item.active .nav-badge { background: linear-gradient(135deg, var(--brand2), #fbbf24); }
-  .nav-capstone .nav-badge { background: linear-gradient(135deg, var(--accent), #0891b2); }
+  .nav-capstone .nav-badge { background: linear-gradient(135deg, var(--brand), var(--brand2)); }
 
   .nav-title { flex: 1; direction: rtl; text-align: right; line-height: 1.3; }
   .nav-title .en { font-size: .7rem; color: var(--muted); display: block; direction: ltr; text-align: left; }
@@ -142,8 +142,8 @@
     border-color: var(--brand); transform: translateY(-2px);
     box-shadow: 0 8px 30px -10px rgba(232,89,12,.45);
   }
-  .chapter-card.capstone { border-color: rgba(34,211,238,.3); background: linear-gradient(135deg, rgba(34,211,238,.06), var(--card)); }
-  .chapter-card.capstone:hover { border-color: var(--accent); }
+  .chapter-card.capstone { border-color: rgba(232,89,12,.3); background: linear-gradient(135deg, rgba(232,89,12,.06), var(--card)); }
+  .chapter-card.capstone:hover { border-color: var(--brand); }
 
   .card-num {
     display: inline-flex; align-items: center; justify-content: center;
@@ -151,15 +151,15 @@
     background: linear-gradient(135deg, var(--brand), var(--brand2));
     color: #1a0e02; font-size: .8rem; font-weight: 800; margin-bottom: 10px;
   }
-  .chapter-card.capstone .card-num { background: linear-gradient(135deg, var(--accent), #0891b2); }
+  .chapter-card.capstone .card-num { background: linear-gradient(135deg, var(--brand), var(--brand2)); }
 
   .card-title { font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
   .card-en { font-size: .75rem; color: var(--muted); direction: ltr; text-align: left; margin-bottom: 10px; }
   .card-desc { font-size: .85rem; color: var(--muted); line-height: 1.6; }
   .card-tag {
     display: inline-block; font-size: .7rem; padding: .1em .55em; border-radius: 999px;
-    background: rgba(34,211,238,.12); border: 1px solid rgba(34,211,238,.3);
-    color: var(--accent); margin-top: 8px; direction: ltr;
+    background: rgba(232,89,12,.12); border: 1px solid rgba(232,89,12,.3);
+    color: var(--brand); margin-top: 8px; direction: ltr;
   }
 
   .structure-box, .setup-box {
