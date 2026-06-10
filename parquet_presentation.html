@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apache Parquet: The Deep Dive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&family=Heebo:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* הגדרות יסוד */
+        * { box-sizing: border-box; }
+        body { background-color: #0F172A; margin: 0; padding: 20px; display: grid; place-items: center; min-height: 100vh; }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #0B0E14;
+            color: #FFFFFF;
+            font-family: 'Assistant', sans-serif;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        /* עיצוב רקע אבסטרקטי */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -20%; right: -10%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(230, 97, 1, 0.08) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: -10%; left: -5%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(0, 162, 232, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        /* טיפוגרפיה */
+        h1 { font-family: 'Heebo', sans-serif; font-size: 75px; margin: 0; line-height: 1.1; z-index: 1; }
+        .slide-title { font-family: 'Heebo', sans-serif; font-size: 46px; margin-bottom: 35px; border-right: 10px solid #E66101; padding-right: 25px; z-index: 1; text-align: right; width: 100%; }
+        p, li { font-size: 23px; line-height: 1.5; color: #CBD5E1; z-index: 1; }
+
+        .content-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; z-index: 1; }
+
+        /* פריסות */
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; width: 100%; align-items: center; }
+        .tiled-content { display: flex; gap: 30px; width: 100%; align-items: stretch; }
+        .tile { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .tile .icon { font-size: 50px; color: #F9AB00; margin-bottom: 20px; }
+        .tile h3 { font-size: 28px; margin-bottom: 15px; color: #FFFFFF; font-family: 'Heebo', sans-serif; }
+        .tile p { font-size: 21px; }
+
+        /* טבלאות */
+        table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.02); border-radius: 15px; overflow: hidden; }
+        th { background-color: #1E293B; color: #F9AB00; padding: 18px; text-align: right; font-size: 23px; border-bottom: 3px solid #E66101; }
+        td { padding: 16px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 21px; color: #E2E8F0; }
+        tr:nth-child(even) { background: rgba(255,255,255,0.04); }
+
+        .styled-list { list-style: none; padding: 0; width: 100%; }
+        .styled-list li { position: relative; padding-right: 50px; margin-bottom: 22px; }
+        .styled-list li i { position: absolute; right: 0; top: 5px; color: #E66101; font-size: 28px; }
+
+        .tag { display: inline-block; padding: 5px 15px; background: #E66101; border-radius: 20px; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: white; }
+
+        .code-box {
+            background: #1E293B;
+            color: #E2E8F0;
+            padding: 22px;
+            border-radius: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 21px;
+            direction: ltr;
+            text-align: left;
+            border-left: 10px solid #E66101;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            line-height: 1.5;
+        }
+        .code-box strong { color: #F9AB00; text-shadow: 0 0 5px rgba(249, 171, 0, 0.3); }
+        .code-box .comment { color: #64748B; }
+
+        /* ===== דיאגרמות ייעודיות לפרקט ===== */
+
+        /* טבלה ויזואלית: שורות מול עמודות */
+        .mini-table { direction: ltr; border-collapse: separate; border-spacing: 4px; margin: 0 auto; }
+        .mini-table td {
+            width: 90px; height: 44px; text-align: center; vertical-align: middle;
+            border-radius: 8px; font-family: 'Courier New', monospace; font-size: 17px;
+            border: none; padding: 4px;
+        }
+        .mini-table .hdr { background: #1E293B; color: #F9AB00; font-weight: bold; font-family: 'Assistant', sans-serif; }
+        .col-name  { background: rgba(230, 97, 1, 0.35); color: #FFD9B8; }
+        .col-age   { background: rgba(0, 162, 232, 0.30); color: #BDE6FF; }
+        .col-city  { background: rgba(16, 185, 129, 0.30); color: #B9F5DF; }
+        .row-color { background: rgba(148, 163, 184, 0.2); color: #E2E8F0; }
+
+        /* דיאגרמת מבנה קובץ פרקט */
+        .parquet-file {
+            background: #11161F;
+            border: 2px solid #334155;
+            border-radius: 18px;
+            padding: 18px 22px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .pf-label { font-family: 'Heebo', sans-serif; font-size: 20px; color: #94A3B8; text-align: center; margin: 0; }
+        .rowgroup {
+            border: 2px solid #E66101;
+            border-radius: 12px;
+            padding: 10px 14px;
+            background: rgba(230, 97, 1, 0.05);
+        }
+        .rowgroup-title { font-size: 18px; color: #F9AB00; font-weight: bold; margin: 0 0 8px 0; display: flex; justify-content: space-between; align-items: center; }
+        .rowgroup-title .stats-chip { font-size: 15px; color: #0B0E14; background: #F9AB00; padding: 2px 10px; border-radius: 12px; font-family: 'Courier New', monospace; direction: ltr; }
+        .chunks { display: flex; gap: 8px; direction: ltr; }
+        .chunk { flex: 1; border-radius: 8px; padding: 8px 6px; text-align: center; font-size: 16px; font-family: 'Courier New', monospace; }
+        .chunk small { display: block; font-size: 13px; opacity: 0.8; direction: ltr; }
+        .footer-block {
+            background: #1E293B;
+            border: 2px dashed #F9AB00;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            color: #F9AB00;
+            font-size: 19px;
+            font-weight: bold;
+        }
+        .footer-block small { display: block; color: #94A3B8; font-weight: normal; font-size: 16px; }
+
+        .skipped { opacity: 0.25; position: relative; }
+        .skipped::after {
+            content: 'SKIP ✕';
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            color: #EF4444; font-family: 'Heebo', sans-serif; font-size: 26px;
+            opacity: 1;
+        }
+        .rowgroup.skipped { border-color: #475569; }
+
+        /* תרשים זרימה אנכי */
+        .flow { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .flow-step {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 12px 28px;
+            font-size: 21px;
+            color: #E2E8F0;
+            text-align: center;
+            width: 100%;
+        }
+        .flow-step strong { color: #F9AB00; }
+        .flow-arrow { color: #E66101; font-size: 22px; }
+
+        .image-replacement-box {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+            border: 2px dashed #E66101;
+            border-radius: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 35px;
+            text-align: center;
+        }
+        .image-replacement-box i { font-size: 60px; color: #F9AB00; margin-bottom: 25px; }
+        .image-replacement-box h4 { font-family: 'Heebo', sans-serif; font-size: 28px; color: #FFFFFF; margin: 0 0 15px 0; }
+        .image-replacement-box p { font-size: 20px; color: #94A3B8; margin: 0; }
+    </style>
+</head>
+<body>
+
+<!-- שקף 1: פתיחה -->
+<div class="slide-container" id="slide1">
+    <div class="content-area" style="text-align: center;">
+        <h1>Apache Parquet:<br><span style="color: #E66101;">הקובץ שחושב בעמודות</span></h1>
+        <p style="font-size: 30px; color: #94A3B8; margin-top: 30px;">איך הוא בנוי מבפנים, ולמה Spark ו-Polars מתים עליו</p>
+    </div>
+</div>
+
+<!-- שקף 2: הבעיה עם CSV -->
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">רגע, מה רע ב-CSV?</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile" style="border-color: #EF4444;">
+                <div class="icon" style="color: #EF4444;"><i class="fa-solid fa-weight-hanging"></i></div>
+                <h3>שמן</h3>
+                <p>הכל נשמר כטקסט. המספר 1234567 תופס 7 תווים במקום 4 בייטים. אין שום דחיסה מובנית.</p>
+            </div>
+            <div class="tile" style="border-color: #EF4444;">
+                <div class="icon" style="color: #EF4444;"><i class="fa-solid fa-question"></i></div>
+                <h3>טיפש</h3>
+                <p>אין סכמה. האם "123" זה מספר או טקסט? כל קריאה מחדש צריכה לנחש את הטיפוסים.</p>
+            </div>
+            <div class="tile" style="border-color: #EF4444;">
+                <div class="icon" style="color: #EF4444;"><i class="fa-solid fa-book-open"></i></div>
+                <h3>הכל או כלום</h3>
+                <p>רוצים עמודה אחת מתוך 100? חייבים לקרוא את <strong>כל</strong> הקובץ שורה-שורה. אין דרך לדלג.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקף 3: שורות מול עמודות -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">הרעיון המרכזי: לשמור לפי עמודות</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <div class="tag" style="background: #475569;">Row-based (CSV)</div>
+                <p style="font-size: 21px;">הנתונים נשמרים שורה אחרי שורה:</p>
+                <table class="mini-table">
+                    <tr><td class="row-color">Dana</td><td class="row-color">30</td><td class="row-color">TLV</td></tr>
+                    <tr><td class="row-color">Avi</td><td class="row-color">25</td><td class="row-color">Haifa</td></tr>
+                    <tr><td class="row-color">Noa</td><td class="row-color">41</td><td class="row-color">TLV</td></tr>
+                </table>
+                <p style="font-size: 20px; margin-top: 15px;"><i class="fa-solid fa-circle-xmark" style="color:#EF4444;"></i> כדי לקרוא רק את עמודת הגיל — קוראים הכל.</p>
+            </div>
+            <div>
+                <div class="tag">Columnar (Parquet)</div>
+                <p style="font-size: 21px;">כל עמודה נשמרת ברצף, אחת אחרי השנייה:</p>
+                <table class="mini-table">
+                    <tr><td class="col-name">Dana</td><td class="col-name">Avi</td><td class="col-name">Noa</td></tr>
+                    <tr><td class="col-age">30</td><td class="col-age">25</td><td class="col-age">41</td></tr>
+                    <tr><td class="col-city">TLV</td><td class="col-city">Haifa</td><td class="col-city">TLV</td></tr>
+                </table>
+                <p style="font-size: 20px; margin-top: 15px;"><i class="fa-solid fa-circle-check" style="color:#10B981;"></i> רוצים רק גיל? קופצים ישר לבלוק הכחול ומדלגים על השאר.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקף 4: למה עמודות = דחיסה מטורפת -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">בונוס ענק: דחיסה הרבה יותר טובה</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>כשכל הערכים באותו בלוק הם <strong>מאותו סוג ודומים זה לזה</strong>, קל מאוד לדחוס אותם:</p>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-book"></i> <strong>Dictionary Encoding:</strong> במקום לשמור "Tel-Aviv" אלף פעמים, שומרים אותו פעם אחת במילון, ובנתונים רק את המספר 0.</li>
+                    <li><i class="fa-solid fa-repeat"></i> <strong>RLE (Run Length):</strong> במקום 0,0,0,0,0 שומרים "0 כפול 5".</li>
+                    <li><i class="fa-solid fa-file-zipper"></i> <strong>ולמעלה מזה:</strong> דחיסה כללית כמו Snappy או ZSTD על כל בלוק.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="parquet-file" style="gap: 10px;">
+                    <p class="pf-label">עמודת city — לפני ואחרי</p>
+                    <div class="code-box" style="font-size: 19px; padding: 16px;">
+                        <span class="comment">// raw:</span><br>
+                        TLV, TLV, TLV, Haifa, TLV...<br><br>
+                        <span class="comment">// dictionary:</span><br>
+                        dict = {0: <strong>"TLV"</strong>, 1: <strong>"Haifa"</strong>}<br>
+                        data = 0,0,0,1,0...<br><br>
+                        <span class="comment">// + RLE:</span><br>
+                        data = (0 ×3), (1 ×1), (0 ×1)
+                    </div>
+                    <p class="pf-label" style="color:#10B981;">התוצאה בפועל: פי 5–10 קטן יותר מ-CSV</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקף 5: מבנה הקובץ -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">איך הקובץ בנוי מבפנים?</h2>
+    <div class="content-area">
+        <div class="two-column" style="grid-template-columns: 55% 45%;">
+            <div class="parquet-file">
+                <p class="pf-label">my_data.parquet</p>
+                <div class="rowgroup">
+                    <p class="rowgroup-title">Row Group 1 <span style="font-size:15px; color:#94A3B8;">(שורות 1 עד מיליון)</span></p>
+                    <div class="chunks">
+                        <div class="chunk col-name">name<small>column chunk</small></div>
+                        <div class="chunk col-age">age<small>column chunk</small></div>
+                        <div class="chunk col-city">city<small>column chunk</small></div>
+                    </div>
+                </div>
+                <div class="rowgroup">
+                    <p class="rowgroup-title">Row Group 2 <span style="font-size:15px; color:#94A3B8;">(מיליון עד 2 מיליון)</span></p>
+                    <div class="chunks">
+                        <div class="chunk col-name">name<small>column chunk</small></div>
+                        <div class="chunk col-age">age<small>column chunk</small></div>
+                        <div class="chunk col-city">city<small>column chunk</small></div>
+                    </div>
+                </div>
+                <div class="footer-block">
+                    Footer (Metadata)
+                    <small>סכמה + מיקום של כל בלוק + סטטיסטיקות</small>
+                </div>
+            </div>
+            <div>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-layer-group"></i> <strong>Row Group:</strong> חבילה של שורות (בדרך כלל ~מיליון שורות או ~128MB). הקובץ מחולק לכמה כאלה.</li>
+                    <li><i class="fa-solid fa-table-columns"></i> <strong>Column Chunk:</strong> בתוך כל Row Group, כל עמודה שמורה כבלוק רציף משלה.</li>
+                    <li><i class="fa-solid fa-shoe-prints"></i> <strong>Footer:</strong> "תוכן העניינים" בסוף הקובץ. קוראים אותו ראשון — והוא מספר איפה כל דבר נמצא.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקף 6: סטטיסטיקות -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">הנשק הסודי: סטטיסטיקות בכל Row Group</h2>
+    <div class="content-area">
+        <div class="two-column" style="grid-template-columns: 50% 50%;">
+            <div>
+                <p>בזמן הכתיבה, פרקט שומר ב-Footer <strong>סטטיסטיקות על כל עמודה בכל Row Group</strong>:</p>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-arrow-down-1-9"></i> <strong>Min / Max:</strong> הערך הקטן והגדול ביותר בבלוק.</li>
+                    <li><i class="fa-solid fa-circle-minus"></i> <strong>Null Count:</strong> כמה ערכים ריקים יש.</li>
+                    <li><i class="fa-solid fa-hashtag"></i> <strong>Count:</strong> כמה שורות יש בבלוק.</li>
+                </ul>
+                <div class="tag" style="background: #10B981;">למה זה גאוני?</div>
+                <p>אפשר לדעת <strong>מה יש בתוך בלוק בלי לקרוא אותו</strong>. כמו לקרוא את התווית על הקופסה במקום לפתוח אותה.</p>
+            </div>
+            <div class="parquet-file">
+                <p class="pf-label">מה כתוב ב-Footer</p>
+                <div class="rowgroup">
+                    <p class="rowgroup-title">Row Group 1 <span class="stats-chip">age: min=18, max=35</span></p>
+                    <div class="chunks">
+                        <div class="chunk col-age">age<small>nulls=0, count=1M</small></div>
+                    </div>
+                </div>
+                <div class="rowgroup">
+                    <p class="rowgroup-title">Row Group 2 <span class="stats-chip">age: min=36, max=59</span></p>
+                    <div class="chunks">
+                        <div class="chunk col-age">age<small>nulls=120, count=1M</small></div>
+                    </div>
+                </div>
+                <div class="rowgroup">
+                    <p class="rowgroup-title">Row Group 3 <span class="stats-chip">age: min=60, max=99</span></p>
+                    <div class="chunks">
+                        <div class="chunk col-age">age<small>nulls=5, count=1M</small></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקף 7: Projection Pushdown -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">אופטימיזציה 1: Projection Pushdown</h2>
+    <div class="content-area">
+        <div class="two-column" style="grid-template-columns: 45% 55%;">
+            <div>
+                <div class="tag">"תביא לי רק את העמודות שביקשתי"</div>
+                <p>אם השאילתה צריכה רק את <strong>age</strong> ו-<strong>city</strong>, המנוע קורא מהדיסק <strong>רק את ה-Column Chunks האלה</strong> ומדלג פיזית על כל השאר.</p>
+                <p>בטבלה עם 200 עמודות שבה צריך רק 3 — זה ההבדל בין לקרוא 100GB לבין לקרוא 1.5GB.</p>
+            </div>
+            <div class="parquet-file">
+                <p class="pf-label">SELECT age, city FROM ...</p>
+                <div class="rowgroup">
+                    <p class="rowgroup-title">Row Group 1</p>
+                    <div class="chunks">
+                        <div class="chunk col-name skipped">name</div>
+                        <div class="chunk col-age">age ✓</div>
+                        <div class="chunk col-city">city ✓</div>
+                        <div class="chunk col-name skipped">email</div>
+                        <div class="chunk col-name skipped">phone</div>
+                    </div>
+                </div>
+                <div class="rowgroup">
+                    <p class="rowgroup-title">Row Group 2</p>
+                    <div class="chunks">
+                        <div class="chunk col-name skipped">name</div>
+                        <div class="chunk col-age">age ✓</div>
+                        <div class="chunk col-city">city ✓</div>
+                        <div class="chunk col-name skipped">email</div>
+                        <div class="chunk col-name skipped">phone</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקף 8: Predicate Pushdown -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">אופטימיזציה 2: Predicate Pushdown</h2>
+    <div class="content-area">
+        <div class="two-column" style="grid-template-columns: 45% 55%;">
+            <div>
+                <div class="tag">"תביא לי רק שורות שעוברות את הפילטר"</div>
+                <p>השאילתה: <strong style="direction:ltr; display:inline-block;">age &gt; 65</strong></p>
+                <p>המנוע מסתכל על ה-<strong>Min/Max</strong> של כל Row Group ב-Footer:</p>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-forward"></i> Max של הבלוק הוא 35? <strong>אין סיכוי</strong> שיש שם age&gt;65. מדלגים על הבלוק כולו בלי לקרוא אותו!</li>
+                    <li><i class="fa-solid fa-magnifying-glass"></i> רק בלוקים שה-Min/Max שלהם חופף לפילטר נקראים בפועל.</li>
+                </ul>
+            </div>
+            <div class="parquet-file">
+                <p class="pf-label">WHERE age &gt; 65</p>
+                <div class="rowgroup skipped">
+                    <p class="rowgroup-title">Row Group 1 <span class="stats-chip">min=18, max=35</span></p>
+                </div>
+                <div class="rowgroup skipped">
+                    <p class="rowgroup-title">Row Group 2 <span class="stats-chip">min=36, max=59</span></p>
+                </div>
+                <div class="rowgroup" style="border-color:#10B981; background: rgba(16,185,129,0.07);">
+                    <p class="rowgroup-title" style="color:#10B981;">Row Group 3 <span class="stats-chip" style="background:#10B981;">min=60, max=99</span></p>
+                    <div class="chunks">
+                        <div class="chunk col-age">age ✓ קוראים רק את זה</div>
+                    </div>
+                </div>
+                <p class="pf-label" style="color:#10B981;">קראנו שליש מהקובץ במקום את כולו</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקף 9: אבל מי מחליט? Lazy -->
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">ומי מחליט מה לדלג? כאן נכנס ה-Lazy</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>כדי לדעת שאפשר לקרוא רק 2 עמודות ובלוק אחד, המנוע חייב <strong>לראות את כל השאילתה מראש</strong> — לפני שהוא נוגע בדיסק.</p>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-bolt"></i> <strong>Eager (כמו Pandas):</strong> כל שורת קוד רצה מיד. <code style="color:#F9AB00;">read_parquet</code> קורא הכל, ורק אחר כך מסננים בזיכרון. מאוחר מדי לדלג.</li>
+                    <li><i class="fa-solid fa-hourglass-half"></i> <strong>Lazy (Polars / Spark):</strong> שום דבר לא רץ. כל פעולה רק נרשמת בתוכנית (Query Plan). הקריאה מהדיסק קורית רק בסוף — אחרי שהמנוע כבר יודע בדיוק מה צריך.</li>
+                </ul>
+            </div>
+            <div class="flow">
+                <div class="flow-step">כותבים שאילתה: scan ← filter ← select</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="flow-step"><strong>Optimizer</strong> מסתכל על התוכנית כולה</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="flow-step">דוחף את ה-filter וה-select <strong>למטה, אל הקריאה</strong><br><span style="font-size:18px; color:#94A3B8;">(זה ה-Pushdown — דחיפה במורד התוכנית)</span></div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="flow-step">קוראים מהדיסק <strong>רק מה שחייבים</strong></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקף 10: Polars בפועל -->
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">איך זה נראה ב-Polars?</h2>
+    <div class="content-area">
+        <div class="code-box">
+import polars as pl<br><br>
+<span class="comment"># scan = lazy. שום דבר לא נקרא עדיין!</span><br>
+df = (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pl.<strong>scan_parquet</strong>("huge_data.parquet")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.filter(pl.col("age") &gt; 65)&nbsp;&nbsp;&nbsp;<span class="comment"># Predicate Pushdown</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.select(["age", "city"])&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Projection Pushdown</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<strong>collect</strong>()&nbsp;&nbsp;<span class="comment"># רק כאן הכל באמת רץ!</span><br>
+)
+</div>
+        <p style="margin-top: 25px;"><strong>שימו לב להבדל:</strong> <code style="color:#EF4444;">read_parquet</code> = eager, קורא הכל מיד. <code style="color:#10B981;">scan_parquet</code> = lazy, בונה תוכנית. אפשר להציץ בתוכנית האופטימלית עם <code style="color:#F9AB00;">df.explain()</code> — תראו שם את ה-Pushdown בעצמכם.</p>
+    </div>
+</div>
+
+<!-- שקף 11: Spark בפועל -->
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">ואיך זה נראה ב-Spark?</h2>
+    <div class="content-area">
+        <div class="code-box">
+df = (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;spark.read.parquet("s3://bucket/huge_data/")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.filter("age &gt; 65")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.select("age", "city")<br>
+)<br>
+<span class="comment"># עדיין לא רץ כלום! Spark הוא lazy מטבעו.</span><br><br>
+df.<strong>show</strong>()&nbsp;&nbsp;<span class="comment"># פעולת Action — רק עכשיו הכל מתבצע</span>
+</div>
+        <div class="two-column" style="margin-top: 25px; align-items: start;">
+            <div>
+                <div class="tag">Transformations = תוכנית</div>
+                <p style="font-size: 21px;">filter, select, groupBy... רק נרשמים בגרף (DAG). ה-<strong>Catalyst Optimizer</strong> משכתב את התוכנית ודוחף פילטרים לרמת הקובץ.</p>
+            </div>
+            <div>
+                <div class="tag" style="background:#10B981;">Actions = ביצוע</div>
+                <p style="font-size: 21px;">show, collect, count, write... מפעילים את התוכנית. בודקים ב-<code style="color:#F9AB00;">df.explain()</code>: חפשו <strong>PushedFilters</strong> בפלט.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקף 12: כל התמונה ביחד -->
+<div class="slide-container" id="slide12">
+    <h2 class="slide-title">החיבור המלא: צוות מנצח</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-file-lines"></i></div>
+                <h3>Parquet</h3>
+                <p>מארגן את הנתונים בעמודות, מחולק ל-Row Groups, ושומר סטטיסטיקות על הכל.</p>
+                <div class="tag" style="margin-top:auto;">מאפשר לדלג</div>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                <h3>Lazy Evaluation</h3>
+                <p>אוסף את כל השאילתה לתוכנית אחת לפני שנוגעים בדיסק, כך שיודעים מראש מה באמת צריך.</p>
+                <div class="tag" style="margin-top:auto;">יודע על מה לדלג</div>
+            </div>
+            <div class="tile" style="border-color:#10B981;">
+                <div class="icon" style="color:#10B981;"><i class="fa-solid fa-rocket"></i></div>
+                <h3>Pushdown</h3>
+                <p>האופטימייזר דוחף את ה-select (Projection) ואת ה-filter (Predicate) אל הקריאה עצמה.</p>
+                <div class="tag" style="background:#10B981; margin-top:auto;">מדלג בפועל</div>
+            </div>
+        </div>
+        <p style="text-align:center; margin-top: 30px; font-size: 25px;">בלי lazy — אין pushdown. בלי המבנה של פרקט — אין על מה לדלג. <strong style="color:#F9AB00;">ביחד: קוראים 2% מהקובץ במקום 100%.</strong></p>
+    </div>
+</div>
+
+<!-- שקף 13: טבלת סיכום -->
+<div class="slide-container" id="slide13">
+    <h2 class="slide-title">סיכום: CSV מול Parquet</h2>
+    <div class="content-area">
+        <table>
+            <thead>
+                <tr>
+                    <th>מאפיין</th>
+                    <th>CSV</th>
+                    <th>Parquet</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>צורת אחסון</strong></td>
+                    <td>שורות, טקסט</td>
+                    <td>עמודות, בינארי + סכמה</td>
+                </tr>
+                <tr>
+                    <td><strong>גודל קובץ</strong></td>
+                    <td>גדול</td>
+                    <td>קטן פי 5–10 (Dictionary, RLE, Snappy/ZSTD)</td>
+                </tr>
+                <tr>
+                    <td><strong>קריאת חלק מהעמודות</strong></td>
+                    <td>בלתי אפשרי</td>
+                    <td>Projection Pushdown</td>
+                </tr>
+                <tr>
+                    <td><strong>דילוג על שורות לפי פילטר</strong></td>
+                    <td>בלתי אפשרי</td>
+                    <td>Predicate Pushdown (Min/Max על Row Groups)</td>
+                </tr>
+                <tr>
+                    <td><strong>מתאים ל...</strong></td>
+                    <td>קבצים קטנים, החלפת נתונים פשוטה</td>
+                    <td>אנליטיקה, Data Lake, עבודה עם Spark/Polars</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- שקף 14: סיום -->
+<div class="slide-container" id="slide14">
+    <div class="content-area" style="text-align: center;">
+        <h1 style="font-size: 95px;">שאלות?</h1>
+        <p style="font-size: 30px; margin-top: 20px; color: #F9AB00;">ועכשיו — תפסיקו לקרוא קבצים שלמים בחינם 😉</p>
+        <div style="margin-top: 70px;">
+            <p><i class="fa-solid fa-flask" style="color: #E66101;"></i> נסו בבית: הריצו <span style="direction:ltr; display:inline-block; font-family:'Courier New', monospace; color:#F9AB00;">df.explain()</span> ב-Polars וב-Spark ומצאו את ה-Pushdown</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
