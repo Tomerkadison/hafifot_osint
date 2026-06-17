@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>קורסי DataFrames — Polars & Spark</title>
+<title>מרכז הלמידה — Data Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -11,6 +11,10 @@
     --bg:#0a0d18; --ink:#eef2ff; --muted:#a9b4d0; --line:#26304d;
     --polars:#22d3ee; --polars2:#5b8def;
     --spark:#f59e0b;  --spark2:#e8590c;
+    --parquet:#a78bfa; --parquet2:#7c3aed;
+    --iceberg:#38bdf8; --iceberg2:#0ea5e9;
+    --guide:#34d399;   --guide2:#10b981;
+    --optimize:#fb7185;--optimize2:#e11d48;
     --card:#121a30;
   }
   *{box-sizing:border-box; margin:0; padding:0}
@@ -20,6 +24,7 @@
     background:
       radial-gradient(900px 500px at 12% -5%, rgba(34,211,238,.12), transparent 60%),
       radial-gradient(900px 500px at 88% -5%, rgba(232,89,12,.14), transparent 60%),
+      radial-gradient(800px 500px at 50% 120%, rgba(124,58,237,.10), transparent 60%),
       var(--bg);
     color:var(--ink);
     min-height:100vh;
@@ -27,25 +32,25 @@
     padding:0 22px 60px;
   }
 
-  header{ text-align:center; padding:64px 12px 12px; max-width:760px; }
+  header{ text-align:center; padding:64px 12px 8px; max-width:780px; }
   .kicker{ color:var(--muted); font-weight:600; letter-spacing:.14em; text-transform:uppercase; font-size:.82rem; }
-  h1{ font-size:2.7rem; font-weight:800; line-height:1.15; margin:.25em 0 .3em; }
+  h1{ font-size:2.9rem; font-weight:800; line-height:1.15; margin:.28em 0 .35em; }
   h1 .p{ color:var(--polars); } h1 .s{ color:var(--spark); }
-  header p{ color:var(--muted); font-size:1.12rem; line-height:1.8; max-width:640px; margin:0 auto; }
+  header p{ color:var(--muted); font-size:1.12rem; line-height:1.8; max-width:660px; margin:0 auto; }
   header p strong{ color:var(--ink); }
 
-  .path{
-    display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap;
-    margin:26px auto 6px; color:var(--muted); font-size:.92rem;
-  }
-  .path .step{ border:1px solid var(--line); border-radius:999px; padding:.3em .9em; background:rgba(255,255,255,.03); }
-  .path .step.done{ color:var(--muted); }
-  .path .step.now{ color:var(--ink); border-color:var(--spark); }
-  .path .arrow{ opacity:.5 }
+  /* ---- section headers ---- */
+  .section{ width:100%; max-width:980px; margin-top:52px; }
+  .section-head{ display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:6px; padding-inline-start:4px; }
+  .section-head h2{ font-size:1.5rem; font-weight:800; }
+  .section-head .en{ direction:ltr; color:var(--muted); font-size:.85rem; }
+  .section-head .rule{ flex:1; height:1px; background:linear-gradient(90deg,var(--line),transparent); min-width:40px; }
+  .section-sub{ color:var(--muted); font-size:.96rem; line-height:1.7; padding-inline-start:4px; margin-bottom:22px; max-width:680px; }
 
+  /* ---- course cards ---- */
   .cards{
     display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
-    gap:22px; width:100%; max-width:880px; margin-top:34px;
+    gap:22px; width:100%;
   }
   .course{
     display:block; text-decoration:none; color:inherit;
@@ -53,9 +58,7 @@
     padding:30px 30px 26px; position:relative; overflow:hidden;
     transition:transform .18s, border-color .2s, box-shadow .25s;
   }
-  .course::before{
-    content:''; position:absolute; inset:0 0 auto 0; height:4px;
-  }
+  .course::before{ content:''; position:absolute; inset:0 0 auto 0; height:4px; }
   .course.polars::before{ background:linear-gradient(90deg,var(--polars),var(--polars2)); }
   .course.spark::before{ background:linear-gradient(90deg,var(--spark),var(--spark2)); }
   .course:hover{ transform:translateY(-4px); }
@@ -69,7 +72,7 @@
   .course.polars .badge{ background:linear-gradient(135deg,rgba(34,211,238,.18),rgba(91,141,239,.12)); }
   .course.spark .badge{ background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(232,89,12,.14)); }
 
-  .course h2{ font-size:1.5rem; font-weight:800; margin-bottom:2px; }
+  .course h3{ font-size:1.5rem; font-weight:800; margin-bottom:2px; }
   .course .en{ direction:ltr; text-align:right; color:var(--muted); font-size:.82rem; margin-bottom:14px; }
   .course p{ color:var(--muted); line-height:1.75; font-size:.96rem; margin-bottom:16px; }
 
@@ -86,7 +89,45 @@
   .course.spark .go{ color:var(--spark); border-color:var(--spark); }
   .meta{ margin-top:14px; font-size:.8rem; color:var(--muted); }
 
-  footer{ margin-top:40px; color:var(--muted); font-size:.85rem; text-align:center; max-width:640px; line-height:1.7; }
+  /* ---- presentation cards ---- */
+  .talks{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:18px; width:100%;
+  }
+  .talk{
+    display:flex; flex-direction:column; text-decoration:none; color:inherit;
+    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:22px 22px 20px; position:relative; overflow:hidden;
+    transition:transform .18s, border-color .2s, box-shadow .25s;
+  }
+  .talk::before{ content:''; position:absolute; inset:0 0 auto 0; height:3px; }
+  .talk:hover{ transform:translateY(-4px); }
+  .talk.parquet::before{ background:linear-gradient(90deg,var(--parquet),var(--parquet2)); }
+  .talk.iceberg::before{ background:linear-gradient(90deg,var(--iceberg),var(--iceberg2)); }
+  .talk.guide::before{ background:linear-gradient(90deg,var(--guide),var(--guide2)); }
+  .talk.optimize::before{ background:linear-gradient(90deg,var(--optimize),var(--optimize2)); }
+  .talk.parquet:hover{ border-color:var(--parquet); box-shadow:0 16px 44px -22px rgba(124,58,237,.7); }
+  .talk.iceberg:hover{ border-color:var(--iceberg); box-shadow:0 16px 44px -22px rgba(14,165,233,.7); }
+  .talk.guide:hover{ border-color:var(--guide); box-shadow:0 16px 44px -22px rgba(16,185,129,.7); }
+  .talk.optimize:hover{ border-color:var(--optimize); box-shadow:0 16px 44px -22px rgba(225,29,72,.7); }
+
+  .talk .tbadge{ width:44px; height:44px; border-radius:12px; display:grid; place-items:center; font-size:1.4rem; margin-bottom:13px; }
+  .talk.parquet .tbadge{ background:linear-gradient(135deg,rgba(167,139,250,.20),rgba(124,58,237,.12)); }
+  .talk.iceberg .tbadge{ background:linear-gradient(135deg,rgba(56,189,248,.20),rgba(14,165,233,.12)); }
+  .talk.guide .tbadge{ background:linear-gradient(135deg,rgba(52,211,153,.20),rgba(16,185,129,.12)); }
+  .talk.optimize .tbadge{ background:linear-gradient(135deg,rgba(251,113,133,.20),rgba(225,29,72,.12)); }
+
+  .talk h3{ font-size:1.18rem; font-weight:800; margin-bottom:3px; line-height:1.3; }
+  .talk .en{ direction:ltr; text-align:right; color:var(--muted); font-size:.76rem; margin-bottom:11px; }
+  .talk p{ color:var(--muted); line-height:1.65; font-size:.9rem; margin-bottom:16px; flex:1; }
+  .talk .open{ font-weight:700; font-size:.9rem; display:inline-flex; align-items:center; gap:6px; }
+  .talk.parquet .open{ color:var(--parquet); }
+  .talk.iceberg .open{ color:var(--iceberg); }
+  .talk.guide .open{ color:var(--guide); }
+  .talk.optimize .open{ color:var(--optimize); }
+
+  /* ---- footer ---- */
+  footer{ margin-top:56px; color:var(--muted); font-size:.85rem; text-align:center; max-width:640px; line-height:1.7; }
   footer code{ background:#0a0f1f; border:1px solid var(--line); padding:.1em .45em; border-radius:6px; color:#aee3ff; direction:ltr; font-family:Consolas,monospace; }
 
   .repo{
@@ -98,75 +139,125 @@
   .repo:hover{ border-color:var(--polars); transform:translateY(-2px); box-shadow:0 14px 36px -20px rgba(34,211,238,.6); }
   .repo svg{ width:20px; height:20px; fill:currentColor; }
 
-  @media(max-width:640px){ h1{font-size:2rem} header{padding-top:40px} }
+  @media(max-width:640px){ h1{font-size:2.1rem} header{padding-top:40px} }
 </style>
 </head>
 <body>
 
   <header>
     <div class="kicker">Data Engineering · Palantir Foundry · עברית</div>
-    <h1>קורסי <span class="p">Polars</span> ו-<span class="s">Spark</span></h1>
+    <h1>מרכז הלמידה</h1>
     <p>
-      תרגילים מעשיים לעיבוד נתונים, בהמשך ישיר לקורס ה-pandas.
-      בחרו את הקורס שאתם רוצים ללמוד — <strong>שני הקורסים בנויים באותו פורמט</strong>:
+      כל מה שצריך כדי לעבד נתונים טוב יותר — במקום אחד.
+      <strong>קורסים אינטראקטיביים</strong> עם תרגילים ופתרונות,
+      ו<strong>מצגות עומק</strong> על הפורמטים והמנועים שאנחנו עובדים איתם כל יום ב-Foundry.
+    </p>
+  </header>
+
+  <!-- ===================== COURSES ===================== -->
+  <section class="section">
+    <div class="section-head">
+      <h2>קורסים אינטראקטיביים</h2>
+      <span class="en">Hands-on Courses</span>
+      <span class="rule"></span>
+    </div>
+    <p class="section-sub">
+      תרגילים מעשיים בהמשך ישיר לקורס ה-pandas. כל קורס בנוי באותו פורמט:
       מצגת נושא, הסבר תרגיל, ו-Notebook עם פתרונות ופלט אמיתי.
     </p>
 
-    <div class="path">
-      <span class="step done">pandas ✓</span>
-      <span class="arrow">←</span>
-      <span class="step done">Polars ✓</span>
-      <span class="arrow">←</span>
-      <span class="step now">Spark</span>
+    <div class="cards">
+      <a class="course polars" href="polars.html">
+        <div class="badge">⚡</div>
+        <h3>תרגילים ב-Polars</h3>
+        <div class="en">Polars Exercises · 10 chapters</div>
+        <p>
+          DataFrame מודרני ומהיר למחשב יחיד. עבודה עם expressions, joins,
+          חישוב עצל (lazy) וטרנספורמציות אמיתיות — בפורמט שאתם כבר מכירים מ-pandas.
+        </p>
+        <div class="tags">
+          <span class="tag">select / filter</span>
+          <span class="tag">group_by</span>
+          <span class="tag">joins</span>
+          <span class="tag">lazy</span>
+          <span class="tag">GDP capstone</span>
+        </div>
+        <span class="go">פתחו את קורס Polars →</span>
+        <div class="meta">10 פרקים · הבסיס המלא של עיבוד DataFrames</div>
+      </a>
+
+      <a class="course spark" href="spark.html">
+        <div class="badge">🔥</div>
+        <h3>תרגילים ב-Spark</h3>
+        <div class="en">Spark Exercises · 9 chapters</div>
+        <p>
+          עיבוד <strong>מבוזר</strong> בקנה מידה גדול. פחות חזרה על הבסיס, ויותר
+          ייחוד של Spark: lazy execution, Window functions, SQL, מידע מקונן (JSON),
+          shuffles וביצועים — בדיוק כמו ב-Foundry.
+        </p>
+        <div class="tags">
+          <span class="tag">lazy / explain</span>
+          <span class="tag">Window</span>
+          <span class="tag">Spark SQL</span>
+          <span class="tag">nested JSON</span>
+          <span class="tag">UDFs</span>
+        </div>
+        <span class="go">פתחו את קורס Spark →</span>
+        <div class="meta">9 פרקים · מומלץ אחרי Polars · דורש התקנה (ראו SETUP)</div>
+      </a>
     </div>
-  </header>
+  </section>
 
-  <div class="cards">
+  <!-- ===================== PRESENTATIONS ===================== -->
+  <section class="section">
+    <div class="section-head">
+      <h2>מצגות עומק</h2>
+      <span class="en">Deep-Dive Talks</span>
+      <span class="rule"></span>
+    </div>
+    <p class="section-sub">
+      הרצאות על הפורמטים והמנועים שמאחורי העבודה היומיומית — איך נתונים באמת נשמרים,
+      ואיך לבחור את הכלי הנכון לכל משימה. נפתחות במסך מלא בדפדפן.
+    </p>
 
-    <a class="course polars" href="polars.html">
-      <div class="badge">⚡</div>
-      <h2>תרגילים ב-Polars</h2>
-      <div class="en">Polars Exercises · 10 chapters</div>
-      <p>
-        DataFrame מודרני ומהיר למחשב יחיד. עבודה עם expressions, joins,
-        חישוב עצל (lazy) וטרנספורמציות אמיתיות — בפורמט שאתם כבר מכירים מ-pandas.
-      </p>
-      <div class="tags">
-        <span class="tag">select / filter</span>
-        <span class="tag">group_by</span>
-        <span class="tag">joins</span>
-        <span class="tag">lazy</span>
-        <span class="tag">GDP capstone</span>
-      </div>
-      <span class="go">פתחו את קורס Polars →</span>
-      <div class="meta">10 פרקים · הבסיס המלא של עיבוד DataFrames</div>
-    </a>
+    <div class="talks">
+      <a class="talk parquet" href="presentations/parquet_presentation.html">
+        <div class="tbadge">📦</div>
+        <h3>Apache Parquet</h3>
+        <div class="en">The Deep Dive</div>
+        <p>איך פורמט אחסון עמודי (columnar) באמת עובד: row groups, encoding, דחיסה ו-predicate pushdown.</p>
+        <span class="open">צפייה במצגת →</span>
+      </a>
 
-    <a class="course spark" href="spark.html">
-      <div class="badge">🔥</div>
-      <h2>תרגילים ב-Spark</h2>
-      <div class="en">Spark Exercises · 9 chapters</div>
-      <p>
-        עיבוד <strong>מבוזר</strong> בקנה מידה גדול. פחות חזרה על הבסיס, ויותר
-        ייחוד של Spark: lazy execution, Window functions, SQL, מידע מקונן (JSON),
-        shuffles וביצועים — בדיוק כמו ב-Foundry.
-      </p>
-      <div class="tags">
-        <span class="tag">lazy / explain</span>
-        <span class="tag">Window</span>
-        <span class="tag">Spark SQL</span>
-        <span class="tag">nested JSON</span>
-        <span class="tag">UDFs</span>
-      </div>
-      <span class="go">פתחו את קורס Spark →</span>
-      <div class="meta">9 פרקים · מומלץ אחרי Polars · דורש התקנה (ראו SETUP)</div>
-    </a>
+      <a class="talk iceberg" href="presentations/iceberg_pres4.html">
+        <div class="tbadge">🧊</div>
+        <h3>Apache Iceberg</h3>
+        <div class="en">The Deep Dive</div>
+        <p>פורמט טבלה מודרני מעל Parquet: snapshots, time travel, schema evolution וניהול מטא-דאטה בקנה מידה.</p>
+        <span class="open">צפייה במצגת →</span>
+      </a>
 
-  </div>
+      <a class="talk guide" href="presentations/polars-pandas-spark.html">
+        <div class="tbadge">⚖️</div>
+        <h3>Pandas · Polars · Spark</h3>
+        <div class="en">The 2026 Guide</div>
+        <p>השוואה בין שלושת המנועים: במה הם נבדלים, איפה כל אחד מנצח, ומתי לעבור מאחד לשני.</p>
+        <span class="open">צפייה במצגת →</span>
+      </a>
+
+      <a class="talk optimize" href="presentations/optimize_pres.html">
+        <div class="tbadge">🎯</div>
+        <h3>לבחור את המנוע הנכון</h3>
+        <div class="en">Optimizing Foundry Transformations</div>
+        <p>ייעול טרנספורמציות וניצול משאבים ב-Foundry: סוג האופרטורים מול גודל המידע, וכמה משאבים לבקש.</p>
+        <span class="open">צפייה במצגת →</span>
+      </a>
+    </div>
+  </section>
 
   <footer>
-    שני הקורסים מתרגלים את אותו סוג עבודה שאנחנו עושים ב-<strong>Palantir Foundry</strong>.
-    כ-50% מהטרנספורמציות שלנו ב-Spark — ולכן כדאי להכיר את שניהם היטב.
+    כל החומרים מתרגלים את אותו סוג עבודה שאנחנו עושים ב-<strong>Palantir Foundry</strong> —
+    כ-50% מהטרנספורמציות שלנו ב-Spark, ולכן כדאי להכיר את כל הכלים היטב.
     להתקנת Spark ראו <code>spark_exercises/SETUP.md</code>.
     <br>
     <a class="repo" href="https://github.com/Tomerkadison/hafifot_osint" target="_blank" rel="noopener">

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ייעול טרנספורמציות ב<bdi>-Palantir</bdi> <bdi>Foundry</bdi></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&family=Heebo:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* הגדרות יסוד */
+        * { box-sizing: border-box; }
+        body { background-color: #0F172A; margin: 0; padding: 20px; display: grid; place-items: center; min-height: 100vh; gap: 30px; }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #0B0E14;
+            color: #FFFFFF;
+            font-family: 'Assistant', sans-serif;
+            display: flex;
+            flex-direction: column;
+            padding: 55px 60px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* רקע אבסטרקטי */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -20%; right: -10%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(230, 97, 1, 0.08) 0%, transparent 70%);
+            z-index: 0;
+        }
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: -10%; left: -5%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(0, 162, 232, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        /* טיפוגרפיה */
+        h1 { font-family: 'Heebo', sans-serif; font-size: 75px; margin: 0; line-height: 1.15; z-index: 1; }
+        .slide-title { font-family: 'Heebo', sans-serif; font-size: 44px; margin: 0 0 30px 0; border-right: 10px solid #E66101; padding-right: 25px; z-index: 1; text-align: right; width: 100%; }
+        p, li { font-size: 22px; line-height: 1.45; color: #CBD5E1; z-index: 1; }
+
+        .content-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; z-index: 1; }
+
+        /* פריסות */
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 100%; align-items: stretch; }
+        .tiled-content { display: flex; gap: 25px; width: 100%; align-items: stretch; }
+        .tile { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 28px; border-radius: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .tile .icon { font-size: 46px; color: #F9AB00; margin-bottom: 15px; }
+        .tile h3 { font-size: 28px; margin: 0 0 12px 0; color: #FFFFFF; font-family: 'Heebo', sans-serif; }
+        .tile p { font-size: 19px; margin: 5px 0; }
+
+        /* טבלאות */
+        table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.02); border-radius: 15px; overflow: hidden; }
+        th { background-color: #1E293B; color: #F9AB00; padding: 16px 18px; text-align: right; font-size: 22px; border-bottom: 3px solid #E66101; }
+        td { padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 20px; color: #E2E8F0; }
+        tr:nth-child(even) { background: rgba(255,255,255,0.04); }
+
+        /* רשימות מעוצבות */
+        .styled-list { list-style: none; padding: 0; margin: 0; width: 100%; }
+        .styled-list li { position: relative; padding-right: 45px; margin-bottom: 18px; }
+        .styled-list li i { position: absolute; right: 0; top: 5px; color: #E66101; font-size: 24px; }
+
+        .tag { display: inline-block; padding: 5px 16px; background: #E66101; border-radius: 20px; font-size: 17px; font-weight: bold; margin-bottom: 12px; color: white; }
+        .tag.blue { background: #00A2E8; }
+        .tag.green { background: #10B981; }
+        .tag.yellow { background: #F9AB00; color: #000; }
+
+        /* קופסת קוד */
+        .code-box {
+            background: #1E293B;
+            color: #E2E8F0;
+            padding: 20px 25px;
+            border-radius: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 20px;
+            direction: ltr;
+            text-align: left;
+            border-left: 8px solid #E66101;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            line-height: 1.5;
+        }
+        .code-box strong { color: #F9AB00; }
+        .code-box .c { color: #64748B; }
+
+        /* קופסאות מושג */
+        .concept-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 30px 35px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .concept-box.stream { border-top: 6px solid #10B981; }
+        .concept-box.block { border-top: 6px solid #EF4444; }
+        .concept-box h3 { font-family: 'Heebo', sans-serif; font-size: 30px; margin: 0 0 15px 0; color: #FFF; }
+
+        /* תרשים זרימה (pipeline) */
+        .pipe-flow { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; direction: ltr; }
+        .pipe-step { background: #1E293B; border: 2px solid #10B981; border-radius: 12px; padding: 14px 18px; text-align: center; font-family: 'Courier New', monospace; font-size: 19px; color: #FFF; min-width: 120px; }
+        .pipe-step.blocked { border-color: #EF4444; background: rgba(239, 68, 68, 0.12); }
+        .pipe-step small { display: block; font-family: 'Assistant', sans-serif; font-size: 15px; color: #94A3B8; margin-top: 6px; }
+        .pipe-arrow { color: #F9AB00; font-size: 26px; }
+
+        /* עץ החלטה */
+        .decision-row { display: flex; align-items: center; gap: 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 16px 25px; margin-bottom: 14px; }
+        .decision-num { font-family: 'Heebo', sans-serif; font-size: 38px; min-width: 60px; text-align: center; }
+        .decision-text { flex-grow: 1; }
+        .decision-text p { margin: 0; font-size: 21px; }
+        .decision-tool { font-family: 'Heebo', sans-serif; font-size: 24px; padding: 10px 22px; border-radius: 12px; white-space: nowrap; }
+
+        /* גרף עמודות */
+        .chart-container { width: 100%; display: flex; flex-direction: column; gap: 18px; }
+        .bar { display: flex; align-items: center; gap: 20px; }
+        .bar-label { width: 220px; font-weight: bold; font-size: 21px; color: #F1F5F9; }
+        .bar-inner { flex-grow: 1; height: 42px; background: #1E293B; border-radius: 8px; overflow: hidden; }
+        .bar-fill { height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-left: 15px; padding-right: 15px; color: #000; font-weight: 800; border-radius: 8px; font-size: 18px; }
+
+        .footnote { font-size: 17px; color: #64748B; text-align: center; margin-top: 18px; }
+        .highlight-orange { color: #E66101; font-weight: bold; }
+        .highlight-yellow { color: #F9AB00; font-weight: bold; }
+        .highlight-green { color: #10B981; font-weight: bold; }
+        .highlight-red { color: #EF4444; font-weight: bold; }
+        .highlight-blue { color: #00A2E8; font-weight: bold; }
+
+        .ops-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; width: 100%; }
+        .op-chip { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px 16px; }
+        .op-chip code { font-family: 'Courier New', monospace; font-size: 19px; color: #F9AB00; direction: ltr; display: inline-block; }
+        .op-chip span { display: block; font-size: 17px; color: #94A3B8; margin-top: 4px; }
+        .op-chip.green-border { border-right: 5px solid #10B981; }
+        .op-chip.red-border { border-right: 5px solid #EF4444; }
+    </style>
+</head>
+<body>
+
+<!-- שקופית 1: פתיחה -->
+<div class="slide-container">
+    <div class="content-area" style="text-align: center;">
+        <p style="font-size: 26px; color: #F9AB00; letter-spacing: 2px; margin-bottom: 10px;">PALANTIR FOUNDRY</p>
+        <h1 style="color: #FFFFFF;">לבחור את המנוע הנכון:<br><span style="color: #E66101;">ייעול טרנספורמציות</span> וניצול משאבים</h1>
+        <p style="font-size: 28px; color: #94A3B8; margin-top: 30px;"><bdi>Streaming</bdi> vs <bdi>Blocking</bdi> | <bdi>Polars</bdi> · <bdi>DuckDB</bdi> · <bdi>Spark</bdi> · <bdi>GPU</bdi></p>
+    </div>
+</div>
+
+<!-- שקופית 2: הבעיה -->
+<div class="slide-container">
+    <h2 class="slide-title">למה זה בכלל משנה?</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-coins"></i><strong>משאבים = כסף.</strong> ב<bdi>-Foundry</bdi> כל ליבה וכל GB של <bdi>RAM</bdi> שאנחנו מבקשים — עולים כסף ונספרים.</li>
+                    <li><i class="fa-solid fa-stopwatch"></i><strong>זמן ריצה = זמן המתנה.</strong> טרנספורמציה לא יעילה יכולה לרוץ שעה במקום 2 דקות.</li>
+                    <li><i class="fa-solid fa-bomb"></i><strong><bdi>OOM</bdi> = כישלון.</strong> אם נגמר הזיכרון (<bdi>Out Of Memory</bdi>) — הטרנספורמציה קורסת וצריך להריץ הכל מחדש.</li>
+                </ul>
+            </div>
+            <div class="concept-box" style="justify-content: center; text-align: center;">
+                <i class="fa-solid fa-key" style="font-size: 55px; color: #E66101; margin-bottom: 20px;"></i>
+                <h3>התובנה המרכזית</h3>
+                <p style="font-size: 23px;">הבחירה הנכונה של מנוע (<bdi>Polars</bdi> / <bdi>DuckDB</bdi> / <bdi>Spark</bdi>) תלויה בשני דברים בלבד:</p>
+                <p style="font-size: 24px;"><span class="highlight-yellow">1. סוג האופרטורים</span> בשאילתה<br><span class="highlight-yellow">2. גודל המידע</span> אחרי ה<bdi>-Pushdown</bdi></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקופית 3: מהו Pushdown -->
+<div class="slide-container">
+    <h2 class="slide-title">רגע, מה זה <bdi>Pushdown</bdi>?</h2>
+    <div class="content-area">
+        <p style="font-size: 24px; margin-bottom: 25px;">לפני שמודדים "כמה מידע יש לנו", חשוב להבין: המנועים המודרניים (<bdi>Polars</bdi>, <bdi>DuckDB</bdi>, <bdi>Spark</bdi>) <strong style="color:#FFF;">לא קוראים את כל הקובץ</strong>. הם דוחפים את הסינונים <span class="highlight-orange">למטה — אל שלב הקריאה עצמו</span>.</p>
+        <div class="tiled-content">
+            <div class="tile">
+                <i class="fa-solid fa-filter icon"></i>
+                <h3><bdi>Predicate Pushdown</bdi></h3>
+                <p>סינון שורות כבר בקריאה.<br>אם ביקשנו רק את שנת 2025 — שורות אחרות בכלל לא ייכנסו לזיכרון.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-table-columns icon"></i>
+                <h3><bdi>Projection Pushdown</bdi></h3>
+                <p>קריאת עמודות נחוצות בלבד.<br>טבלה עם 200 עמודות? אם צריך 5 — קוראים רק 5 (תודה, <bdi>Parquet</bdi>!).</p>
+            </div>
+            <div class="tile" style="border-color: #F9AB00;">
+                <i class="fa-solid fa-weight-scale icon"></i>
+                <h3>הגודל שקובע</h3>
+                <p>הגודל הרלוונטי להחלטות שלנו הוא <strong style="color:#F9AB00;">המידע שנשאר אחרי ה<bdi>-Pushdown</bdi></strong> — לא גודל הדאטהסט המקורי.</p>
+            </div>
+        </div>
+        <p class="footnote">לכן חובה לעבוד עם <bdi>Lazy API</bdi> (scan_parquet ולא read_parquet) — רק כך האופטימייזר יכול לבצע <bdi>Pushdown</bdi>.</p>
+    </div>
+</div>
+
+<!-- שקופית 4: שני סוגי אופרטורים -->
+<div class="slide-container">
+    <h2 class="slide-title">שני סוגים של אופרטורים</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="concept-box stream">
+                <span class="tag green"><bdi><bdi>Streaming</bdi> Operators</bdi></span>
+                <h3><i class="fa-solid fa-water" style="color:#10B981;"></i> אופרטורים זורמים</h3>
+                <p>פעולה שיכולה לעבד את המידע <strong style="color:#FFF;">חתיכה-חתיכה (<bdi>Chunk</bdi> / <bdi>Morsel</bdi>)</strong>, בלי לראות את כל הדאטה.</p>
+                <p>כל שורה (או קבוצת שורות) נכנסת ← מעובדת ← יוצאת. <span class="highlight-green">הזיכרון נשאר קבוע ונמוך</span>, לא משנה אם יש מיליון שורות או 10 מיליארד.</p>
+                <p style="font-style: italic; color: #10B981; margin-top: auto;">דימוי: פס ייצור במפעל — כל מוצר עובר תחנה ויוצא, בלי לחכות לאחרים.</p>
+            </div>
+            <div class="concept-box block">
+                <span class="tag" style="background:#EF4444;"><bdi>Blocking Operators</bdi></span>
+                <h3><i class="fa-solid fa-hand" style="color:#EF4444;"></i> אופרטורים חוסמים</h3>
+                <p>פעולה שחייבת <strong style="color:#FFF;">לראות את כל המידע</strong> (או חלק גדול ממנו) לפני שתוכל להוציא אפילו שורת פלט אחת.</p>
+                <p>נקראים גם <span class="highlight-red"><bdi>Pipeline Breakers</bdi></span> — הם "שוברים" את הזרימה ומכריחים את המנוע לאגור מידע בזיכרון.</p>
+                <p style="font-style: italic; color: #EF4444; margin-top: auto;">דימוי: סידור תור לפי גובה — אי אפשר להגיד מי ראשון לפני שכולם הגיעו.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקופית 5: דוגמאות Streaming -->
+<div class="slide-container">
+    <h2 class="slide-title"><span style="color:#10B981;"><bdi>Streaming</bdi></span>: דוגמאות — עיבוד שורה-שורה</h2>
+    <div class="content-area">
+        <div class="ops-grid">
+            <div class="op-chip green-border"><code>filter()</code><span>סינון — בודקים כל שורה בנפרד ומחליטים אם להעביר</span></div>
+            <div class="op-chip green-border"><code>select()</code><span>בחירת עמודות — לא תלוי בשורות אחרות</span></div>
+            <div class="op-chip green-border"><code>with_columns()</code><span>חישוב עמודה חדשה (a + b, a * 2)</span></div>
+            <div class="op-chip green-border"><code>cast()</code><span>המרת טיפוס — Int ל-Float, String ל-Date</span></div>
+            <div class="op-chip green-border"><code>str.to_uppercase()</code><span>כל פעולות המחרוזות הפשוטות — שורה אחר שורה</span></div>
+            <div class="op-chip green-border"><code>dt.year()</code><span>חילוץ רכיבי תאריך — לכל ערך בנפרד</span></div>
+            <div class="op-chip green-border"><code>when().then()</code><span>תנאים על שורה בודדת (IF-ELSE)</span></div>
+            <div class="op-chip green-border"><code>fill_null(0)</code><span>מילוי ערכים חסרים בקבוע</span></div>
+            <div class="op-chip green-border"><code>head() / limit()</code><span>קח N ראשונות — אפשר לעצור באמצע!</span></div>
+            <div class="op-chip green-border"><code>concat(vertical)</code><span>הדבקת טבלאות אחת אחרי השנייה</span></div>
+            <div class="op-chip green-border"><code>explode()</code><span>פתיחת רשימות לשורות — כל שורה בנפרד</span></div>
+            <div class="op-chip green-border"><code>sink_parquet()</code><span>כתיבה לקובץ — כל chunk נכתב מיד ומשתחרר</span></div>
+        </div>
+        <p class="footnote">המבחן הפשוט: <strong style="color:#10B981;">"האם אפשר לחשב את התוצאה לשורה הזו בלי להסתכל על שורות אחרות?"</strong> אם כן — זה <bdi>Streaming</bdi>.</p>
+    </div>
+</div>
+
+<!-- שקופית 6: דוגמאות Blocking -->
+<div class="slide-container">
+    <h2 class="slide-title"><span style="color:#EF4444;"><bdi>Blocking</bdi></span>: דוגמאות — חייבים את כל המידע</h2>
+    <div class="content-area">
+        <div class="ops-grid">
+            <div class="op-chip red-border"><code>group_by().agg()</code><span>הזיכרון תלוי במספר הקבוצות: <strong style="color:#FFF;">מדינה</strong> (200) זניח, <strong style="color:#EF4444;">user_id</strong> (100M) ענק</span></div>
+            <div class="op-chip red-border"><code>unique() / n_unique()</code><span>צריך לזכור כל ערך שכבר נראה — עמודה בעלת <strong style="color:#EF4444;">קרדינליות גבוהה</strong> מנפחת את הזיכרון</span></div>
+            <div class="op-chip red-border"><code>join()</code><span>בונה טבלת <bdi>Hash</bdi> מצד אחד — ככל שהמפתח מגוון יותר, הטבלה גדולה יותר</span></div>
+            <div class="op-chip red-border"><code>sort()</code><span>מיון — צריך את כל השורות; השורה הראשונה בפלט יכולה להיות האחרונה בקלט</span></div>
+            <div class="op-chip red-border"><code>pivot()</code><span>מספר העמודות בפלט = מספר הערכים הייחודיים. הרבה ערכים = פיצוץ עמודות</span></div>
+            <div class="op-chip red-border"><code>over() — Window</code><span>פונקציות חלון — מחזיק <bdi>State</bdi> לכל קבוצה; שוב תלוי במספר הקבוצות</span></div>
+            <div class="op-chip red-border"><code>median() / quantile()</code><span>חציון — חייב את כל הערכים של הקבוצה ממוינים בזיכרון</span></div>
+            <div class="op-chip red-border"><code>value_counts()</code><span>סופר הופעות לכל ערך ייחודי — כבד בדיוק כמו unique</span></div>
+            <div class="op-chip red-border"><code>rank()</code><span>דירוג — מיקום יחסי לכל שאר השורות</span></div>
+        </div>
+        <p class="footnote" style="margin-top: 22px;">המפתח: עומק הזיכרון של אופרטור חוסם תלוי ב<strong style="color:#F9AB00;">קרדינליות</strong> (כמה ערכים ייחודיים) ובטיפוס הנתונים. <code style="color:#F9AB00;">group_by</code> על מדינה = זניח; אותו <code style="color:#F9AB00;">group_by</code> על מזהה ייחודי = פיצוץ. מנגד, <code style="color:#F9AB00;">sum/count/min/max</code> גלובליים אוגרים <strong style="color:#FFF;">מספר אחד</strong> ולכן זורמים מצוין — הבעיה היא <strong style="color:#EF4444;">גודל ה<bdi>-State</bdi></strong>, לא עצם החסימה.</p>
+    </div>
+</div>
+
+<!-- שקופית 7: פייפליין מעורב -->
+<div class="slide-container">
+    <h2 class="slide-title">בעולם האמיתי: שאילתות מעורבות</h2>
+    <div class="content-area">
+        <p style="font-size: 23px;">כמעט כל שאילתה אמיתית מערבבת את שני הסוגים. המנוע מקבץ אופרטורים זורמים ל"צינור" (<bdi>Pipeline</bdi>) אחד, וה<bdi>-Blocking Operator</bdi> <span class="highlight-red">שובר את הצינור</span> ויוצר נקודת אגירה בזיכרון:</p>
+        <div class="pipe-flow" style="margin: 35px 0;">
+            <div class="pipe-step">scan_parquet<small>זורם ✓</small></div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step">filter<small>זורם ✓</small></div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step">with_columns<small>זורם ✓</small></div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step blocked">group_by<small>חוסם ✗ אוגר זיכרון</small></div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step">filter<small>זורם ✓</small></div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step">sink<small>זורם ✓</small></div>
+        </div>
+        <div class="two-column" style="align-items: center;">
+            <ul class="styled-list">
+                <li><i class="fa-solid fa-lightbulb"></i><strong>חדשות טובות:</strong> שיא הזיכרון נקבע לפי <span class="highlight-yellow">גודל ה<bdi>-State</bdi></span> של האופרטור החוסם — לרוב הרבה פחות מכל הדאטה (למשל: group_by על מדינה = 200 שורות תוצאה).</li>
+                <li><i class="fa-solid fa-magnifying-glass-chart"></i><strong>איך בודקים?</strong> ב<bdi>-Polars</bdi> מריצים <code style="color:#F9AB00; direction:ltr; display:inline-block;">.explain()</code> ורואים מה נכנס ל<bdi>-PIPELINE</bdi> ומה נשאר בחוץ.</li>
+            </ul>
+            <ul class="styled-list">
+                <li><i class="fa-solid fa-arrow-down-wide-short"></i><strong>טיפ זהב:</strong> לסנן ולצמצם <strong style="color:#FFF;">לפני</strong> האופרטור החוסם. group_by על 10GB מסוננים ≠ group_by על 500GB גולמיים.</li>
+                <li><i class="fa-solid fa-shuffle"></i>ב<bdi>-Spark</bdi> כל אופרטור חוסם הופך ל-<strong style="color:#00A2E8;"><bdi>Shuffle</bdi></strong> — העברת דאטה ברשת בין שרתים. זה החלק הכי יקר ואיטי בכל <bdi>Job</bdi>.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- שקופית 8: Polars Streaming -->
+<div class="slide-container">
+    <h2 class="slide-title">תרחיש 1: רק <bdi><bdi>Streaming</bdi> Operators</bdi>? <span style="color:#10B981;"><bdi>Polars Streaming</bdi></span></h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: center;">
+            <div>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-infinity"></i><strong>גודל כמעט לא משנה:</strong> כשכל האופרטורים זורמים, <bdi>Polars</bdi> מעבד chunk-chunk — אפשר לעבד 500GB עם 8GB <bdi>RAM</bdi> בלבד.</li>
+                    <li><i class="fa-solid fa-gauge-high"></i><strong>מנוע ה<bdi>-Streaming</bdi> החדש</strong> (כתוב מחדש ב<bdi>-Rust</bdi>) מהיר יותר ובדרך כלל חסכוני יותר בזיכרון גם מהמנוע הרגיל.</li>
+                    <li><i class="fa-solid fa-floppy-disk"></i><strong>סגירת המעגל:</strong> משתמשים ב-<code style="color:#F9AB00; direction:ltr; display:inline-block;">sink_parquet()</code> כדי שגם הפלט ייכתב בזרימה ולא ייאגר.</li>
+                    <li><i class="fa-solid fa-circle-check"></i><strong>זו ברירת המחדל שלנו</strong> כשאין אופרטורים חוסמים: זול, מהיר, ובלתי אפשרי כמעט לקבל <bdi>OOM</bdi>.</li>
+                </ul>
+            </div>
+            <div class="code-box">
+<span class="c"># מעבדים קובץ ענק עם זיכרון קטן</span><br>
+(<br>
+&nbsp;&nbsp;pl.<strong>scan_parquet</strong>("huge_data/")<br>
+&nbsp;&nbsp;.filter(pl.col("year") == 2025)<br>
+&nbsp;&nbsp;.with_columns(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(pl.col("price") * 1.17).alias("with_vat")<br>
+&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;.<strong>sink_parquet</strong>("output.parquet")<br>
+)<br>
+<span class="c"># scan + sink = זרימה מקצה לקצה</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקופית 9: Blocking + נכנס ל-RAM -->
+<div class="slide-container">
+    <h2 class="slide-title">תרחיש 2: יש <bdi>Blocking</bdi> והמידע נכנס ל<bdi>-RAM</bdi>? <span style="color:#F9AB00;"><bdi>Polars</bdi></span></h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: center;">
+            <div>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-memory"></i><strong>המספר הקובע: 64GB.</strong> זו תקרת ה<bdi>-RAM</bdi> למכונה בודדת שאנחנו מקבלים ב<bdi>-Palantir</bdi>.</li>
+                    <li><i class="fa-solid fa-trophy"></i><strong>הכלל החשוב ביותר:</strong> אם המידע אחרי ה<bdi>-Pushdown</bdi> קטן מ-64GB ונכנס כולו ל<bdi>-RAM</bdi> — <span class="highlight-yellow"><bdi>Polars</bdi> על מכונה אחת זו תמיד הסיטואציה הטובה ביותר</span>, לא משנה איזה אופרטורים יש.</li>
+                    <li><i class="fa-solid fa-bolt"></i><strong>למה?</strong> אין רשת, אין <bdi>Shuffle</bdi>, אין דיסק, אין תיאום בין שרתים. הכל קורה בזיכרון של מכונה אחת, על כל הליבות במקביל.</li>
+                    <li><i class="fa-solid fa-triangle-exclamation"></i><strong>זהירות:</strong> לאופרטורים חוסמים צריך מרווח — join או sort יכולים להכפיל זמנית את צריכת הזיכרון. תכננו ~2x מגודל הדאטה.</li>
+                </ul>
+            </div>
+            <div class="concept-box" style="justify-content: center; text-align: center; border-top: 6px solid #F9AB00;">
+                <i class="fa-solid fa-ranking-star" style="font-size: 55px; color: #F9AB00; margin-bottom: 20px;"></i>
+                <h3>כלל האצבע</h3>
+                <p style="font-size: 26px; color: #FFF;">מכונה אחת + <bdi>Polars</bdi> +<br>כל הדאטה ב<bdi>-RAM</bdi></p>
+                <p style="font-size: 22px;">= השילוב המנצח, <strong style="color:#F9AB00;">תמיד</strong>.</p>
+                <p style="font-size: 19px; color: #94A3B8;">רק כשזה לא אפשרי — ממשיכים הלאה בעץ ההחלטה.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקופית 10: DuckDB -->
+<div class="slide-container">
+    <h2 class="slide-title">תרחיש 3: לא נכנס ל<bdi>-RAM</bdi>? <span style="color:#00A2E8;"><bdi>DuckDB</bdi> + <bdi>Disk Spilling</bdi></span></h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: center;">
+            <div>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-hard-drive"></i><strong>הקסם של <bdi>DuckDB</bdi>:</strong> כשנגמר ה<bdi>-RAM</bdi> באמצע join או sort, הוא <span class="highlight-blue">"שופך" (<bdi>Spills</bdi>) חלקים לדיסק</span> וממשיך לעבוד — לאט יותר, אבל בלי לקרוס.</li>
+                    <li><i class="fa-solid fa-screwdriver-wrench"></i><strong><bdi>Out-of-Core</bdi> אמיתי:</strong> האלגוריתמים שלו (<bdi>hash join</bdi>, sort, <bdi>group by</bdi>) תוכננו מראש לעבוד בחלקים מהדיסק.</li>
+                    <li><i class="fa-solid fa-ban"></i><strong>המגבלה ב<bdi>-Palantir</bdi>:</strong> אי אפשר להגדיר כמה דיסק נקבל! אין לנו שליטה על נפח ה<bdi>-Disk</bdi> של ה<bdi>-Container</bdi>.</li>
+                    <li><i class="fa-solid fa-dice"></i><strong>המשמעות:</strong> אנחנו תלויים בכמה דיסק <bdi>Palantir</bdi> נותנת בפועל. אם הדיסק נגמר באמצע ה<bdi>-Spilling</bdi> — נקבל <bdi>OOM</bdi>/כישלון למרות הכל.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="code-box" style="margin-bottom: 20px;">
+<span class="c">-- <bdi>DuckDB</bdi> עושה את זה אוטומטית,</span><br>
+<span class="c">-- אבל אפשר גם לכוון:</span><br>
+SET <strong>memory_limit</strong> = '50GB';<br>
+SET <strong>temp_directory</strong> = '/tmp/spill';<br>
+<span class="c">-- וכאן ההימור: כמה מקום</span><br>
+<span class="c">-- באמת יש ב-/tmp? 🎲</span>
+                </div>
+                <p style="font-size: 20px; background: rgba(0,162,232,0.08); border: 1px solid #00A2E8; border-radius: 12px; padding: 15px 20px;">💡 <strong>טיפ:</strong> דיסק איטי מ<bdi>-RAM</bdi> פי ~50-100. <bdi>Spilling</bdi> זה רשת ביטחון, לא תוכנית עבודה. אם רוב הריצה היא <bdi>Spilling</bdi> — כנראה הגיע הזמן לעבור שלב.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקופית 11: Spark -->
+<div class="slide-container">
+    <h2 class="slide-title">תרחיש 4: גם <bdi>DuckDB</bdi> קרס? <span style="color:#E66101;"><bdi>Spark</bdi></span> — המוצא האחרון</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: center;">
+            <div>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-network-wired"></i><strong>מתי מגיעים לכאן?</strong> רק כשגם <bdi>DuckDB</bdi> קיבל <bdi>OOM</bdi> כי לא נשאר לו דיסק פנוי ל<bdi>-Spilling</bdi>. אז אין ברירה — מפצלים את העבודה בין הרבה מכונות.</li>
+                    <li><i class="fa-solid fa-expand"></i><strong>היתרון היחיד אבל המכריע:</strong> סקיילביליות אופקית. 20 מכונות עם 32GB = 640GB זיכרון מצטבר.</li>
+                    <li><i class="fa-solid fa-money-bill-trend-up"></i><strong>המחיר:</strong> <bdi>Shuffle</bdi> ברשת, זמן עליית קלאסטר, תקורת תיאום — <bdi>Spark</bdi> על דאטה קטן יכול להיות איטי פי 10 מ<bdi>-Polars</bdi>.</li>
+                    <li><i class="fa-solid fa-house"></i><strong>בית גידול טבעי ב<bdi>-Foundry</bdi>:</strong> <bdi>Spark</bdi> הוא המנוע הוותיק של <bdi>Palantir</bdi>, עם פרופילי משאבים מובנים — אבל זה לא הופך אותו לבחירה הראשונה.</li>
+                </ul>
+            </div>
+            <div class="concept-box" style="border-top: 6px solid #E66101;">
+                <h3 style="text-align:center;"><i class="fa-solid fa-stairs" style="color:#E66101;"></i> סולם ההסלמה</h3>
+                <div style="display:flex; flex-direction:column; gap:12px; margin-top: 10px;">
+                    <div style="background:rgba(16,185,129,0.1); border-right:5px solid #10B981; border-radius:10px; padding:12px 18px; font-size:20px;">1. רק <bdi>Streaming</bdi>? → <strong><bdi>Polars Streaming</bdi></strong></div>
+                    <div style="background:rgba(249,171,0,0.1); border-right:5px solid #F9AB00; border-radius:10px; padding:12px 18px; font-size:20px;">2. <bdi>Blocking</bdi> + נכנס ב-64GB? → <strong><bdi>Polars</bdi></strong></div>
+                    <div style="background:rgba(0,162,232,0.1); border-right:5px solid #00A2E8; border-radius:10px; padding:12px 18px; font-size:20px;">3. לא נכנס ל<bdi>-RAM</bdi>? → <strong><bdi>DuckDB</bdi> + <bdi>Spill</bdi></strong> (תלוי בדיסק שנקבל)</div>
+                    <div style="background:rgba(230,97,1,0.1); border-right:5px solid #E66101; border-radius:10px; padding:12px 18px; font-size:20px;">4. גם זה קרס? → <strong><bdi>Spark</bdi></strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקופית 12: עץ החלטה מלא -->
+<div class="slide-container">
+    <h2 class="slide-title">עץ ההחלטה המלא</h2>
+    <div class="content-area">
+        <div class="decision-row">
+            <div class="decision-num" style="color:#10B981;">1</div>
+            <div class="decision-text"><p><strong>בשאילתה יש רק <bdi><bdi>Streaming</bdi> Operators</bdi>?</strong> (filter, select, with_columns...)</p></div>
+            <div class="decision-tool" style="background:rgba(16,185,129,0.15); color:#10B981; border:2px solid #10B981;"><bdi>Polars Streaming</bdi></div>
+        </div>
+        <div class="decision-row">
+            <div class="decision-num" style="color:#F9AB00;">2</div>
+            <div class="decision-text"><p><strong>יש <bdi>Blocking Operators</bdi>, והמידע אחרי <bdi>Pushdown</bdi> נכנס ל<bdi>-RAM</bdi></strong> (עד 64GB — תקרת המכונה ב<bdi>-Palantir</bdi>)?</p></div>
+            <div class="decision-tool" style="background:rgba(249,171,0,0.15); color:#F9AB00; border:2px solid #F9AB00;"><bdi>Polars</bdi> בזיכרון</div>
+        </div>
+        <div class="decision-row">
+            <div class="decision-num" style="color:#00A2E8;">3</div>
+            <div class="decision-text"><p><strong>המידע לא נכנס ל<bdi>-RAM</bdi>?</strong> <bdi>DuckDB</bdi> ישפוך לדיסק — אבל זכרו: ב<bdi>-Palantir</bdi> לא שולטים בכמות הדיסק, אז זה הימור מחושב.</p></div>
+            <div class="decision-tool" style="background:rgba(0,162,232,0.15); color:#00A2E8; border:2px solid #00A2E8;"><bdi>DuckDB</bdi> + <bdi>Spilling</bdi></div>
+        </div>
+        <div class="decision-row">
+            <div class="decision-num" style="color:#E66101;">4</div>
+            <div class="decision-text"><p><strong><bdi>DuckDB</bdi> קיבל <bdi>OOM</bdi> כי נגמר גם הדיסק?</strong> רק עכשיו עוברים למחשוב מבוזר.</p></div>
+            <div class="decision-tool" style="background:rgba(230,97,1,0.15); color:#E66101; border:2px solid #E66101;"><bdi>Spark</bdi></div>
+        </div>
+        <p class="footnote">עיקרון מנחה: תמיד מתחילים מהפתרון הפשוט והזול, ומסלימים רק כשנכשלנו בפועל.</p>
+    </div>
+</div>
+
+<!-- שקופית 13: שילובים -->
+<div class="slide-container">
+    <h2 class="slide-title">לא או-או: שילובים בין המנועים</h2>
+    <div class="content-area">
+        <div class="tiled-content" style="margin-bottom: 25px;">
+            <div class="tile" style="border-top: 5px solid #10B981;">
+                <i class="fa-solid fa-arrows-split-up-and-left icon" style="color:#10B981;"></i>
+                <h3>פירוק לשלבים</h3>
+                <p>שלב 1: <bdi>Polars Streaming</bdi> מסנן 500GB ל-30GB (רק אופרטורים זורמים).<br>שלב 2: <bdi>Polars</bdi> רגיל עושה את ה-join הכבד על 30GB שכבר נכנסים ל<bdi>-RAM</bdi>.</p>
+            </div>
+            <div class="tile" style="border-top: 5px solid #00A2E8;">
+                <i class="fa-solid fa-right-left icon" style="color:#00A2E8;"></i>
+                <h3><bdi>Polars</bdi> ↔ <bdi>DuckDB</bdi></h3>
+                <p>שניהם מבוססי <bdi>Apache Arrow</bdi> — מעבר ביניהם הוא <strong style="color:#00A2E8;"><bdi>Zero-Copy</bdi></strong> (בלי העתקת זיכרון!).<br>אפשר באותו קוד: <bdi>Polars</bdi> לטרנספורמציות, <bdi>DuckDB</bdi> ל-join ענק עם <bdi>Spilling</bdi>.</p>
+            </div>
+            <div class="tile" style="border-top: 5px solid #E66101;">
+                <i class="fa-solid fa-layer-group icon" style="color:#E66101;"></i>
+                <h3><bdi>Spark</bdi> ואז <bdi>Polars</bdi></h3>
+                <p>פייפליין כבד ב<bdi>-Spark</bdi> שמצמצם טריליוני שורות לדאטהסט ביניים — ואז כל הטרנספורמציות במורד הזרם רצות ב<bdi>-Polars</bdi> מהיר וזול.</p>
+            </div>
+        </div>
+        <div class="code-box">
+<span class="c"># דוגמה: <bdi>Polars</bdi> + <bdi>DuckDB</bdi> באותה טרנספורמציה — בלי העתקות</span><br>
+lazy_df = pl.scan_parquet("big/").filter(pl.col("active"))&nbsp;&nbsp;<span class="c"># <bdi>Polars</bdi>: סינון זורם</span><br>
+result = duckdb.sql("SELECT a.*, b.score FROM lazy_df a JOIN huge_b b USING(id)")&nbsp;&nbsp;<span class="c"># <bdi>DuckDB</bdi>: join עם spilling</span><br>
+final = result.<strong>pl</strong>()&nbsp;&nbsp;<span class="c"># חזרה ל<bdi>-Polars</bdi> <bdi>DataFrame</bdi>, שוב zero-copy</span>
+        </div>
+    </div>
+</div>
+
+<!-- שקופית 14: Polars GPU -->
+<div class="slide-container">
+    <h2 class="slide-title">בונוס: <bdi>Polars</bdi> על <span style="color:#76B900;"><bdi>GPU</bdi></span></h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: center;">
+            <div>
+                <ul class="styled-list">
+                    <li><i class="fa-solid fa-rocket"></i><strong>האצה רק על הפעולות הנכונות:</strong> מנוע ה<bdi>-GPU</bdi> (מבוסס <bdi>NVIDIA</bdi> <bdi>cuDF</bdi>) נותן עד <span style="color:#76B900; font-weight:bold;">פי 13</span> — אבל <strong style="color:#FFF;">רק</strong> על טרנספורמציות עמוסות joins, group-bys ואגרגציות כבדות.</li>
+                    <li><i class="fa-solid fa-arrow-trend-down"></i><strong>פעולות פשוטות = בזבוז:</strong> אם הטרנספורמציה היא בעיקר filter/select/with_columns — ה<bdi>-GPU</bdi> ירוץ בערך כמו <bdi>CPU</bdi>, אבל יעלה הרבה יותר. אין מה להאיץ, רק משלמים.</li>
+                    <li><i class="fa-solid fa-scale-unbalanced"></i><strong>יקר יותר — אבל מסיים מהר יותר:</strong> מכונת <bdi>GPU</bdi> עולה בערך <strong style="color:#FFF;">פי 3-5</strong> ממכונת <bdi>CPU</bdi> מקבילה לשעה. אבל אם היא רצה <span style="color:#76B900; font-weight:bold;">פי 10 מהר</span> — מכפיל הזמן גדול ממכפיל העלות, וכוללת התשלום <strong style="color:#76B900;">יורד</strong>.</li>
+                    <li><i class="fa-solid fa-wand-magic-sparkles"></i><strong>שקוף לחלוטין:</strong> אותו קוד, רק <code style="color:#F9AB00; direction:ltr; display:inline-block;">collect(engine="gpu")</code>. מה שלא נתמך נופל אוטומטית ל<bdi>-CPU</bdi> (וגם זמן ה"עלייה" של ה<bdi>-GPU</bdi> הוא תקורה קבועה).</li>
+                </ul>
+            </div>
+            <div class="concept-box" style="border-top: 6px solid #76B900; justify-content: center;">
+                <h3 style="text-align:center;"><i class="fa-solid fa-bullseye" style="color:#76B900;"></i> המתחם המנצח</h3>
+                <p style="text-align:center; font-size: 36px; font-family:'Heebo'; color:#76B900; margin: 10px 0;">2GB — 50GB</p>
+                <p style="text-align:center;">של מידע סופי ב<bdi>-RAM</bdi></p>
+                <p style="font-size: 19px;"><strong style="color:#EF4444;">מתחת ל-2GB:</strong> תקורת העלייה של ה<bdi>-GPU</bdi> גדולה מהחיסכון — ה<bdi>-CPU</bdi> מסיים לפני שה<bdi>-GPU</bdi> התחמם.</p>
+                <p style="font-size: 19px;"><strong style="color:#EF4444;">מעל 50GB:</strong> זיכרון ה<bdi>-GPU</bdi> נגמר, מתחילות נפילות ל<bdi>-CPU</bdi> והעברות יקרות — היתרון מתאדה.</p>
+                <p style="font-size: 19px; color:#94A3B8;">ורק כשהעבודה עתירת joins / group-bys — אחרת אין מה להאיץ.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקופית 15: אין Dynamic Allocation -->
+<div class="slide-container">
+    <h2 class="slide-title">כמה משאבים לבקש מראש?</h2>
+    <div class="content-area">
+        <p style="font-size: 23px; margin-bottom: 22px;">על מכונה בודדת (<bdi>Polars</bdi> / <bdi>DuckDB</bdi>) קובעים זיכרון <strong style="color:#FFF;">מראש</strong>, והוא לא גדל תוך כדי ריצה. ביקשת מעט מדי — <span class="highlight-red"><bdi>OOM</bdi></span>. ביקשת יותר מדי — <span class="highlight-red">שילמת על מה שלא ניצלת</span>. אז כמה לבקש?</p>
+        <div class="two-column">
+            <div class="concept-box stream">
+                <h3><i class="fa-solid fa-thumbs-up" style="color:#10B981;"></i> רק <bdi>Streaming</bdi>? תקצבו לממוצע</h3>
+                <p>כשכל האופרטורים זורמים, ביום חריג המנוע פשוט מעבד בחלקים קטנים יותר — איטי יותר, אבל <strong style="color:#10B981;">לא קורס</strong>.</p>
+                <p>אפשר לבקש זיכרון לפי <strong style="color:#10B981;">השימוש הרגיל</strong> ולחסוך עשרות אחוזים.</p>
+            </div>
+            <div class="concept-box block">
+                <h3><i class="fa-solid fa-triangle-exclamation" style="color:#EF4444;"></i> <bdi>Blocking</bdi> כבד? תקצבו לשיא</h3>
+                <p><bdi>join</bdi> ענק או <bdi>sort</bdi> מלא חייבים להחזיק את כל ה-<bdi>State</bdi> בזיכרון — כאן <bdi>Streaming</bdi> לא מציל.</p>
+                <p>חובה לבקש מראש זיכרון שמספיק <strong style="color:#FFF;">גם ליום הכי גדול בשנה</strong>.</p>
+            </div>
+        </div>
+        <p class="footnote" style="margin-top: 22px; font-size: 19px;"><i class="fa-solid fa-circle-info" style="color:#00A2E8;"></i> <strong style="color:#00A2E8;"><bdi>Spark</bdi> שונה:</strong> לו <strong>יש</strong> <bdi>Dynamic Allocation</bdi> — הקלאסטר מוסיף ומשחרר <bdi>Executors</bdi> לפי העומס. גמיש לענק, אבל יקר ומורכב יותר.</p>
+    </div>
+</div>
+
+<!-- שקופית 16: טבלת סיכום -->
+<div class="slide-container">
+    <h2 class="slide-title">טבלת סיכום: מי, מתי ולמה</h2>
+    <div class="content-area">
+        <table>
+            <thead>
+                <tr>
+                    <th>תרחיש</th>
+                    <th>הכלי</th>
+                    <th>למה</th>
+                    <th>נקודת תורפה</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>רק אופרטורים זורמים</strong> (כל גודל)</td>
+                    <td style="color:#10B981; font-weight:bold;"><bdi>Polars Streaming</bdi></td>
+                    <td>זיכרון קבוע ונמוך, מהיר</td>
+                    <td>לא עוזר לאופרטורים חוסמים כבדים</td>
+                </tr>
+                <tr>
+                    <td><strong><bdi>Blocking</bdi> + נכנס ב<bdi>-RAM</bdi></strong> (&lt;64GB אחרי <bdi>Pushdown</bdi>)</td>
+                    <td style="color:#F9AB00; font-weight:bold;"><bdi>Polars</bdi> בזיכרון</td>
+                    <td>הכי מהיר שיש — תמיד</td>
+                    <td>תקרת 64GB למכונה ב<bdi>-Palantir</bdi></td>
+                </tr>
+                <tr>
+                    <td><strong><bdi>Blocking</bdi> + לא נכנס ב<bdi>-RAM</bdi></strong></td>
+                    <td style="color:#00A2E8; font-weight:bold;"><bdi>DuckDB</bdi> + <bdi>Spilling</bdi></td>
+                    <td>ממשיך לעבוד מהדיסק במקום לקרוס</td>
+                    <td>אין שליטה על נפח הדיסק ב<bdi>-Palantir</bdi></td>
+                </tr>
+                <tr>
+                    <td><strong>גם <bdi>DuckDB</bdi> קרס</strong> (נגמר הדיסק)</td>
+                    <td style="color:#E66101; font-weight:bold;"><bdi>Spark</bdi></td>
+                    <td>זיכרון מצטבר של עשרות מכונות</td>
+                    <td>יקר, איטי על דאטה קטן, <bdi>Shuffle</bdi></td>
+                </tr>
+                <tr>
+                    <td><strong>עתיר joins/group-bys, 2-50GB</strong></td>
+                    <td style="color:#76B900; font-weight:bold;"><bdi>Polars</bdi> <bdi>GPU</bdi></td>
+                    <td>עד פי 13 על אגרגציות כבדות</td>
+                    <td>יקר, איטי לעלות, מוגבל בזיכרון <bdi>GPU</bdi></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- שקופית 17: שורה תחתונה -->
+<div class="slide-container">
+    <h2 class="slide-title">בשורה התחתונה</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile" style="border-top: 5px solid #10B981;">
+                <h1 style="font-size: 52px; color: #10B981;">01</h1>
+                <p style="font-size: 21px;">קודם כל שאלו: <strong>אילו אופרטורים יש לי?</strong> זורמים = זיכרון קבוע. חוסמים = צריך מקום ל<bdi>-State</bdi>.</p>
+            </div>
+            <div class="tile" style="border-top: 5px solid #F9AB00;">
+                <h1 style="font-size: 52px; color: #F9AB00;">02</h1>
+                <p style="font-size: 21px;">מכונה אחת + <bdi>Polars</bdi> + הכל ב<bdi>-RAM</bdi> = <strong>תמיד הניצחון</strong>. תעשו הכל (<bdi>Pushdown</bdi>! סינון מוקדם!) כדי להגיע לשם.</p>
+            </div>
+            <div class="tile" style="border-top: 5px solid #00A2E8;">
+                <h1 style="font-size: 52px; color: #00A2E8;">03</h1>
+                <p style="font-size: 21px;">הסלימו בהדרגה: <bdi>Polars</bdi> ← <bdi>DuckDB</bdi> ← <bdi>Spark</bdi>. <strong><bdi>Spark</bdi> הוא המוצא האחרון</strong>, לא ברירת המחדל.</p>
+            </div>
+            <div class="tile" style="border-top: 5px solid #E66101;">
+                <h1 style="font-size: 52px; color: #E66101;">04</h1>
+                <p style="font-size: 21px;">אין <bdi>Dynamic Allocation</bdi> — <strong>תקצבו לממוצע</strong> כש<bdi>-Streaming</bdi> מגבה אתכם, <strong>ולמקרה הקצה</strong> כשהוא לא.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- שקופית 18: סיום -->
+<div class="slide-container">
+    <div class="content-area" style="text-align: center;">
+        <h1 style="font-size: 95px;">שאלות?</h1>
+        <p style="font-size: 30px; margin-top: 20px;">תודה רבה על ההקשבה!</p>
+        <p style="font-size: 22px; color: #64748B; margin-top: 40px;">תרגיל לבית: קחו טרנספורמציה אחת שלכם, הריצו עליה <code style="color:#F9AB00; direction:ltr; display:inline-block;">.explain()</code> ובדקו — אילו אופרטורים זורמים ואילו חוסמים?</p>
+    </div>
+</div>
+
+</body>
+</html>
